@@ -21,7 +21,7 @@ class Util {
         await this.page.locator('//button[@type="submit"]/span').click()
         log.action('Click Login')
         this.page.waitForTimeout(2000)
-        log.message('Login succeed')
+        log.success('Login succeed')
     }
 
     async Logout() {
@@ -35,7 +35,38 @@ class Util {
         await this.page.locator(logout_btn).click()
         log.action('Click Sign out')
         this.page.waitForTimeout(2000)
-        log.message('Logout succeed')
+        log.success('Logout succeed')
+    }
+
+    async switcRole(select = 0) {
+        const dropdown_btn = '.ant-dropdown-trigger' //1
+        const switch_btn = '//div[@class="ant-collapse-header"]/span' //0
+        const role_menu = '//div[@class="ant-collapse-content-box"]/ul'
+
+        await this.page.locator(dropdown_btn).nth(1).click()
+        await this.page.locator(switch_btn).nth(0).click()
+        const menu_list = await this.page.$$eval(role_menu, items => {
+            let ml = []
+            for (let item of items) {
+                for (let i = 0; i < item.children.length; i++) {
+                    const class_name = item.children.item(i).getAttribute('class')
+                    const inner_text = item.children.item(i).innerText
+                    ml.push({
+                        class: class_name,
+                        text: inner_text
+                    })
+                }
+            }
+            return ml
+        })
+
+        if (select) {
+            const mi = '//div[@class="ant-collapse-content-box"]/ul/li[@role="menuitem"]'
+            if (select >= 0 && select <= menu_list.length) {
+                await this.page.locator(mi).nth(select).click()
+            }
+        }
+        await this.page.waitForTimeout(3000)
     }
 
     async onResponse(response, name = '') {

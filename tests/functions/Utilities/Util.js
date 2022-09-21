@@ -26,12 +26,13 @@ class Util {
 
     async Logout() {
         log._log('================= LOGOUT =================')
-        this.page.goto(URL.web('/bondteam'))
-        const profile_btn = '//*[@id="root"]/div/section/section/header/div[2]/a/span[1]'
-        const logout_btn = 'ul.ant-dropdown-menu > li:nth-child(4)'
+        // this.page.goto(URL.web('/bondteam'))
+        await this.page.waitForTimeout(3000)
+        const profile_btn = '//*[@id="root"]/div/section/section/header/div[2]/a'
+        const logout_btn = '//li[@class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child log-out"]/span'
         await this.page.locator(profile_btn).click()
         log.action('Click Profile button')
-        this.page.waitForTimeout(1000)
+        this.page.waitForTimeout(2000)
         await this.page.locator(logout_btn).click()
         log.action('Click Sign out')
         this.page.waitForTimeout(2000)

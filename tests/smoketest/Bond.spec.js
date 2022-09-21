@@ -1,8 +1,9 @@
 const { test, expect } = require('@playwright/test');
 const log = require('../functions/Utilities/log')
 const { Util, URL, getJSONKey } = require('../functions/Utilities/Util')
-const dateFormat = require("dateformat");
-const Bond = require('../functions/smoketest/Bond')
+const bp = require('../functions/data/bond_project')
+// const dateFormat = require("dateformat");
+// const Bond = require('../functions/smoketest/Bond')
 
 test.describe('Smoketest | Bond - Bond Project', () => {
 
@@ -10,7 +11,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     const bond_name = 'testAutomation'
 
     const util = new Util(page)
-    const bond = new Bond(page)
+    // const bond = new Bond(page)
 
     context.clearCookies()
 
@@ -45,6 +46,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await page.waitForTimeout(3000)
     log.success('Create new bond succeed')
 
+    // verify bond
     log.message('Go to created bond')
     await page.locator(`//tbody/tr[2]/td[@title="${bond_name}"]/span[3]/a`).click()
     await page.waitForTimeout(1000)
@@ -53,22 +55,80 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     expect(bn_title).toBe(bond_name)
     expect(issue_name).toBe(bond_name)
 
+    // insert data to bond
     log.action('Select Submit Cooling Filing and Effective Filing Together')
     await page.locator('//input[@type="search"]').click()
-    const sp = document.querySelector('input[@type="search"]')
-    log._log(sp.offsetTop)
-    log._log(sp.offsetLeft)
-    await page.mouse.click(500, 500)
-    await page.waitForTimeout(6000)
+    await page.locator('//div[@class="ant-select-item ant-select-item-option"]').click()
+    await page.waitForTimeout(1000)
     log.action('Click Intent to Submit Filing Issuer Information Early')
     await page.locator('//span[@class="ant-radio"]').click()
+    await page.locator('//button[@type="submit"]').click()
+    await page.locator('//div[@class="ant-tabs-tab"]').nth(4).click()
+    await page.waitForTimeout(6000)
+
+    log.action('Enter postal id')
+    const postal_id = page.locator('//input[@id="postalID"]')
+    await postal_id.scrollIntoViewIfNeeded()
+    await postal_id.fill(bp.init_issuer_profile.isser_info.postal_id)
+
+    log.action('Enter tax id')
+    const tex_id = page.locator('//input[@id="taxID"]')
+    await tex_id.scrollIntoViewIfNeeded()
+    await tex_id.fill(bp.init_issuer_profile.isser_info.tax_id)
+
+    log.action('Enter tax area')
+    const tex_area = page.locator('//input[@id="taxArea"]')
+    await tex_area.scrollIntoViewIfNeeded()
+    await tex_area.fill(bp.init_issuer_profile.isser_info.tax_area)
+
+    log.action('Enter mobile phone')
+    const mobile_phone = page.locator('//input[@id="mobilePhone"]')
+    await mobile_phone.scrollIntoViewIfNeeded()
+    await mobile_phone.fill(bp.init_issuer_profile.isser_info.mobile_phone)
+
+    log.get('checkbox')
+    const cbs = await page.$$eval('//input[@type="checkbox"]/parent::span/parent::label/span[2]', checkbox => {
+      return Array.from(checkbox, cb => {
+        return cb.innerHTML
+      })
+    })
+    // console.log(cbs)
+    for (let i = 0; i < cbs.length; i++) {
+      if (i !== 10) {
+        await page.locator('//input[@type="checkbox"]/parent::span/parent::label/span[2]').nth(i).scrollIntoViewIfNeeded()
+        await page.locator('//input[@type="checkbox"]/parent::span/parent::label/span[2]').nth(i).click()
+        log.action(`Click checkbox - ${i + 1}`)
+        const inputs = await page.$$eval(`//div[@class="funding-min-max"][${i + 1}]//input`, input => {
+          return Array.from(input, inp => inp.getAttribute('class'))
+        })
+        for (let j = 0; j < inputs.length + 1; j++) {
+          if (j === 4 || j === 5) {
+            await page.locator(`//div[@class="funding-min-max"][${i + 1}]//input`).nth(j).click()
+            await page.locator(`//div[@class="funding-min-max"][${i + 1}]//input`).nth(j).fill(bp.init_issuer_profile.isser_info.objective[i][j - 1])
+            await page.locator(`//div[@class="funding-min-max"][${i + 1}]//input`).nth(j).press('Enter')
+            log.action('Insert date')
+          }
+          else if (j !== 0 && j !== 6) {
+            await page.locator(`//div[@class="funding-min-max"][${i + 1}]//input`).nth(j).fill(bp.init_issuer_profile.isser_info.objective[i][j - 1])
+            log.action('Insert amount')
+          }
+          else if (j === 6) {
+            await page.locator(`//div[@class="funding-min-max"][${i + 1}]//textarea`).fill(bp.init_issuer_profile.isser_info.objective[i][j - 1])
+            log.action('Insert detail')
+          }
+        }
+        log.success('Insert data into field secceed')
+      }
+    }
+    await page.waitForTimeout(6000)
 
     log.action('Click back')
     await page.locator('//*[@id="root"]/div/section/section/main/div/div/div/div/div[1]/div/div[1]/div/div/div[1]/div[1]/button').click()
+    await page.waitForTimeout(3000)
     log.action('Delete bond')
     await page.locator(`//td[@title="${bond_name}"]/parent::tr/td[16]/span/div/button[3]`).click()
     log.action('Confitm delete bond')
-    await page.locator('//div[@class="ant-modal-confirm-btns"]/button[2]').click()
+    await page.locator('//div[@class="ant-modal-confirm-btns"]/button[@class="ant-btn ant-btn-primary"][1]/span').click()
 
     await util.Logout()
   })

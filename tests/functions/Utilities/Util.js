@@ -76,16 +76,23 @@ class Util {
         log.get(`${getJSONKey(responseJSON)} from ${name} api response => status ${responseStatus}`)
         return { data: responseJSON, status: responseStatus }
     }
+
+    async enterDate(locator, string_date) {
+        await locator.click()
+        await locator.fill(string_date)
+        await locator.press('Enter')
+        log.action('Insert date')
+    }
 }
 
 const URL = {
     web: (endpoint = '') => {
-        const url = 'https://ps220057-dev-env.playtorium.co.th/dif-web2'
+        const url = 'https://ps220057-dev-env.playtorium.co.th/dif-web'
         if (endpoint[0] === '/') return url + endpoint
         return url + "/" + endpoint
     },
     api: (endpoint = '') => {
-        const url = 'https://ps220057-dev-env.playtorium.co.th/dif-api2'
+        const url = 'https://ps220057-dev-env.playtorium.co.th/dif-api'
         if (endpoint[0] === '/') return url + endpoint
         return url + "/" + endpoint
     }

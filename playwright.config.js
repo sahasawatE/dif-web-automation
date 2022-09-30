@@ -28,7 +28,7 @@ const config = {
   },
   // retries: 2,
   workers: 1,
-  timeout: 300000,
+  timeout: 900000,
   // reporter: [['@reportportal/agent-js-playwright', RPconfig]],
 }
 

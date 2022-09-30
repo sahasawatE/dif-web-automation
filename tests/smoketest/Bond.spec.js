@@ -15,14 +15,6 @@ test.describe('Smoketest | Bond - Bond Project', () => {
 
     context.clearCookies()
 
-    // page.on('response', async response => {
-    //   if (response.url() === URL.api('api/notification/list')) {
-    //     const { data, status } = await util.onResponse(response)
-    //     noti_data = data['data'];
-    //     noti_status = status
-    //   }
-    // })
-
     await util.Login()
 
     // switch role
@@ -71,10 +63,10 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await postal_id.scrollIntoViewIfNeeded()
     await postal_id.fill(bp.init_issuer_profile.isser_info.postal_id)
 
-    log.action('Enter tax id')
-    const tex_id = page.locator('//input[@id="taxID"]')
-    await tex_id.scrollIntoViewIfNeeded()
-    await tex_id.fill(bp.init_issuer_profile.isser_info.tax_id)
+    // log.action('Enter tax id')
+    // const tex_id = page.locator('//input[@id="taxID"]')
+    // await tex_id.scrollIntoViewIfNeeded()
+    // await tex_id.fill(bp.init_issuer_profile.isser_info.tax_id)
 
     log.action('Enter tax area')
     const tex_area = page.locator('//input[@id="taxArea"]')
@@ -103,10 +95,10 @@ test.describe('Smoketest | Bond - Bond Project', () => {
         })
         for (let j = 0; j < inputs.length + 1; j++) {
           if (j === 4 || j === 5) {
-            await page.locator(`//div[@class="funding-min-max"][${i + 1}]//input`).nth(j).click()
-            await page.locator(`//div[@class="funding-min-max"][${i + 1}]//input`).nth(j).fill(bp.init_issuer_profile.isser_info.objective[i][j - 1])
-            await page.locator(`//div[@class="funding-min-max"][${i + 1}]//input`).nth(j).press('Enter')
-            log.action('Insert date')
+            await util.enterDate(
+              page.locator(`//div[@class="funding-min-max"][${i + 1}]//input`).nth(j),
+              bp.init_issuer_profile.isser_info.objective[i][j - 1]
+            )
           }
           else if (j !== 0 && j !== 6) {
             await page.locator(`//div[@class="funding-min-max"][${i + 1}]//input`).nth(j).fill(bp.init_issuer_profile.isser_info.objective[i][j - 1])
@@ -206,14 +198,96 @@ test.describe('Smoketest | Bond - Bond Project', () => {
 
     const profileTH = page.locator('//input[@id="profileTH"]')
     await profileTH.scrollIntoViewIfNeeded()
+    log.action('Enter Profile name th')
     await profileTH.fill(bp.init_issuer_profile.isser_info.nature_of_buz.profile_th)
     await page.locator('//input[@id="profileEN"]').fill(bp.init_issuer_profile.isser_info.nature_of_buz.profile_en)
+    log.action('Enter Profile name en')
 
     const as_of = page.locator('//input[@id="majorShareholderPaidUpCapitalPercentageAsOf"]')
     await as_of.scrollIntoViewIfNeeded()
     await as_of.click()
     await as_of.fill('2021-06-06')
     await as_of.press('Enter')
+    log.action('Enter AsOf')
+
+    const regist_paidup_cap = page.locator('//input[@id="registeredPaidUpCapital"]')
+    await regist_paidup_cap.scrollIntoViewIfNeeded()
+    await regist_paidup_cap.fill(bp.init_issuer_profile.isser_info.regist_and_paidup_cap)
+    log.action('Enter Registered and Paid-up Capital')
+
+    const loan_amount_list_add_btn = page.locator('//*[@id="rc-tabs-1-panel-4"]/div/div[2]/div/form/div[1]/div[2]/div[15]/div[12]/div[1]/a/span')
+    await loan_amount_list_add_btn.scrollIntoViewIfNeeded()
+    await loan_amount_list_add_btn.click()
+    await page.waitForTimeout(2000)
+
+    await page.locator('//input[@id="outStandingDebtName"]').fill(bp.init_issuer_profile.isser_info.total_loan_amount.name)
+    await page.locator('//input[@id="outStandingDebtThaiBMASymbol"]').fill(bp.init_issuer_profile.isser_info.total_loan_amount.symbo)
+    await util.enterDate(page.locator('//input[@id="outStandingDebtIssueDate"]'), bp.init_issuer_profile.isser_info.total_loan_amount.date)
+    await util.enterDate(page.locator('//input[@id="outStandingDebtMatuarity"]'), bp.init_issuer_profile.isser_info.total_loan_amount.maturity)
+    await page.locator('//input[@id="outStandingDebtValue"]').fill(bp.init_issuer_profile.isser_info.total_loan_amount.value)
+    await page.locator('//div[@class="ant-modal-body"]//button[@class="ant-btn ant-btn-primary"]').click()
+    await page.waitForTimeout(1500)
+    await page.locator('//input[@id="totalLoanAmount"]').fill(bp.init_issuer_profile.isser_info.total_loan_amount.value)
+    log.action('Add Total Loan Amount List')
+
+    const bill_exc_list_add_btn = page.locator('//*[@id="rc-tabs-1-panel-4"]/div/div[2]/div/form/div[1]/div[2]/div[15]/div[13]/div[1]/a/span')
+    await bill_exc_list_add_btn.scrollIntoViewIfNeeded()
+    await bill_exc_list_add_btn.click()
+    await page.waitForTimeout(2000)
+
+    await page.locator('//input[@id="outStandingNoteName"]').fill(bp.init_issuer_profile.isser_info.bill_of_exc_list.name)
+    await page.locator('//input[@id="outStandingNoteThaiBMASymbol"]').fill(bp.init_issuer_profile.isser_info.bill_of_exc_list.symbo)
+    await util.enterDate(page.locator('//input[@id="outStandingNoteIssueDate"]'), bp.init_issuer_profile.isser_info.bill_of_exc_list.date)
+    await util.enterDate(page.locator('//input[@id="outStandingNoteMatuarity"]'), bp.init_issuer_profile.isser_info.bill_of_exc_list.maturity)
+    await page.locator('//input[@id="outStandingNoteValue"]').fill(bp.init_issuer_profile.isser_info.bill_of_exc_list.value)
+    await page.locator('//div[@class="ant-modal-body"]//button[@class="ant-btn ant-btn-primary"]').click()
+    await page.waitForTimeout(1500)
+    await page.locator('//input[@id="billOfExchange"]').fill(bp.init_issuer_profile.isser_info.bill_of_exc_list.value)
+    log.action('Add Bill of Exchange List')
+
+    //key fin
+    const key_fin = await page.$$eval('//*[@id="rc-tabs-1-panel-4"]/div/div[2]/div/form/div[1]/div[2]/div[15]/div[37]/div[2]/div/div/div/div/div/table/tbody/tr', kfs => {
+      return new Array(kfs.length)
+    })
+
+    for (let i = 0; i < key_fin.length; i++) {
+      const kf_edit_btn = page.locator(`//*[@id="rc-tabs-1-panel-4"]/div/div[2]/div/form/div[1]/div[2]/div[15]/div[37]/div[2]/div/div/div/div/div/table/tbody/tr[${i + 1}]/td[5]/div/a`)
+      await kf_edit_btn.scrollIntoViewIfNeeded()
+      const kf_list_item = await page.locator(`//*[@id="rc-tabs-1-panel-4"]/div/div[2]/div/form/div[1]/div[2]/div[15]/div[37]/div[2]/div/div/div/div/div/table/tbody/tr[${i + 1}]/td[1]/div`).innerText()
+
+      log.action(`Edit ${kf_list_item}`)
+      await kf_edit_btn.click()
+      await page.waitForTimeout(1500)
+
+      await page.locator('//input[@id="latestYear"]').fill(String(bp.init_issuer_profile.isser_info.key_fin.latest_year[i]))
+      await page.locator('//input[@id="yearBeforeLatestYear"]').fill(String(bp.init_issuer_profile.isser_info.key_fin.year_before_latest_year[i]))
+      await page.locator('//input[@id="quarter"]').fill(String(bp.init_issuer_profile.isser_info.key_fin.quater[i]))
+
+      await page.locator('//div[@class="ant-modal-body"]//button[@class="ant-btn ant-btn-primary"]').click()
+
+      log.success(kf_list_item)
+      await page.waitForTimeout(1000)
+    }
+
+    //auditor
+    log.action('Auditor')
+    await page.locator('//*[@id="rc-tabs-3-panel-4"]/div/div[2]/div/form/div[1]/div[2]/div[15]/div[48]/div/a/span').click()
+    await page.locator('//input[@id="auditorFirm"]').click()
+    await page.locator(`//input[@id="${bp.init_issuer_profile.isser_info.auditor_firm}"]`).click()
+    await page.locator('//div[@class="ant-modal-body"]//button[@class="ant-btn ant-btn-primary"]').click()
+    log.success('Enter Auditor data')
+    await page.waitForTimeout(1000)
+
+    //legal advisor
+    log.action("Legal Advisor")
+    await page.locator('//input[@id="legalAdvisorThName"]').fill(bp.init_issuer_profile.isser_info.legal_ad.name_th)
+    await page.locator('//input[@id="legalAdvisorENName"]').fill(bp.init_issuer_profile.isser_info.legal_ad.name_en)
+    await page.locator('//input[@id="legalAdvisorNationality"]').click()
+    await page.locator(`//div[@title="${bp.init_issuer_profile.isser_info.legal_ad.nation}"]`).click()
+    await page.locator('//input[@id="legalAdvisorJrsID"]').fill(bp.init_issuer_profile.isser_info.legal_ad.id)
+    await page.locator('//input[@id="countryOfRegulationApplied"]').click()
+    await page.locator(`//div[@title="${bp.init_issuer_profile.isser_info.legal_ad.reg_app}"]`).click()
+    log.success("Enter Legal Advisor")
 
     log.action('Save draft')
     const save_draft_btn = page.locator('//button[@type="submit"]').nth(1)
@@ -221,7 +295,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await save_draft_btn.click()
 
     await page.locator('//div[@class="ant-modal-body"]//button[1]').click()
-    await page.waitForTimeout(10000)
+    await page.waitForTimeout(15000)
 
     log.action('Click back')
     const back_btn = page.locator('//*[@id="root"]/div/section/section/main/div/div/div/div/div[1]/div/div[1]/div/div/div[1]/div[1]/button')

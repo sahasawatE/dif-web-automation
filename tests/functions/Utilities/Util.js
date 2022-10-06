@@ -1,5 +1,6 @@
 const { expect } = require('@playwright/test')
 const log = require('./log')
+const bond_name = 'testAutomation'
 
 class Util {
     #email = 'Testplaytorium002@gmail.com'
@@ -37,6 +38,60 @@ class Util {
         log.action('Click Sign out')
         this.page.waitForTimeout(2000)
         log.success('Logout succeed')
+    }
+
+    async reset() {
+        const [result_data, result_status] = await this.getResponseAsync(
+            'search',
+            "api/bondProject/search?sortField=createAt&sortDir=desc&page=1&size=10",
+            [
+                {
+                    fill: {
+                        selector: '//input[@placeholder="Search by bond project name"]',
+                        data: bond_name
+                    }
+                },
+                { click: this.page.locator('//button[@type="submit"]').nth(2) },
+                { wait: 1.5 }
+            ]
+        )
+        expect(result_status).toEqual(200)
+
+        const result = result_data['users'].filter(r => r['name'] === bond_name)
+        if (result.length) {
+            log.action('Delete bond')
+            await this.page.locator(`//td[@title="${result[0]['name']}"]/parent::tr/td[16]/span/div/button[3]`).click()
+            log.action('Confitm delete bond')
+            await this.page.locator('//div[@class="ant-modal-confirm-btns"]/button[@class="ant-btn ant-btn-primary"][1]/span').click()
+        }
+
+        await this.page.waitForTimeout(3000)
+    }
+
+    async getResponseAsync(name, endpoint, option = []) {
+        var promises = [this.page.waitForResponse(URL.api(endpoint))]
+        if (option) {
+            option.forEach(async action => {
+                if (action['fill']) {
+                    log.action(`fill ${action['fill']['data']}`)
+                    promises.push(await this.page.fill(action['fill']['selector'], action['fill']['data']))
+                }
+                if (action['click']) {
+                    log.action('Click')
+                    if (typeof action['click'] === 'string') promises.push(await this.page.click(action['click']))
+                    else promises.push(await action['click'].click())
+                }
+                if (action['wait']) promises.push(await this.page.waitForTimeout(action['wait'] * 1000))
+                if (action['log']) promises.push(console.log(action['log']))
+            })
+        }
+        promises.push(console.log(`[GET] ${name} api response`))
+
+        const [return_value] = await Promise.all(promises)
+        const return_value_json = await return_value.json()
+        const return_value_status = await return_value.status()
+
+        return [return_value_json, return_value_status]
     }
 
     async switcRole(select = 0) {

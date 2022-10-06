@@ -6,8 +6,77 @@ class Bond {
 
     }
 
-    print() {
-        log._log('bond')
+    async #setElement(selector) {
+        let elm
+        if (typeof selector === 'string') {
+            await this.page.locator(selector).scrollIntoViewIfNeeded()
+            elm = this.page.locator(selector)
+        }
+        else {
+            await selector.scrollIntoViewIfNeeded()
+            elm = selector
+        }
+
+        return elm
+    }
+
+    elememt(selector) {
+        return {
+            scrollToView: async () => {
+                await this.#setElement(selector)
+            },
+            fill: async (input_data = '') => {
+                const elm = await this.#setElement(selector)
+                await elm.fill(input_data)
+            },
+            click: async () => {
+                const elm = await this.#setElement(selector)
+                await elm.click()
+            },
+            innerHTML: async () => {
+                const elm = await this.#setElement(selector)
+                const return_value = await elm.innerHTML()
+                return return_value
+            },
+            innerText: async () => {
+                const elm = await this.#setElement(selector)
+                const return_value = await elm.innerText()
+                return return_value
+            },
+            inputValue: async () => {
+                const elm = await this.#setElement(selector)
+                const return_value = await elm.inputValue()
+                return return_value
+            },
+            press: async (key = "") => {
+                const elm = await this.#setElement(selector)
+                await elm.press(key)
+            },
+            list: async (attribute = "") => {
+                let return_value
+                if (attribute === "data-placeholder") {
+                    return_value = await this.page.$$eval(selector, els => {
+                        return Array.from(els, el => el.getAttribute('data-placeholder'))
+                    })
+                }
+                else if (attribute === "class") {
+                    return_value = await this.page.$$eval(selector, els => {
+                        return Array.from(els, el => el.getAttribute('class'))
+                    })
+                }
+                else if (attribute === "id") {
+                    return_value = await this.page.$$eval(selector, els => {
+                        return Array.from(els, el => el.getAttribute('id'))
+                    })
+                }
+                else {
+                    return_value = await this.page.$$eval(selector, els => {
+                        return new Array(els.length)
+                    })
+                }
+                return return_value
+            }
+        }
     }
 }
 

@@ -75,6 +75,18 @@ class Bond {
                     })
                 }
                 return return_value
+            },
+            // scroll y
+            Vscroll: async (first_item, target_item) => {
+                const element = this.page.locator(first_item)
+                const target = this.page.locator(target_item)
+                let target_visible = await target.isVisible()
+                await element.hover()
+                while (!target_visible) {
+                    await this.page.mouse.wheel(0, 100)
+                    await this.page.waitForTimeout(500)
+                    target_visible = await target.isVisible()
+                }
             }
         }
     }

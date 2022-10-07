@@ -244,28 +244,14 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await bond.elememt('//input[@id="legalAdvisorEnName"]').fill(bp.init_issuer_profile.isser_info.legal_ad.name_en)
     await bond.elememt('//input[@id="legalAdvisorNationality"]').click()
 
-    const nationality_items1 = page.locator('//div[@title="AFGHAN"]')
-    await nationality_items1.hover()
-    await page.mouse.wheel(0, 6100)
-    await page.waitForTimeout(1000)
-    const nationality_items2 = page.locator('//div[@title="UZEK"]')
-    await nationality_items2.hover()
-    await page.mouse.wheel(0, 100)
-    await page.waitForTimeout(1000)
-
+    //scroll
+    await bond.elememt().Vscroll('//div[@title="AFGHAN"]', `//div[@title="${bp.init_issuer_profile.isser_info.legal_ad.nation}"]`)
     await bond.elememt(`//div[@title="${bp.init_issuer_profile.isser_info.legal_ad.nation}"]`).click()
     await bond.elememt('//input[@id="legalAdvisorJrsID"]').fill(bp.init_issuer_profile.isser_info.legal_ad.id)
     await bond.elememt('//input[@id="countryOfRegulationApplied"]').click()
 
-    const regulation_app1 = page.locator('//div[@title="AFGHANISTAN"]')
-    await regulation_app1.hover()
-    await page.mouse.wheel(0, 2000)
-    await page.waitForTimeout(1000)
-    const regulation_app2 = page.locator('//div[@title="PALAU"]')
-    await regulation_app2.hover()
-    await page.mouse.wheel(0, 700)
-    await page.waitForTimeout(1000)
-
+    //scroll
+    await bond.elememt().Vscroll('//div[@title="AFGHANISTAN"]', `//div[@title="${bp.init_issuer_profile.isser_info.legal_ad.reg_app}"]`)
     await bond.elememt(`//div[@title="${bp.init_issuer_profile.isser_info.legal_ad.reg_app}"]`).click()
     log.success("Enter Legal Advisor")
 

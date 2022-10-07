@@ -83,6 +83,7 @@ class Bond {
                 let target_visible = await target.isVisible()
                 await element.hover()
                 while (!target_visible) {
+                    log.error('not found => search again')
                     await this.page.mouse.wheel(0, 100)
                     await this.page.waitForTimeout(500)
                     target_visible = await target.isVisible()

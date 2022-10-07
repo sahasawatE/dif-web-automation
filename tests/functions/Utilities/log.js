@@ -6,7 +6,7 @@ module.exports = {
         return console.log(`[SET] - ${_message}`)
     },
     action: (_message) => {
-        return console.log(`[ACTION] ${_message}`)
+        return console.log(`🤜 ${_message}`)
     },
     message: (_message) => {
         return console.log(`💬 - ${_message}`)
@@ -19,5 +19,8 @@ module.exports = {
     },
     _log: (_message) => {
         return console.log(_message)
+    },
+    announce: (_message) => {
+        return console.log('===================== ' + _message + ' =====================')
     }
 }

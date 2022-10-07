@@ -11,7 +11,7 @@ class Util {
 
     async Login() {
         this.page.goto(URL.web('login'))
-        log._log('================= LOGIN =================')
+        log.announce('LOGIN')
         const login_title = '.login-form-container > .sub-container.first > .ant-typography.login-label'
         const title = await this.page.locator(login_title).innerHTML()
         expect(title).toBe('Login')
@@ -26,7 +26,7 @@ class Util {
     }
 
     async Logout() {
-        log._log('================= LOGOUT =================')
+        log.announce('LOGOUT')
         // this.page.goto(URL.web('/bondteam'))
         await this.page.waitForTimeout(3000)
         const profile_btn = '//*[@id="root"]/div/section/section/header/div[2]/a'
@@ -133,9 +133,13 @@ class Util {
     }
 
     async enterDate(locator, string_date) {
-        await locator.click()
-        await locator.fill(string_date)
-        await locator.press('Enter')
+        let element
+        if (typeof locator === 'string') element = this.page.locator(locator)
+        else element = locator
+
+        await element.click()
+        await element.fill(string_date)
+        await element.press('Enter')
         log.action('Insert date')
     }
 }

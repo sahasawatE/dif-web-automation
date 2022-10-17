@@ -43,7 +43,7 @@ class Util {
     async reset() {
         const [result_data, result_status] = await this.getResponseAsync(
             'search',
-            "api/bondProject/search?sortField=createAt&sortDir=desc&page=1&size=10",
+            "api/bondProject/search?sortField=&sortField=createAt&sortDir=desc&size=10&page=1",
             [
                 {
                     fill: {

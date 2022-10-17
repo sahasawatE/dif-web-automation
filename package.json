@@ -11,6 +11,8 @@
     "@playwright/test": "^1.26.0"
   },
   "dependencies": {
-    "dateformat": "^4.5.1"
+    "dateformat": "^4.5.1",
+    "npm": "^8.19.2",
+    "playwright": "^1.26.0"
   }
 }

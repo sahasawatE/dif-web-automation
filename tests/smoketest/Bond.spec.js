@@ -5,11 +5,11 @@ const bp = require('../functions/data/bond_project')
 // const dateFormat = require("dateformat");
 const Bond = require('../functions/smoketest/Bond')
 
+let bond_name = 'testAutomation'
+
 test.describe('Smoketest | Bond - Bond Project', () => {
 
-  test('Should display BandProject Page properly', async ({ page, context }) => {
-    const bond_name = 'testAutomation'
-
+  test('Insert data into Issuer Info', async ({ page, context }) => {
     const util = new Util(page)
     const bond = new Bond(page)
 
@@ -441,6 +441,58 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     // await page.locator(`//td[@title="${bond_name}"]/parent::tr/td[16]/span/div/button[3]`).click()
     // log.action('Confitm delete bond')
     // await page.locator('//div[@class="ant-modal-confirm-btns"]/button[@class="ant-btn ant-btn-primary"][1]/span').click()
+
+    await util.Logout()
+  })
+
+  test.only('Insert data into Authorized Signer', async ({ page, context }) => {
+    const util = new Util(page)
+    const bond = new Bond(page)
+
+    context.clearCookies()
+
+    await util.Login()
+
+    // switch role
+    await util.switcRole(2)
+    log.set('Change Role to Maker - Issuer')
+
+    // go to BondProject page
+    log.action('Go to Bond Project page')
+    await bond.elememt(page.locator('//span[@class="ant-menu-title-content"]').nth(3)).click()
+    await bond.elememt('//ul[@class="ant-menu ant-menu-sub ant-menu-inline"]/li[1]').click()
+
+    const bondproject_header = await bond.elememt('//*[@id="root"]/div/section/section/main/div/div/div/div/div[1]/div[1]/div[1]/div/article').innerHTML()
+    expect(bondproject_header).toBe('Bond Project')
+
+    const [result_data, result_status] = await util.getResponseAsync(
+      'search',
+      "api/bondProject/search?sortField=&sortField=createAt&sortDir=desc&size=10&page=1",
+      [
+        {
+          fill: {
+            selector: '//input[@placeholder="Search by bond project name"]',
+            data: bond_name
+          }
+        },
+        { click: page.locator('//button[@type="submit"]').nth(2) },
+        { wait: 1.5 }
+      ]
+    )
+    expect(result_status).toEqual(200)
+    const [result] = result_data['users'].filter(r => r['name'] === bond_name)
+    expect(bond_name).toBe(result['name'])
+
+    await bond.elememt(`//td[@title="${result['name']}"]//a`).click()
+    await bond.elememt(page.locator('//div[@class="ant-tabs-tab"]').nth(5)).click()
+
+    await bond.elememt('//*[@id="AuthorizeSignerProcessOption"]/label[1]/span[1]').click()
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(0)).click()
+    await bond.elememt('//input[@id="authorizedSignerIssuerForIssuerInfoThPrefix"]').click()
+    await bond.elememt('//div[@title="นาย"]').click()
+
+    await bond.elememt('//button[@class="ant-btn ant-btn-default"]').click()
+
 
     await util.Logout()
   })

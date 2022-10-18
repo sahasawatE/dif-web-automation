@@ -172,6 +172,156 @@ module.exports = {
                 other: "99999999.1234567"
             },
             debt_asof: "2021-06-06"
+        },
+        authorized_signer: {
+            issuer_info: {
+                th: {
+                    prefix: "นาย",
+                    firstname: "สมศักดิ์",
+                    lastname: "ใจดี",
+                },
+                en: {
+                    prefix: "Mr.",
+                    firstname: "Somsak",
+                    lastname: "Jaidee",
+                },
+                nationality: "ไทย",
+                card_type: "Citizen ID Card",
+                card_number: "1234567890123",
+                position: "ประธานเจ้าหน้าที่บริหาร",
+                email: "somsak.jaidee@gmail.com",
+                juristic_name: "THE THAI BOND MARKET ASSOCIATION",
+            },
+            fa_for_isser_info: {
+                th: {
+                    prefix: "นาย",
+                    firstname: "สมศักดิ์",
+                    lastname: "ใจดี",
+                },
+                en: {
+                    prefix: "Mr.",
+                    firstname: "Somsak",
+                    lastname: "Jaidee"
+                },
+                nationality: "ไทย",
+                card_type: "Citizen ID Card",
+                card_number: "1234567890123",
+                position: "000",
+                email: "somsak.jaidee@gmail.com",
+                additional_comment: "รายละเอียดเป็นไปตามเอกสารแนบเกี่ยวกับ แบบ 69-PO",
+                juristic_name: "THE THAI BOND MARKET ASSOCIATION"
+            },
+            other_info: {
+                th: {
+                    prefix: "นาย",
+                    firstname: "สมศักดิ์",
+                    lastname: "ใจดี",
+                },
+                en: {
+                    prefix: "Mr.",
+                    firstname: "Somsak",
+                    lastname: "Jaidee"
+                },
+                nationality: "ไทย",
+                card_type: "Citizen ID Card",
+                card_number: "1234567890123",
+                position: "ประธานเจ้าหน้าที่บริหาร",
+                email: "somsak.jaidee@gmail.com",
+                juristic_name: "THE THAI BOND MARKET ASSOCIATION",
+                date: "2022-06-01"
+            },
+            fa_other: {
+                th: {
+                    prefix: "นาย",
+                    firstname: "สมศักดิ์",
+                    lastname: "ใจดี",
+                },
+                en: {
+                    prefix: "Mr.",
+                    firstname: "Somsak",
+                    lastname: "Jaidee"
+                },
+                nationality: "ไทย",
+                card_type: "Citizen ID Card",
+                card_number: "1234567890123",
+                position: "000",
+                email: "somsak.jaidee@gmail.com",
+                additional_comment: "รายละเอียดเป็นไปตามเอกสารแนบเกี่ยวกับ แบบ 69-PO",
+                juristic_name: "THE THAI BOND MARKET ASSOCIATION"
+            },
+            approval: {
+                th: {
+                    prefix: "นาย",
+                    firstname: "สมศักดิ์",
+                    lastname: "ใจดี",
+                },
+                en: {
+                    prefix: "Mr.",
+                    firstname: "Somsak",
+                    lastname: "Jaidee",
+                },
+                nationality: "ไทย",
+                card_type: "Citizen ID Card",
+                card_number: "1234567890123",
+                position: "ประธานเจ้าหน้าที่บริหาร",
+                email: "somsak.jaidee@gmail.com",
+                juristic_name: "THE THAI BOND MARKET ASSOCIATION",
+            },
+            fa_approval: {
+                th: {
+                    prefix: "นาย",
+                    firstname: "สมศักดิ์",
+                    lastname: "ใจดี",
+                },
+                en: {
+                    prefix: "Mr.",
+                    firstname: "Somsak",
+                    lastname: "Jaidee",
+                },
+                nationality: "ไทย",
+                card_type: "Citizen ID Card",
+                card_number: "1234567890123",
+                position: "ประธานเจ้าหน้าที่บริหาร",
+                email: "somsak.jaidee@gmail.com",
+                juristic_name: "THE THAI BOND MARKET ASSOCIATION",
+            },
+            post_sale_report: {
+                issuer: {
+                    th: {
+                        prefix: "นาย",
+                        firstname: "สมศักดิ์",
+                        lastname: "ใจดี",
+                    },
+                    en: {
+                        prefix: "Mr.",
+                        firstname: "Somsak",
+                        lastname: "Jaidee"
+                    },
+                    nationality: "ไทย",
+                    card_type: "Citizen ID Card",
+                    card_number: "1234567890123",
+                    position: "ประธานเจ้าหน้าที่บริหาร",
+                    email: "somsak.jaidee@gmail.com",
+                },
+                // uw: {
+                //     th: {
+                //         prefix: "",
+                //         firstname: "",
+                //         lastname: "",
+                //     },
+                //     en: {
+                //         prefix: "",
+                //         firstname: "",
+                //         lastname: ""
+                //     },
+                //     nationality: "",
+                //     card_type: "",
+                //     card_number: "",
+                //     position: "ประธานเจ้าหน้าที่บริหาร",
+                //     email: "somsak.jaidee@gmail.com",
+                //     juristic_name: "THE THAI BOND MARKET ASSOCIATION"
+                // }
+            }
         }
     },
 

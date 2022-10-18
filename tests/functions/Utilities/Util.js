@@ -43,7 +43,7 @@ class Util {
     async reset() {
         const [result_data, result_status] = await this.getResponseAsync(
             'search',
-            "api/bondProject/search?sortField=&sortField=createAt&sortDir=desc&size=10&page=1",
+            "/bondProject/search?sortField=&sortField=createAt&sortDir=desc&size=10&page=1",
             [
                 {
                     fill: {
@@ -146,12 +146,12 @@ class Util {
 
 const URL = {
     web: (endpoint = '') => {
-        const url = 'https://ps220057-dev-env.playtorium.co.th/dif-web'
+        const url = 'https://ps220057-dev-env.playtorium.co.th/dif-web2'
         if (endpoint[0] === '/') return url + endpoint
         return url + "/" + endpoint
     },
     api: (endpoint = '') => {
-        const url = 'https://ps220057-dev-env.playtorium.co.th/dif-api'
+        const url = 'https://ps220057-dev-env.playtorium.co.th/dif-api2/api'
         if (endpoint[0] === '/') return url + endpoint
         return url + "/" + endpoint
     }

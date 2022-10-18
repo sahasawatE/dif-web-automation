@@ -3,7 +3,7 @@ const log = require('../functions/Utilities/log')
 const { Util, URL, getJSONKey } = require('../functions/Utilities/Util')
 const bp = require('../functions/data/bond_project')
 // const dateFormat = require("dateformat");
-const Bond = require('../functions/smoketest/Bond')
+const Bond = require('../functions/smoketest/Bond');
 
 let bond_name = 'testAutomation'
 
@@ -29,7 +29,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     const bondproject_header = await bond.elememt('//*[@id="root"]/div/section/section/main/div/div/div/div/div[1]/div[1]/div[1]/div/article').innerHTML()
     expect(bondproject_header).toBe('Bond Project')
 
-    await util.reset()
+    // await util.reset()
 
     // create Bond
     log.message('Create new bond')
@@ -288,23 +288,19 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     log.action('Enter Legal Advisor thai name')
     await bond.elememt('//input[@id="legalAdvisorEnName"]').fill(bp.init_issuer_profile.isser_info.legal_ad.name_en)
     log.action('Enter Legal Advisor eng name')
-    await bond.elememt('//input[@id="legalAdvisorNationality"]').click()
-    log.action('Click dropdown Legal Advisor nationality')
 
     //scroll
-    await bond.elememt().Vscroll('//div[@title="AFGHAN"]', `//div[@title="${bp.init_issuer_profile.isser_info.legal_ad.nation}"][@aria-selected="false"]`)
+    log.action('Click dropdown Legal Advisor nationality')
+    await bond.elememt('//input[@id="legalAdvisorNationality"]').Vscroll('//div[@title="AFGHAN"]', `//div[@title="${bp.init_issuer_profile.isser_info.legal_ad.nation}"][@aria-selected="false"]`)
     log.success('Found Legal Advisor nationality')
-    await bond.elememt(`//div[@title="${bp.init_issuer_profile.isser_info.legal_ad.nation}"][@aria-selected="false"]`).click()
     log.action('Select Legal Advisor nationality')
     await bond.elememt('//input[@id="legalAdvisorJrsID"]').fill(bp.init_issuer_profile.isser_info.legal_ad.id)
     log.action('Enter Legal Advisor ID')
-    await bond.elememt('//input[@id="countryOfRegulationApplied"]').click()
-    log.action('Click dropdown Country of Regulation Applied')
 
     //scroll
-    await bond.elememt().Vscroll('//div[@title="AFGHANISTAN"]', `//div[@title="${bp.init_issuer_profile.isser_info.legal_ad.reg_app}"]`)
+    await bond.elememt('//input[@id="countryOfRegulationApplied"]').Vscroll('//div[@title="AFGHANISTAN"]', `//div[@title="${bp.init_issuer_profile.isser_info.legal_ad.reg_app}"]`)
+    log.action('Click dropdown Country of Regulation Applied')
     log.success('Found Country of Regulation Applied')
-    await bond.elememt(`//div[@title="${bp.init_issuer_profile.isser_info.legal_ad.reg_app}"]`).click()
     log.action('Select Country of Regulation Applied')
     log.success("Enter Legal Advisor")
 
@@ -357,19 +353,15 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await bond.elememt('//input[@id="controllerCardType"]').click()
     await bond.elememt(`//div[@title="${bp.init_issuer_profile.isser_info.controller_info.card_type}"]`).click()
     log.action('Select Card type')
-    await bond.elememt('//input[@id="controllerPassportIssuingCountry"]').click()
     log.action('Click Passport Issuing Country')
-    await bond.elememt().Vscroll('//div[@title="Afghanistan"]', `//div[@title="${bp.init_issuer_profile.isser_info.controller_info.passport_issuing_country}"]`)
+    await bond.elememt('//input[@id="controllerPassportIssuingCountry"]').Vscroll('//div[@title="Afghanistan"]', `//div[@title="${bp.init_issuer_profile.isser_info.controller_info.passport_issuing_country}"]`)
     log.success('Found Passport Issuing Country')
-    await bond.elememt(`//div[@title="${bp.init_issuer_profile.isser_info.controller_info.passport_issuing_country}"]`).click()
     log.action('Select Passport Issuing Country')
     await bond.elememt('//input[@id="controllerCardNumber"]').fill(bp.init_issuer_profile.isser_info.controller_info.card_no)
     log.action('Enter Card number')
-    await bond.elememt('//input[@id="controllerNationality"]').click()
     log.action('Click Nationality')
-    await bond.elememt().Vscroll('//div[@title="Afghan"]', `//div[@title="${bp.init_issuer_profile.isser_info.controller_info.nationality}"][@aria-selected="false"]`)
+    await bond.elememt('//input[@id="controllerNationality"]').Vscroll('//div[@title="Afghan"]', `//div[@title="${bp.init_issuer_profile.isser_info.controller_info.nationality}"][@aria-selected="false"]`)
     log.success('Found Nationality')
-    await bond.elememt(`//div[@title="${bp.init_issuer_profile.isser_info.controller_info.nationality}"][@aria-selected="false"]`).click()
     log.action('Select Nationality')
     await util.enterDate('//input[@id="controllerCardIssuedDate"]', bp.init_issuer_profile.isser_info.controller_info.card_issued_date)
     log.action('Enter Card Issued Date')
@@ -400,14 +392,11 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await page.waitForTimeout(500)
 
     log.action('Click Accounting period')
-    await bond.elememt('//*[@id="rc-tabs-1-panel-4"]/div/div[2]/div/form/div[1]/div[2]/div[17]/div[5]/div[2]/div/div/div/div[1]/div').click()
-    await bond.elememt().Vscroll('//div[@label="January"]', `//div[@label="${bp.init_issuer_profile.isser_info.accounting_period[0]}"]`)
+    await bond.elememt('//*[@id="rc-tabs-1-panel-4"]/div/div[2]/div/form/div[1]/div[2]/div[17]/div[5]/div[2]/div/div/div/div[1]/div').Vscroll('//div[@label="January"]', `//div[@label="${bp.init_issuer_profile.isser_info.accounting_period[0]}"]`)
     log.success('Found June')
-    await bond.elememt(`//div[@label="${bp.init_issuer_profile.isser_info.accounting_period[0]}"]`).click()
     log.action('Select June')
     await bond.elememt().Vscroll('//div[@label="January"]', `//div[@label="${bp.init_issuer_profile.isser_info.accounting_period[1]}"]`)
     log.success('Found December')
-    await bond.elememt(`//div[@label="${bp.init_issuer_profile.isser_info.accounting_period[1]}"]`).click()
     log.action('Select December')
     await page.mouse.click(0, 360)
     log.action('Un-Focus Field')
@@ -445,7 +434,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await util.Logout()
   })
 
-  test.only('Insert data into Authorized Signer', async ({ page, context }) => {
+  test('Insert data into Authorized Signer', async ({ page, context }) => {
     const util = new Util(page)
     const bond = new Bond(page)
 
@@ -467,7 +456,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
 
     const [result_data, result_status] = await util.getResponseAsync(
       'search',
-      "api/bondProject/search?sortField=&sortField=createAt&sortDir=desc&size=10&page=1",
+      "/bondProject/search?sortField=&sortField=createAt&sortDir=desc&size=10&page=1",
       [
         {
           fill: {
@@ -485,14 +474,199 @@ test.describe('Smoketest | Bond - Bond Project', () => {
 
     await bond.elememt(`//td[@title="${result['name']}"]//a`).click()
     await bond.elememt(page.locator('//div[@class="ant-tabs-tab"]').nth(5)).click()
-
     await bond.elememt('//*[@id="AuthorizeSignerProcessOption"]/label[1]/span[1]').click()
+
+    // Authorized Signer for Issuer Information
+    const auth_signer_element = 'authorizedSignerIssuerForIssuerInfo'
+    const auth_signer_issuer = bp.init_issuer_profile.authorized_signer.issuer_info
+
     await bond.elememt(page.locator('//div[@class="title"]/a').nth(0)).click()
-    await bond.elememt('//input[@id="authorizedSignerIssuerForIssuerInfoThPrefix"]').click()
-    await bond.elememt('//div[@title="นาย"]').click()
+    await bond.elememt(`//input[@id="${auth_signer_element}ThPrefix"]`).click()
+    await bond.elememt(`//div[@title="${auth_signer_issuer.th.prefix}"]`).click()
+    await bond.elememt(`//input[@id="${auth_signer_element}ThName"]`).fill(auth_signer_issuer.th.firstname)
+    await bond.elememt(`//input[@id="${auth_signer_element}ThSurname"]`).fill(auth_signer_issuer.th.lastname)
+    await bond.elememt(`//input[@id="${auth_signer_element}EnPrefix"]`).click()
+    await bond.elememt(`//div[@title="${auth_signer_issuer.en.prefix}"]`).click()
+    await bond.elememt(`//input[@id="${auth_signer_element}EnName"]`).fill(auth_signer_issuer.en.firstname)
+    await bond.elememt(`//input[@id="${auth_signer_element}EnSurname"]`).fill(auth_signer_issuer.en.lastname)
+    await bond.elememt(`//input[@id="${auth_signer_element}Nationality"]`).Vscroll('//div[@title="AFGHAN"]', `//div[@title="${auth_signer_issuer.nationality}"]`)
+    await bond.elememt(`//input[@id="${auth_signer_element}TypeOfCard"]`).click()
+    await bond.elememt(`//div[@title="${auth_signer_issuer.card_type}"]`).click()
+    await bond.elememt(`//input[@id="${auth_signer_element}CardNumber"]`).fill(auth_signer_issuer.card_number)
+    await bond.elememt(`//input[@id="${auth_signer_element}Position"]`).fill(auth_signer_issuer.position)
+    await bond.elememt(`//input[@id="${auth_signer_element}Email"]`).fill(auth_signer_issuer.email)
+    await bond.elememt('//button[@class="ant-btn ant-btn-primary"]').click()
 
-    await bond.elememt('//button[@class="ant-btn ant-btn-default"]').click()
+    await bond.elememt(`//*[@id="${auth_signer_element}CompanyStampFlag"]/label[1]/span[1]`).click()
+    await bond.elememt(`//input[@id="${auth_signer_element}JuristicId"]`).click()
+    await bond.elememt(`//div[@title="${auth_signer_issuer.juristic_name}"]`).click()
 
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(1)).click()
+
+    // Authorized Signer FA for Issuer
+    const fa_element = 'authorizedSignerFAForIssuerInfo'
+    const auth_signer_fa = bp.init_issuer_profile.authorized_signer.fa_for_isser_info
+
+    await bond.elememt(`//input[@id="${fa_element}ThPrefix"]`).click()
+    await bond.elememt(`//div[@title="${auth_signer_fa.th.prefix}"]`).click()
+    await bond.elememt(`//input[@id="${fa_element}ThName"]`).fill(auth_signer_fa.th.firstname)
+    await bond.elememt(`//input[@id="${fa_element}ThSurname"]`).fill(auth_signer_fa.th.lastname)
+    await bond.elememt(`//input[@id="${fa_element}EnPrefix"]`).click()
+    await bond.elememt(`//div[@title="${auth_signer_fa.en.prefix}"]`).click()
+    await bond.elememt(`//input[@id="${fa_element}EnName"]`).fill(auth_signer_fa.en.firstname)
+    await bond.elememt(`//input[@id="${fa_element}EnSurname"]`).fill(auth_signer_fa.en.lastname)
+    await bond.elememt(`//input[@id="${fa_element}Nationality"]`).Vscroll('//div[@title="AFGHAN"]', `//div[@title="${auth_signer_fa.nationality}"]`)
+    await bond.elememt(`//input[@id="${fa_element}TypeOfCard"]`).click()
+    await bond.elememt(`//div[@title="${auth_signer_fa.card_type}"]`).click()
+    await bond.elememt(`//input[@id="${fa_element}CardNumber"]`).fill(auth_signer_fa.card_number)
+    await bond.elememt(`//input[@id="${fa_element}Position"]`).fill(auth_signer_fa.position)
+    await bond.elememt(`//input[@id="${fa_element}Email"]`).fill(auth_signer_fa.email)
+    const additional_comment = bond.elememt('//div[@data-placeholder="Enter additional comment on filing of FA"]')
+    await additional_comment.click()
+    await additional_comment.fill(auth_signer_fa.additional_comment)
+    await bond.elememt('//button[@class="ant-btn ant-btn-primary"]').click()
+
+    await bond.elememt(`//*[@id="${fa_element}CompanyStampFlag"]/label[1]/span[1]`).click()
+    await bond.elememt(`//input[@id="${fa_element}JuristicId"]`).click()
+    await bond.elememt(`//div[@title="${auth_signer_fa.juristic_name}"][@aria-selected="false"]`).click()
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(2)).click()
+
+    // Authorized Signer Issuer for Pricing and Other Information
+    const other_element = 'authorizedSignerIssuerForPricingAndOtherInfo'
+    const auth_other = bp.init_issuer_profile.authorized_signer.other_info
+
+    await bond.elememt(`//input[@id="${other_element}ThPrefix"]`).click()
+    await bond.elememt(`//div[@title="${auth_other.th.prefix}"]`).click()
+    await bond.elememt(`//input[@id="${other_element}ThName"]`).fill(auth_other.th.firstname)
+    await bond.elememt(`//input[@id="${other_element}ThSurname"]`).fill(auth_other.th.lastname)
+    await bond.elememt(`//input[@id="${other_element}EnPrefix"]`).click()
+    await bond.elememt(`//div[@title="${auth_other.en.prefix}"]`).click()
+    await bond.elememt(`//input[@id="${other_element}EnName"]`).fill(auth_other.en.firstname)
+    await bond.elememt(`//input[@id="${other_element}EnSurname"]`).fill(auth_other.en.lastname)
+    await bond.elememt(`//input[@id="${other_element}Nationality"]`).Vscroll('//div[@title="AFGHAN"]', `//div[@title="${auth_other.nationality}"]`)
+    await bond.elememt(`//input[@id="${other_element}TypeOfCard"]`).click()
+    await bond.elememt(`//div[@title="${auth_other.card_type}"]`).click()
+    await bond.elememt(`//input[@id="${other_element}CardNumber"]`).fill(auth_other.card_number)
+    await bond.elememt(`//input[@id="${other_element}Position"]`).fill(auth_other.position)
+    await bond.elememt(`//input[@id="${other_element}Email"]`).fill(auth_other.email)
+    await bond.elememt('//button[@class="ant-btn ant-btn-primary"]').click()
+
+    await bond.elememt('//*[@id="authorizedSignerIssuesrForPricingAndOtherInfoCompanyStampFlag"]/label[1]/span[1]').click()
+    await bond.elememt(`//input[@id="${other_element}JuristicId"]`).click()
+    await bond.elememt(`//div[@title="${auth_other.juristic_name}"][@aria-selected="false"]`).click()
+    await util.enterDate('//input[@id="dateOfInternalAuditAsessessmentPricingInfo"]', auth_other.date)
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(3)).click()
+
+    // Authorized Signer FA for Pricing and Other Information (if any)
+    const fa_other_elememt = 'authorizedSignerFAForPricingAndOtherInfo'
+    const auth_fa_other = bp.init_issuer_profile.authorized_signer.fa_other
+
+    await bond.elememt(`//input[@id="${fa_other_elememt}ThPrefix"]`).click()
+    await bond.elememt(`//div[@title="${auth_fa_other.th.prefix}"]`).click()
+    await bond.elememt(`//input[@id="${fa_other_elememt}ThName"]`).fill(auth_fa_other.th.firstname)
+    await bond.elememt(`//input[@id="${fa_other_elememt}ThSurname"]`).fill(auth_fa_other.th.lastname)
+    await bond.elememt(`//input[@id="${fa_other_elememt}EnPrefix"]`).click()
+    await bond.elememt(`//div[@title="${auth_fa_other.en.prefix}"]`).click()
+    await bond.elememt(`//input[@id="${fa_other_elememt}EnName"]`).fill(auth_fa_other.en.firstname)
+    await bond.elememt(`//input[@id="${fa_other_elememt}EnSurname"]`).fill(auth_fa_other.en.lastname)
+    await bond.elememt(`//input[@id="${fa_other_elememt}Nationality"]`).Vscroll('//div[@title="AFGHAN"]', `//div[@title="${auth_fa_other.nationality}"]`)
+    await bond.elememt(`//input[@id="${fa_other_elememt}TypeOfCard"]`).click()
+    await bond.elememt(`//div[@title="${auth_fa_other.card_type}"]`).click()
+    await bond.elememt(`//input[@id="${fa_other_elememt}CardNumber"]`).fill(auth_fa_other.card_number)
+    await bond.elememt(`//input[@id="${fa_other_elememt}Position"]`).fill(auth_fa_other.position)
+    await bond.elememt(`//input[@id="${fa_other_elememt}Email"]`).fill(auth_fa_other.email)
+    const additional_other_comment = bond.elememt('//div[@data-placeholder="Enter additional comment on filing of FA"]')
+    await additional_other_comment.click()
+    await additional_other_comment.fill(auth_fa_other.additional_comment)
+    await bond.elememt('//button[@class="ant-btn ant-btn-primary"]').click()
+
+    await bond.elememt(`//*[@id="${fa_other_elememt}CompanyStampFlag"]/label[1]/span[1]`).click()
+    await bond.elememt(`//input[@id="${fa_other_elememt}JuristicId"]`).click()
+    await bond.elememt(`//div[@title="${auth_fa_other.juristic_name}"][@aria-selected="false"]`).click()
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(4)).click()
+
+    // Authorized Signer for Letter of Approval
+    const approval_element = 'authorizedSignerForLetterOfApproval'
+    const auth_approval = bp.init_issuer_profile.authorized_signer.approval
+
+    await bond.elememt(`//input[@id="${approval_element}ThPrefix"]`).click()
+    await bond.elememt(`//div[@title="${auth_approval.th.prefix}"]`).click()
+    await bond.elememt(`//input[@id="${approval_element}ThName"]`).fill(auth_approval.th.firstname)
+    await bond.elememt(`//input[@id="${approval_element}ThSurname"]`).fill(auth_approval.th.lastname)
+    await bond.elememt(`//input[@id="${approval_element}EnPrefix"]`).click()
+    await bond.elememt(`//div[@title="${auth_approval.en.prefix}"]`).click()
+    await bond.elememt(`//input[@id="${approval_element}EnName"]`).fill(auth_approval.en.firstname)
+    await bond.elememt(`//input[@id="${approval_element}EnSurname"]`).fill(auth_approval.en.lastname)
+    await bond.elememt(`//input[@id="${approval_element}Nationality"]`).Vscroll('//div[@title="AFGHAN"]', `//div[@title="${auth_approval.nationality}"]`)
+    await bond.elememt(`//input[@id="${approval_element}TypeOfCard"]`).click()
+    await bond.elememt(`//div[@title="${auth_approval.card_type}"]`).click()
+    await bond.elememt(`//input[@id="${approval_element}CardNumber"]`).fill(auth_approval.card_number)
+    await bond.elememt(`//input[@id="${approval_element}Position"]`).fill(auth_approval.position)
+    await bond.elememt(`//input[@id="${approval_element}Email"]`).fill(auth_approval.email)
+    await bond.elememt('//button[@class="ant-btn ant-btn-primary"]').click()
+
+    await bond.elememt(`//*[@id="${approval_element}companyStampFlag"]/label[1]/span[1]`).click()
+    await bond.elememt(`//input[@id="${approval_element}JuristicId"]`).click()
+    await bond.elememt(`//div[@title="${auth_approval.juristic_name}"][@aria-selected="false"]`).click()
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(5)).click()
+
+    //  Authorized Signer FA for Letter of Approval (if any)
+    const fa_approval_element = 'authorizedSignerFAForLetterOfApproval'
+    const fa_auth_approval = bp.init_issuer_profile.authorized_signer.fa_approval
+
+    await bond.elememt(`//input[@id="${fa_approval_element}ThPrefix"]`).click()
+    await bond.elememt(`//div[@title="${fa_auth_approval.th.prefix}"]`).click()
+    await bond.elememt(`//input[@id="${fa_approval_element}ThName"]`).fill(fa_auth_approval.th.firstname)
+    await bond.elememt(`//input[@id="${fa_approval_element}ThSurname"]`).fill(fa_auth_approval.th.lastname)
+    await bond.elememt(`//input[@id="${fa_approval_element}EnPrefix"]`).click()
+    await bond.elememt(`//div[@title="${fa_auth_approval.en.prefix}"]`).click()
+    await bond.elememt(`//input[@id="${fa_approval_element}EnName"]`).fill(fa_auth_approval.en.firstname)
+    await bond.elememt(`//input[@id="${fa_approval_element}EnSurname"]`).fill(fa_auth_approval.en.lastname)
+    await bond.elememt(`//input[@id="${fa_approval_element}Nationality"]`).Vscroll('//div[@title="AFGHAN"]', `//div[@title="${fa_auth_approval.nationality}"]`)
+    await bond.elememt(`//input[@id="${fa_approval_element}TypeOfCard"]`).click()
+    await bond.elememt(`//div[@title="${fa_auth_approval.card_type}"]`).click()
+    await bond.elememt(`//input[@id="${fa_approval_element}CardNumber"]`).fill(fa_auth_approval.card_number)
+    await bond.elememt(`//input[@id="${fa_approval_element}Position"]`).fill(fa_auth_approval.position)
+    await bond.elememt(`//input[@id="${fa_approval_element}Email"]`).fill(fa_auth_approval.email)
+    await bond.elememt('//button[@class="ant-btn ant-btn-primary"]').click()
+
+    await bond.elememt(`//*[@id="${fa_approval_element}CompanyStampFlag"]/label[1]/span[1]`).click()
+    await bond.elememt('//input[@id="authorizedSignerFAForLetterOfApprovalJuristicId"]').click()
+    await bond.elememt(`//div[@title="${fa_auth_approval.juristic_name}"][@aria-selected="false"]`).click()
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(6)).click()
+
+    // Authorized Signer Issuer for Post Sale Report
+    const post_sale_report_element = 'authorizedSignerIssuerForPostSaleReport'
+    const auth_post_sale_repost = bp.init_issuer_profile.authorized_signer.post_sale_report.issuer
+
+    await bond.elememt(`//input[@id="${post_sale_report_element}ThPrefix"]`).click()
+    await bond.elememt(`//div[@title="${auth_post_sale_repost.th.prefix}"]`).click()
+    await bond.elememt(`//input[@id="${post_sale_report_element}ThName"]`).fill(auth_post_sale_repost.th.firstname)
+    await bond.elememt(`//input[@id="${post_sale_report_element}ThSurname"]`).fill(auth_post_sale_repost.th.lastname)
+    await bond.elememt(`//input[@id="${post_sale_report_element}EnPrefix"]`).click()
+    await bond.elememt(`//div[@title="${auth_post_sale_repost.en.prefix}"]`).click()
+    await bond.elememt(`//input[@id="${post_sale_report_element}EnName"]`).fill(auth_post_sale_repost.en.firstname)
+    await bond.elememt(`//input[@id="${post_sale_report_element}EnSurname"]`).fill(auth_post_sale_repost.en.lastname)
+    await bond.elememt(`//input[@id="${post_sale_report_element}Nationality"]`).Vscroll('//div[@title="AFGHAN"]', `//div[@title="${auth_post_sale_repost.nationality}"]`)
+    await bond.elememt(`//input[@id="${post_sale_report_element}TypeOfCard"]`).click()
+    await bond.elememt(`//div[@title="${auth_post_sale_repost.card_type}"]`).click()
+    await bond.elememt(`//input[@id="${post_sale_report_element}CardNumber"]`).fill(auth_post_sale_repost.card_number)
+    await bond.elememt(`//input[@id="${post_sale_report_element}Position"]`).fill(auth_post_sale_repost.position)
+    await bond.elememt(`//input[@id="${post_sale_report_element}Email"]`).fill(auth_post_sale_repost.email)
+    await bond.elememt('//button[@class="ant-btn ant-btn-primary"]').click()
+
+    await bond.elememt('//*[@id="rc-tabs-1-panel-5"]/div/div[3]/div/form/div[2]/div/div/div/div/div/div/button').click()
+    await bond.elememt('//div[@class="ant-modal-content"]//button[@class="ant-btn ant-btn-primary"]').click()
+    await page.waitForTimeout(15000)
+
+    log.action('Click back')
+    await bond.elememt('//*[@id="root"]/div/section/section/main/div/div/div/div/div[1]/div/div[1]/div/div/div[1]/div[1]/button').click()
+    await page.waitForTimeout(3000)
 
     await util.Logout()
   })

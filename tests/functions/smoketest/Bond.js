@@ -78,15 +78,23 @@ class Bond {
             },
             // scroll y
             Vscroll: async (first_item, target_item) => {
+                if (selector) {
+                    const elm = await this.#setElement(selector)
+                    await elm.click()
+                }
+
                 const element = this.page.locator(first_item)
                 const target = this.page.locator(target_item)
                 let target_visible = await target.isVisible()
                 await element.hover()
                 while (!target_visible) {
                     log.error('not found => search again')
-                    await this.page.mouse.wheel(0, 100)
-                    await this.page.waitForTimeout(500)
+                    await this.page.mouse.wheel(0, 150)
+                    await this.page.waitForTimeout(600)
                     target_visible = await target.isVisible()
+                }
+                if (target_visible) {
+                    await target.click()
                 }
             }
         }

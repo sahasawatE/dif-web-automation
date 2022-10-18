@@ -434,7 +434,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await util.Logout()
   })
 
-  test('Insert data into Authorized Signer', async ({ page, context }) => {
+  test.only('Insert data into Authorized Signer', async ({ page, context }) => {
     const util = new Util(page)
     const bond = new Bond(page)
 

@@ -5,7 +5,8 @@ const bp = require('../functions/data/bond_project')
 // const dateFormat = require("dateformat");
 const Bond = require('../functions/smoketest/Bond');
 
-let bond_name = 'testAutomation'
+let bond_name = 'testAutomation_for_git_action_commit'
+// let bond_name = 'testAutomation2'
 
 test.describe('Smoketest | Bond - Bond Project', () => {
 
@@ -434,7 +435,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await util.Logout()
   })
 
-  test.only('Insert data into Authorized Signer', async ({ page, context }) => {
+  test('Insert data into Authorized Signer', async ({ page, context }) => {
     const util = new Util(page)
     const bond = new Bond(page)
 
@@ -663,6 +664,57 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await bond.elememt('//*[@id="rc-tabs-1-panel-5"]/div/div[3]/div/form/div[2]/div/div/div/div/div/div/button').click()
     await bond.elememt('//div[@class="ant-modal-content"]//button[@class="ant-btn ant-btn-primary"]').click()
     await page.waitForTimeout(15000)
+
+    log.action('Click back')
+    await bond.elememt('//*[@id="root"]/div/section/section/main/div/div/div/div/div[1]/div/div[1]/div/div/div[1]/div[1]/button').click()
+    await page.waitForTimeout(3000)
+
+    await util.Logout()
+  })
+
+  test.only('Insert data into Selling info', async ({ page, context }) => {
+    const util = new Util(page)
+    const bond = new Bond(page)
+
+    context.clearCookies()
+
+    await util.Login()
+
+    // switch role
+    await util.switcRole(2)
+    log.set('Change Role to Maker - Issuer')
+
+    // go to BondProject page
+    log.action('Go to Bond Project page')
+    await bond.elememt(page.locator('//span[@class="ant-menu-title-content"]').nth(3)).click()
+    await bond.elememt('//ul[@class="ant-menu ant-menu-sub ant-menu-inline"]/li[1]').click()
+
+    const bondproject_header = await bond.elememt('//*[@id="root"]/div/section/section/main/div/div/div/div/div[1]/div[1]/div[1]/div/article').innerHTML()
+    expect(bondproject_header).toBe('Bond Project')
+
+    const [result_data, result_status] = await util.getResponseAsync(
+      'search',
+      "/bondProject/search?sortField=&sortField=createAt&sortDir=desc&size=10&page=1",
+      [
+        {
+          fill: {
+            selector: '//input[@placeholder="Search by bond project name"]',
+            data: bond_name
+          }
+        },
+        { click: page.locator('//button[@type="submit"]').nth(2) },
+        { wait: 1.5 }
+      ]
+    )
+    expect(result_status).toEqual(200)
+    const [result] = result_data['users'].filter(r => r['name'] === bond_name)
+    expect(bond_name).toBe(result['name'])
+
+    await bond.elememt(`//td[@title="${result['name']}"]//a`).click()
+    await bond.elememt('text=Selling Info').click()
+    // await bond.elememt('//*[@id="AuthorizeSignerProcessOption"]/label[1]/span[1]').click()
+    await page.waitForTimeout(6000)
+
 
     log.action('Click back')
     await bond.elememt('//*[@id="root"]/div/section/section/main/div/div/div/div/div[1]/div/div[1]/div/div/div[1]/div[1]/button').click()

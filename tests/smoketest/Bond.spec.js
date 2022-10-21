@@ -5,8 +5,8 @@ const bp = require('../functions/data/bond_project')
 // const dateFormat = require("dateformat");
 const Bond = require('../functions/smoketest/Bond');
 
-let bond_name = 'testAutomation_for_git_action_commit'
-// let bond_name = 'testAutomation2'
+// let bond_name = 'testAutomation_for_git_action_commit'
+let bond_name = 'testAutomation2'
 
 test.describe('Smoketest | Bond - Bond Project', () => {
 

@@ -69,7 +69,7 @@ class Util {
     }
 
     async getResponseAsync(name, endpoint, option = []) {
-        var promises = [this.page.waitForResponse(URL.api(endpoint))]
+        var promises = []
         if (option) {
             option.forEach(async action => {
                 if (action['fill']) {
@@ -85,6 +85,7 @@ class Util {
                 if (action['log']) promises.push(console.log(action['log']))
             })
         }
+        promises.push(this.page.waitForResponse(URL.api(endpoint)))
         promises.push(console.log(`[GET] ${name} api response`))
 
         const [return_value] = await Promise.all(promises)

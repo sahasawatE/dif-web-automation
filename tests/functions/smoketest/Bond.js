@@ -69,6 +69,16 @@ class Bond {
                         return Array.from(els, el => el.getAttribute('id'))
                     })
                 }
+                else if (attribute === "innerHTML") {
+                    return_value = await this.page.$$eval(selector, els => {
+                        return Array.from(els, el => el.innerHTML)
+                    })
+                }
+                else if (attribute === "innerText") {
+                    return_value = await this.page.$$eval(selector, els => {
+                        return Array.from(els, el => el.innerText)
+                    })
+                }
                 else {
                     return_value = await this.page.$$eval(selector, els => {
                         return new Array(els.length)
@@ -83,7 +93,13 @@ class Bond {
                     await elm.click()
                 }
 
-                const element = this.page.locator(first_item)
+                let element
+                if (typeof first_item === 'string') {
+                    element = this.page.locator(first_item)
+                }
+                else {
+                    element = first_item
+                }
                 const target = this.page.locator(target_item)
                 let target_visible = await target.isVisible()
                 await element.hover()

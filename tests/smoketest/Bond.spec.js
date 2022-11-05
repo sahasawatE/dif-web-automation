@@ -5,8 +5,8 @@ const bp = require('../functions/data/bond_project')
 // const dateFormat = require("dateformat");
 const Bond = require('../functions/smoketest/Bond');
 
-// let bond_name = 'local_testAutomation_26'
-let bond_name = 'git_testAutomation_1'
+// let bond_name = 'local_testAutomation_28'
+let bond_name = 'git_testAutomation_2'
 
 let bond_id
 

@@ -1,0 +1,8 @@
+node_modules
+screenshots
+html-report
+.vscode
+.github
+package-lock.json
+tests
+

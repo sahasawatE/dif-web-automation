@@ -22,6 +22,12 @@ class Bond {
 
     elememt(selector) {
         return {
+            force: {
+                click: async () => {
+                    const elm = await this.#setElement(selector)
+                    await elm.click({ force: true })
+                },
+            },
             scrollToView: async () => {
                 await this.#setElement(selector)
             },
@@ -112,6 +118,11 @@ class Bond {
                 if (target_visible) {
                     await target.click()
                 }
+            },
+            isDisabled: async () => {
+                const elm = await this.#setElement(selector)
+                const return_value = await elm.isDisabled()
+                return return_value
             }
         }
     }

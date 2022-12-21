@@ -1,24 +1,30 @@
+const default_use = {
+  browserName: 'webkit',
+  // browserName: 'firefox',
+  // browserName: 'chromium',
+  viewport: { width: 1280, height: 720 },
+  // screenshot: 'only-on-failure',
+}
+const default_config = {
+  workers: 1,
+  timeout: 900000,
+}
+
 const config = {
   dev: {
+    ...default_config,
     use: {
-      browserName: 'chromium',
+      ...default_use,
       headless: false,
-      viewport: { width: 1280, height: 720 },
-      // screenshot: 'only-on-failure',
     },
-    workers: 1,
-    timeout: 900000,
   },
   production: {
+    ...default_config,
     use: {
-      browserName: 'chromium',
+      ...default_use,
       headless: true,
-      viewport: { width: 1280, height: 720 },
-      // screenshot: 'only-on-failure',
     },
     // retries: 2,
-    workers: 1,
-    timeout: 900000,
   }
 }
 

@@ -147,12 +147,14 @@ class Util {
 
 const URL = {
     web: (endpoint = '') => {
-        const url = 'https://ps220057-dev-env.playtorium.co.th/dif-web2'
+        const url = 'https://ps220057-dev-env.playtorium.co.th/dif-web'
+        // const url = 'https://ps220057-dev-env.playtorium.co.th/dif-web2'
         if (endpoint[0] === '/') return url + endpoint
         return url + "/" + endpoint
     },
     api: (endpoint = '') => {
-        const url = 'https://ps220057-dev-env.playtorium.co.th/dif-api2/api'
+        const url = 'https://ps220057-dev-env.playtorium.co.th/dif-api/api'
+        // const url = 'https://ps220057-dev-env.playtorium.co.th/dif-api2/api'
         if (endpoint[0] === '/') return url + endpoint
         return url + "/" + endpoint
     }

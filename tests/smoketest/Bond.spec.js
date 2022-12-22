@@ -8,8 +8,8 @@ const Bond = require('../functions/smoketest/Bond');
 
 // let bond_name = 'local_testAutomation_69'
 // let bond_name = 'auto_review_9'
-let bond_name = 'git_testAutomation_5'
-// let bond_name = 'docker_testAutomation_10'
+let bond_name = 'git_testAutomation_6'
+// let bond_name = 'docker_testAutomation_11'
 
 let bond_id
 
@@ -434,16 +434,16 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await bond.elememt('text=Save Draft').click()
     await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
     await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
-    const [res_save_draft_json, res_save_draft_status] = await util.getResponseAsync(
-      'save draft',
-      `/bondProject/${bond_id}/issuerProfile/issuerInfo/draft?state=1,2,3`,
-      [
-        { click: '//div[@class="ant-modal-body"]//button[1]' }
-      ])
-    expect(res_save_draft_json['message']).toBe('success')
-    expect(res_save_draft_status).toBe(200)
-    // await bond.elememt('//div[@class="ant-modal-body"]//button[1]').click()
-    // await page.waitForTimeout(30000)
+    // const [res_save_draft_json, res_save_draft_status] = await util.getResponseAsync(
+    //   'save draft',
+    //   `/bondProject/${bond_id}/issuerProfile/issuerInfo/draft?state=1,2,3`,
+    //   [
+    //     { click: '//div[@class="ant-modal-body"]//button[1]' }
+    //   ])
+    // expect(res_save_draft_json['message']).toBe('success')
+    // expect(res_save_draft_status).toBe(200)
+    await bond.elememt('//div[@class="ant-modal-body"]//button[1]').click()
+    await page.waitForTimeout(30000)
 
     log.action('Click back')
     await bond.elememt('//*[@id="root"]/div/section/section/main/div/div/div/div/div[1]/div/div[1]/div/div/div[1]/div[1]/button').click()

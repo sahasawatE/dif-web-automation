@@ -1,219 +1,650 @@
-let issuer_info_objective = new Array(12).fill([])
-issuer_info_objective = issuer_info_objective.map((e, i) => {
-    if (i !== 10) return new Array(6).fill("")
-    else return []
-})
-
-let authorized_signer_schema_1 = ["th", "en", "nationality", "card_type", "card_number", "position", "email", "juristic_name"]
-let authorized_signer_schema_2 = ["th", "en", "nationality", "card_type", "card_number", "position", "email", "additional_comment", "juristic_name"]
-let authorized_signer_schema_3 = ["th", "en", "nationality", "card_type", "card_number", "position", "email", "juristic_name", "date"]
-let authorized_signer_schema_4 = ["th", "en", "nationality", "card_type", "card_number", "position", "email"]
-
-let auth_sign_issue_info = new Object()
-let auth_sign_fa_for_issue_info = new Object()
-let auth_sign_other_info = new Object()
-let auth_sign_fa_other = new Object()
-let auth_sign_approval = new Object()
-let auth_sign_fa_approval = new Object()
-let auth_sign_post_sale_report = { issuer: new Object() }
-
-authorized_signer_schema_1.forEach(e => {
-    if (e === "th" || e === "en") {
-        auth_sign_issue_info[e] = { prefix: "", firstname: "", lastname: "" }
-        auth_sign_approval[e] = { prefix: "", firstname: "", lastname: "" }
-        auth_sign_fa_approval[e] = { prefix: "", firstname: "", lastname: "" }
-    }
-    else {
-        auth_sign_issue_info[e] = ""
-        auth_sign_approval[e] = ""
-        auth_sign_fa_approval[e] = ""
-    }
-})
-
-authorized_signer_schema_2.forEach(e => {
-    if (e === "th" || e === "en") {
-        auth_sign_fa_for_issue_info[e] = { prefix: "", firstname: "", lastname: "" }
-        auth_sign_fa_other[e] = { prefix: "", firstname: "", lastname: "" }
-    }
-    else {
-        auth_sign_fa_for_issue_info[e] = ""
-        auth_sign_fa_other[e] = ""
-    }
-})
-
-authorized_signer_schema_3.forEach(e => {
-    if (e === "th" || e === "en") {
-        auth_sign_other_info[e] = { prefix: "", firstname: "", lastname: "" }
-    }
-    else {
-        auth_sign_other_info[e] = ""
-    }
-})
-
-authorized_signer_schema_4.forEach(e => {
-    if (e === "th" || e === "en") {
-        auth_sign_post_sale_report['issuer'][e] = { prefix: "", firstname: "", lastname: "" }
-    }
-    else {
-        auth_sign_post_sale_report['issuer'][e] = ""
-    }
-})
-
-let schema = {
-    init_issuer_profile: {
-        executive_sum: "",
-        issuer_info: {
-            postal_id: "",
-            tax_id: "",
-            tax_area: "",
-            mobile_phone: "",
-            objective: issuer_info_objective,
-            issuer_contact: {
-                ceo_name: "",
-                ceo_position: "",
-                ceo_email: "",
-                cfo_name: "",
-                cfo_position: "",
-                cfo_email: ""
+const test_data = {
+    "init_issuer_profile": {
+        "executive_sum": "",
+        "issuer_info": {
+            "postal_id": "text",
+            "tax_id": "text",
+            "tax_area": "text",
+            "mobile_phone": "text",
+            "objective": [
+                [
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text"
+                ],
+                [
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text"
+                ],
+                [
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text"
+                ],
+                [
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text"
+                ],
+                [
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text"
+                ],
+                [
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text"
+                ],
+                [
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text"
+                ],
+                [
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text"
+                ],
+                [
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text"
+                ],
+                [
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text"
+                ],
+                [
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text"
+                ],
+                [
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text"
+                ],
+                [
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text",
+                    "text"
+                ]
+            ],
+            "issuer_contact": {
+                "ceo_name": "text",
+                "ceo_position": "text",
+                "ceo_email": "text",
+                "cfo_name": "text",
+                "cfo_position": "text",
+                "cfo_email": "text"
             },
-            ql_editor_part_1: new Array(36).fill(""),
-            nature_of_buz: {
-                profile_th: "",
-                profile_en: ""
+            "ql_editor_part_1": [
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "",
+                ""
+            ],
+            "nature_of_buz": {
+                "profile_th": "",
+                "profile_en": ""
             },
-            regist_and_paidup_cap: "",
-            total_loan_amount: {
-                name: "",
-                symbo: "",
-                date: "",
-                maturity: "",
-                value: ""
+            "regist_and_paidup_cap": "",
+            "total_loan_amount": {
+                "name": "",
+                "symbo": "",
+                "date": "",
+                "maturity": "",
+                "value": ""
             },
-            bill_of_exc_list: {
-                name: "",
-                symbo: "",
-                date: "",
-                maturity: "",
-                value: ""
+            "bill_of_exc_list": {
+                "name": "",
+                "symbo": "",
+                "date": "",
+                "maturity": "",
+                "value": ""
             },
-            key_fin: {
-                latest_year: new Array(52).fill(0),
-                year_before_latest_year: new Array(52).fill(0),
-                quater: new Array(52).fill(0)
+            "key_fin": {
+                "latest_year": [
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year",
+                    "text : latest year"
+                ],
+                "year_before_latest_year": [
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year",
+                    "year before latest year"
+                ],
+                "quater": [
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter",
+                    "quarter"
+                ]
             },
-            fiancial_convennant_info: {
-                ratio_team: "",
-                ratio_team_other: "",
-                comparison: "",
-                ratio_end_period: "",
-                com_ref: "",
-                con_ref: "",
-                ratio_formula: "",
-                monitor_period: "",
-                ratio_indus_avg: "",
-                ratio_issue_ybly: "",
-                ratio_ly: "",
-                ratio_iq: "",
-                ybly: "",
-                ly: "",
-                q: ""
+            "fiancial_convennant_info": {
+                "ratio_team": "dropdown",
+                "ratio_team_other": "text",
+                "comparison": "dropdown",
+                "ratio_end_period": "dropdown",
+                "com_ref": "text",
+                "con_ref": "text",
+                "ratio_formula": "text",
+                "monitor_period": "dropdown",
+                "ratio_indus_avg": "text",
+                "ratio_issue_ybly": "text",
+                "ratio_ly": "text",
+                "ratio_iq": "text",
+                "ybly": "",
+                "ly": "",
+                "q": ""
             },
-            interest_coverage: "",
-            current_ratio: "",
-            debt_to_equity: "",
-            quick_ratio: "",
-            liquidity_coverage_ratio: "",
-            auditor_firm: "",
-            legal_ad: {
-                name_th: "",
-                name_en: "",
-                nation: "",
-                id: "",
-                reg_app: ""
+            "interest_coverage": "",
+            "current_ratio": "",
+            "debt_to_equity": "",
+            "quick_ratio": "",
+            "liquidity_coverage_ratio": "",
+            "auditor_firm": "dropdown",
+            "legal_ad": {
+                "name_th": "text",
+                "name_en": "text",
+                "nation": "dropdown",
+                "id": "text",
+                "reg_app": "dropdown"
             },
-            ql_editor_part_2: new Array(14).fill(""),
-            committee: {
-                name: "",
-                asof: ""
+            "ql_editor_part_2": [
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor"
+            ],
+            "committee": {
+                "name": "dropdown",
+                "asof": "date"
             },
-            number_of_employee: "",
-            ql_editor_part_3: new Array(2).fill(""),
-            accounting_period: new Array(2).fill(""),
-            statement_feq: "",
-            debt_position: {
-                financial_institution: "",
-                bond: "",
-                other: ""
+            "controller_info": {
+                "th": {
+                    "prefix": "dropdown",
+                    "firstname": "text",
+                    "lastname": "text"
+                },
+                "en": {
+                    "prefix": "dropdown",
+                    "firstname": "text",
+                    "lastname": "text"
+                },
+                "card_type": "dropdown",
+                "card_no": "text",
+                "nationality": "dropdown",
+                "passport_issuing_country": "",
+                "card_issued_date": "date",
+                "card_expired_date": "date",
+                "asof": "date",
+                "passport_issueing_country": "dropdown"
             },
-            debt_asof: ""
+            "number_of_employee": "text",
+            "ql_editor_part_3": [
+                "text editor",
+                "text editor"
+            ],
+            "accounting_period": [
+                "select many1",
+                "select many2"
+            ],
+            "statement_feq": "text",
+            "debt_position": {
+                "financial_institution": "text",
+                "bond": "text",
+                "other": "text"
+            },
+            "debt_asof": "date"
         },
-        authorized_signer: {
-            issuer_info: auth_sign_issue_info,
-            fa_for_issuer_info: auth_sign_fa_for_issue_info,
-            other_info: auth_sign_other_info,
-            fa_other: auth_sign_fa_other,
-            approval: auth_sign_approval,
-            fa_approval: auth_sign_fa_approval,
-            post_sale_report: auth_sign_post_sale_report
+        "authorized_signer": {
+            "issuer_info": {
+                "th": {
+                    "prefix": "dropdown",
+                    "firstname": "text",
+                    "lastname": "text"
+                },
+                "en": {
+                    "prefix": "dropdown",
+                    "firstname": "text",
+                    "lastname": "text"
+                },
+                "nationality": "dropdown",
+                "card_type": "dropdown",
+                "card_number": "text",
+                "position": "text",
+                "email": "text",
+                "juristic_name": ""
+            },
+            "fa_for_issuer_info": {
+                "th": {
+                    "prefix": "dropdown",
+                    "firstname": "text",
+                    "lastname": "text"
+                },
+                "en": {
+                    "prefix": "dropdown",
+                    "firstname": "text",
+                    "lastname": "text"
+                },
+                "nationality": "dropdown",
+                "card_type": "dropdown",
+                "card_number": "",
+                "position": "text",
+                "email": "text",
+                "additional_comment": "text editor",
+                "juristic_name": "dropdown",
+                "car_number": "text"
+            },
+            "other_info": {
+                "th": {
+                    "prefix": "dropdown",
+                    "firstname": "text",
+                    "lastname": "text"
+                },
+                "en": {
+                    "prefix": "dropdown",
+                    "firstname": "text",
+                    "lastname": "text"
+                },
+                "nationality": "dropdown",
+                "card_type": "dropdown",
+                "card_number": "text",
+                "position": "text",
+                "email": "text",
+                "juristic_name": "",
+                "date": "date"
+            },
+            "fa_other": {
+                "th": {
+                    "prefix": "dropdown",
+                    "firstname": "text",
+                    "lastname": "text"
+                },
+                "en": {
+                    "prefix": "dropdown",
+                    "firstname": "text",
+                    "lastname": "text"
+                },
+                "nationality": "dropdown",
+                "card_type": "dropdown",
+                "card_number": "text",
+                "position": "text",
+                "email": "text",
+                "additional_comment": "text editor",
+                "juristic_name": "dropdown"
+            },
+            "approval": {
+                "th": {
+                    "prefix": "dropdown",
+                    "firstname": "text",
+                    "lastname": "text"
+                },
+                "en": {
+                    "prefix": "dropdown",
+                    "firstname": "text",
+                    "lastname": "text"
+                },
+                "nationality": "dropdown",
+                "card_type": "dropdown",
+                "card_number": "text",
+                "position": "text",
+                "email": "text",
+                "juristic_name": ""
+            },
+            "fa_approval": {
+                "th": {
+                    "prefix": "dropdown",
+                    "firstname": "text",
+                    "lastname": "text"
+                },
+                "en": {
+                    "prefix": "dropdown",
+                    "firstname": "text",
+                    "lastname": "text"
+                },
+                "nationality": "dropdown",
+                "card_type": "dropdown",
+                "card_number": "text",
+                "position": "text",
+                "email": "text",
+                "juristic_name": "text"
+            },
+            "post_sale_report": {
+                "issuer": {
+                    "th": {
+                        "prefix": "dropdown",
+                        "firstname": "text",
+                        "lastname": "text"
+                    },
+                    "en": {
+                        "prefix": "dropdown",
+                        "firstname": "text",
+                        "lastname": "text"
+                    },
+                    "nationality": "dropdown",
+                    "card_type": "dropdown",
+                    "card_number": "text",
+                    "position": "text",
+                    "email": "text"
+                }
+            }
         },
-        selling_info: {
-            ql_editor: new Array(24).fill(""),
-            tc: {
-                bond_info: {
-                    number_of_bond: "",
-                    selling_value: "",
-                    total_selling_value: "",
-                    greenshoe_total_unit: "",
-                    total_selling_unit: ""
+        "selling_info": {
+            "ql_editor": [
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor",
+                "text editor"
+            ],
+            "tc": {
+                "bond_info": {
+                    "number_of_bond": "",
+                    "selling_value": "text",
+                    "total_selling_value": "text",
+                    "greenshoe_total_unit": "text",
+                    "total_selling_unit": ""
                 },
-                trade_reg_date: "",
-                collateral: {
-                    type: "",
-                    info: ""
+                "trade_reg_date": "date",
+                "collateral": {
+                    "type": "dropdown",
+                    "info": "text editor"
                 },
-                financial_ad: {
-                    fin_ad: ""
+                "financial_ad": {
+                    "fin_ad": "dropdown"
                 },
-                bond_represent: {
-                    bond: ""
+                "bond_represent": {
+                    "bond": "dropdown"
                 }
             },
-            issuer_service_underwriter: {
-                list: {
-                    assigned: "",
-                    address: "",
-                    tel: "",
-                    conflict_detail: "",
+            "issuer_service_underwriter": {
+                "list": {
+                    "assigned": "dropdown",
+                    "address": "text editor",
+                    "tel": "text",
+                    "conflict_detail": "text editor"
                 },
-                dealer: {
-                    name: "",
-                    conflict_detail: ""
+                "dealer": {
+                    "name": "dropdown",
+                    "conflict_detail": "text editor"
                 }
             },
-            transfer_rest_detail: "",
-            coordinator: {
-                name: "",
-                tel: "",
-                email: "",
-                position: "",
-                type: "",
+            "transfer_rest_detail": "dropdown",
+            "coordinator": {
+                "name": "text",
+                "tel": "text",
+                "email": "text",
+                "position": "text",
+                "type": "dropdown"
             },
-            address_and_invoice: {
-                code: "",
-                office: "",
-                address: {
-                    th: "",
-                    en: ""
+            "address_and_invoice": {
+                "code": "text",
+                "office": "text",
+                "address": {
+                    "th": "text",
+                    "en": "text"
                 },
-                invoice: {
-                    contact_person: "",
-                    tel: "",
-                    email: "",
-                    tex_id: ""
+                "invoice": {
+                    "contact_person": "text",
+                    "tel": "text",
+                    "email": "text",
+                    "tex_id": "text"
                 }
             }
         }
     }
 }
 
-module.exports = schema
+module.exports = test_data

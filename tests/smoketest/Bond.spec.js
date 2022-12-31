@@ -8,7 +8,7 @@ const Bond = require('../functions/smoketest/Bond');
 
 // let bond_name = 'local_testAutomation_69'
 // let bond_name = 'auto_review_9'
-let bond_name = 'git_testAutomation_6'
+let bond_name = 'git_testAutomation_7'
 // let bond_name = 'docker_testAutomation_11'
 
 let bond_id

@@ -5,17 +5,18 @@
   "main": "index.js",
   "scripts": {
     "test": "playwright test --config=tests/playwright.config.js",
+    "debug": "playwright test --debug --config=tests/playwright.config.js",
     "playwright": "playwright install"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.28.1"
+    "@playwright/test": "^1.29.0"
   },
   "dependencies": {
     "dateformat": "^4.5.1",
     "npm": "^9.2.0",
-    "playwright": "^1.28.1"
+    "playwright": "^1.29.0"
   }
 }

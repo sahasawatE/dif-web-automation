@@ -1,10 +1,11 @@
 const { expect } = require('@playwright/test')
 const log = require('./log')
-const bond_name = 'testAutomation'
 
 class Util {
-    #email = 'Testplaytorium002@gmail.com'
-    #password = 'P@ssw0rd1'
+    #email = 'test.all.role@gmail.com'
+    // #email = 'Testplaytorium002@gmail.com'
+    #password = 'P@ssw0rd2'
+    // #password = 'P@ssw0rd1'
     constructor(page) {
         this.page = page
     }
@@ -25,12 +26,10 @@ class Util {
         log.success('Login succeed')
     }
 
-    async Logout() {
+    async Logout(profile_btn = '//*[@id="root"]/div/section/section/header/div[2]/a', logout_btn = '//li[@class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child log-out"]/span') {
         log.announce('LOGOUT')
         // this.page.goto(URL.web('/bondteam'))
         await this.page.waitForTimeout(3000)
-        const profile_btn = '//*[@id="root"]/div/section/section/header/div[2]/a'
-        const logout_btn = '//li[@class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child log-out"]/span'
         await this.page.locator(profile_btn).click()
         log.action('Click Profile button')
         this.page.waitForTimeout(2000)
@@ -40,7 +39,16 @@ class Util {
         log.success('Logout succeed')
     }
 
-    async reset() {
+    async CreateBond(bond_name) {
+        log.message('Create new Bond')
+        await this.page.locator('//div[@class="search"]/div[1]/div[2]/div[1]/div[2]/button').click()
+        await this.page.locator('//input[@id="name"]').fill(bond_name)
+        await this.page.locator('//form/button[@type="submit"]').click()
+        await this.page.waitForTimeout(3000)
+        log.success('Create new bond succeed')
+    }
+
+    async reset(bond_name) {
         const [result_data, result_status] = await this.getResponseAsync(
             'search',
             "/bondProject/search?sortField=&sortField=createAt&sortDir=desc&size=10&page=1",
@@ -68,7 +76,7 @@ class Util {
         await this.page.waitForTimeout(3000)
     }
 
-    async getResponseAsync(name, endpoint, option = []) {
+    async getResponseAsync(name, endpoint = "", option = []) {
         var promises = []
         if (option) {
             option.forEach(async action => {
@@ -85,7 +93,7 @@ class Util {
                 if (action['log']) promises.push(console.log(action['log']))
             })
         }
-        promises.push(this.page.waitForResponse(URL.api(endpoint)))
+        promises.push(this.page.waitForResponse(endpoint.includes('https://') ? endpoint : URL.api(endpoint)))
         promises.push(console.log(`[GET] ${name} api response`))
 
         const [return_value] = await Promise.all(promises)
@@ -95,32 +103,37 @@ class Util {
         return [return_value_json, return_value_status]
     }
 
-    async switcRole(select = 0) {
+    async switcRole(select) {
         const dropdown_btn = '.ant-dropdown-trigger' //1
         const switch_btn = '//div[@class="ant-collapse-header"]/span' //0
         const role_menu = '//div[@class="ant-collapse-content-box"]/ul'
 
         await this.page.locator(dropdown_btn).nth(1).click()
         await this.page.locator(switch_btn).nth(0).click()
-        const menu_list = await this.page.$$eval(role_menu, items => {
-            let ml = []
-            for (let item of items) {
-                for (let i = 0; i < item.children.length; i++) {
-                    const class_name = item.children.item(i).getAttribute('class')
-                    const inner_text = item.children.item(i).innerText
-                    ml.push({
-                        class: class_name,
-                        text: inner_text
-                    })
+        if (select) {
+            if (typeof select === 'number') {
+                const menu_list = await this.page.$$eval(role_menu, items => {
+                    let ml = []
+                    for (let item of items) {
+                        for (let i = 0; i < item.children.length; i++) {
+                            const class_name = item.children.item(i).getAttribute('class')
+                            const inner_text = item.children.item(i).innerText
+                            ml.push({
+                                class: class_name,
+                                text: inner_text
+                            })
+                        }
+                    }
+                    return ml
+                })
+
+                const mi = '//div[@class="ant-collapse-content-box"]/ul/li[@role="menuitem"]'
+                if (select >= 0 && select <= menu_list.length) {
+                    await this.page.locator(mi).nth(select).click()
                 }
             }
-            return ml
-        })
-
-        if (select) {
-            const mi = '//div[@class="ant-collapse-content-box"]/ul/li[@role="menuitem"]'
-            if (select >= 0 && select <= menu_list.length) {
-                await this.page.locator(mi).nth(select).click()
+            else if (typeof select === 'string') {
+                this.page.locator(`text=${select}`).click()
             }
         }
         await this.page.waitForTimeout(3000)

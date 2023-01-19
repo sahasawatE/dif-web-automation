@@ -6,16 +6,68 @@ const bp = require('../functions/data/bond_project')
 const Bond = require('../functions/smoketest/Bond');
 // const schema = require('../functions/data/create_schema')
 
-// let bond_name = 'local_testAutomation_69'
+// let bond_name = 'local_testAutomation_85'
 // let bond_name = 'auto_review_9'
-let bond_name = 'git_testAutomation_7'
-// let bond_name = 'docker_testAutomation_11'
+let bond_name = 'git_testAutomation_8'
+// let bond_name = 'docker_testAutomation_42'
+let bond_profile_name = "docker_bond_profile_name_1"
 
 let bond_id
 
-test.describe('Smoketest | Bond - Bond Project', () => {
+test.describe.only('Craete Bond (step 1 - 3)', () => {
 
-  test('Insert data into Issuer Info', async ({ page, context }) => {
+  test('1. Create Bond', async ({ page, context }) => {
+    const util = new Util(page)
+    const bond = new Bond(page)
+
+    context.clearCookies()
+
+    await util.Login()
+
+    await util.switcRole('Maker - Issuer')
+    // go to BondProject page
+    log.action('Go to Bond Project page')
+    const [bp_res, bp_status] = await util.getResponseAsync('Bond Project', '/bondProject/search?sortField=&size=10&page=1', [
+      { click: await bond.elememt(page.locator('//span[@class="ant-menu-title-content"]').nth(3)).click() },
+      { click: await bond.elememt('//ul[@class="ant-menu ant-menu-sub ant-menu-inline"]/li[1]').click() }
+    ])
+    expect(bp_status).toEqual(200)
+    log.message(`Last Bond name is ${bp_res['users'][0]['name']}`)
+
+    await util.CreateBond(bond_name)
+
+    await page.waitForTimeout(5000)
+
+    await util.Logout('text=All Role', 'text=Logout')
+  })
+
+  test('2. Assign member to bond team', async ({ page, context }) => {
+    const util = new Util(page)
+    const bond = new Bond(page)
+
+    context.clearCookies()
+
+    await util.Login()
+
+    await util.switcRole('Maker - Issuer')
+    await bond.elememt('text=Bond').click()
+    await bond.elememt('text=Bond Team').click()
+    await bond.elememt('//input[@placeholder="Search by bond project name"]').fill(bond_name)
+    await page.waitForTimeout(1500)
+    await bond.elememt('//button[@type="submit"]').click()
+    await bond.elememt(`//a[contains(text(), "${bond_name}")]`).click()
+    await bond.elememt('//span[contains(text(), "BHR")]/parent::div//button').click()
+    await bond.elememt('//input[@placeholder="Search by organization"]').fill('test08')
+    await bond.elememt('//button[@type="submit"]').click()
+    await bond.elememt('//tbody//input[@type="checkbox"]').click()
+    await bond.elememt('text=Save').click()
+    await bond.elememt('text=Submit').click()
+    await page.waitForTimeout(2000)
+
+    await util.Logout('text=All Role', 'text=Logout')
+  })
+
+  test('3. Fill in data and save draft (0)', async ({ page, context }) => {
     const util = new Util(page)
     const bond = new Bond(page)
 
@@ -24,8 +76,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await util.Login()
 
     // switch role
-    await util.switcRole(2)
-    log.set('Change Role to Maker - Issuer')
+    await util.switcRole('Maker - Issuer')
 
     // go to BondProject page
     log.action('Go to Bond Project page')
@@ -39,35 +90,127 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     const bondproject_header = await bond.elememt('//*[@id="root"]/div/section/section/main/div/div/div/div/div[1]/div[1]/div[1]/div/article').innerHTML()
     expect(bondproject_header).toBe('Bond Project')
 
-    // await util.reset()
+    const [result_data, result_status] = await util.getResponseAsync(
+      'search',
+      "/bondProject/search?sortField=&size=10&page=1",
+      [
+        {
+          fill: {
+            selector: '//input[@placeholder="Search by bond project name"]',
+            data: bond_name
+          }
+        },
+        { click: page.locator('//button[@type="submit"]').nth(2) },
+        { wait: 1.5 }
+      ]
+    )
+    expect(result_status).toEqual(200)
+    const [result] = result_data['users'].filter(r => r['name'] === bond_name)
+    expect(bond_name).toBe(result['name'])
+    bond_id = result['id']
 
-    // create Bond
-    log.message('Create new bond')
-    await bond.elememt('//div[@class="search"]/div[1]/div[2]/div[1]/div[2]/button').click()
-    await bond.elememt('//input[@id="name"]').fill(bond_name)
-    await bond.elememt('//form/button[@type="submit"]').click()
-    await page.waitForTimeout(3000)
-    log.success('Create new bond succeed')
-
-    // verify bond
     log.message('Go to created bond')
-    await bond.elememt(`//tbody/tr[2]/td[@title="${bond_name}"]/span[3]/a`).click()
-    await page.waitForTimeout(1000)
-    const bn_title = await bond.elememt('//*[@id="root"]/div/section/section/main/div/div/div/div/div[1]/div/div[1]/div/div/div[1]/div[3]/span').innerText()
-    const issue_name = await bond.elememt('//input[@id="name"]').inputValue()
-    expect(bn_title).toBe(bond_name)
-    expect(issue_name).toBe(bond_name)
+    await bond.elememt(`//td[@title="${result['name']}"]//a`).click()
+
+    log.action("Go to Executive Summary tab")
+    await bond.elememt('//div[contains(text(), "Executive Summary")][@class="ant-tabs-tab-btn"]').click()
+    log.action('Insert Executive Summary')
+    await bond.elememt('//span[contains(text(), "Enter executive summary")]/parent::div').click()
+    await page.keyboard.type(bp.init_issuer_profile.executive_sum)
+
+    log.action('Save draft')
+    await bond.elememt('text=Save Draft').click()
+    await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
+    await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
+    await bond.elememt('//div[@class="ant-modal-body"]//button[1]').click()
+    await page.waitForTimeout(3000)
 
     // funding objective information
     log.action('Select Submit Cooling Filing and Effective Filing Together')
-    await bond.elememt('//input[@type="search"]').click()
+    await bond.elememt('//input[@id="coolingAndEffectiveFilingFlag"]').click()
     await bond.elememt('//div[@class="ant-select-item ant-select-item-option"]').click()
     await page.waitForTimeout(1000)
     log.action('Click Intent to Submit Filing Issuer Information Early')
-    await bond.elememt('//span[@class="ant-radio"]').click()
-    await bond.elememt('//button[@type="submit"]').click()
-    await bond.elememt(page.locator('//div[@class="ant-tabs-tab"]').nth(4)).click()
+    await bond.elememt('//div[@id="intendToSubmitIssuerInfoEarly"]//span[contains(text(), "No")]').click()
+    await bond.elememt('//span[@class="action-span"]/button[@type="submit"]/span[contains(text(), "Save")]').click()
+    await page.waitForTimeout(1000)
+
+    log.announce('DONE')
+
+    // final steps
+    log.action('Save draft')
+    await bond.elememt('text=Save Draft').click()
+    await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
+    await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
+    // const [res_save_draft_json, res_save_draft_status] = await util.getResponseAsync(
+    //   'save draft',
+    //   `/bondProject/${bond_id}/issuerProfile/issuerInfo/draft?state=1,2,3`,
+    //   [
+    //     { click: '//div[@class="ant-modal-body"]//button[1]' }
+    //   ])
+    // expect(res_save_draft_json['message']).toBe('success')
+    // expect(res_save_draft_status).toBe(200)
+    await bond.elememt('//div[@class="ant-modal-body"]//button[1]').click()
     await page.waitForTimeout(6000)
+
+    log.action('Click back')
+    await bond.elememt('//*[@id="root"]/div/section/section/main/div/div/div/div/div[1]/div/div[1]/div/div/div[1]/div[1]/button').click()
+    await page.waitForTimeout(3000)
+
+    await util.Logout()
+  })
+
+  test('3. Fill in data and save draft (1)', async ({ page, context }) => {
+    const util = new Util(page)
+    const bond = new Bond(page)
+
+    context.clearCookies()
+
+    await util.Login()
+
+    // switch role
+    await util.switcRole('Maker - Issuer')
+
+    // go to BondProject page
+    log.action('Go to Bond Project page')
+    const [bp_res, bp_status] = await util.getResponseAsync('Bond Project', '/bondProject/search?sortField=&size=10&page=1', [
+      { click: await bond.elememt(page.locator('//span[@class="ant-menu-title-content"]').nth(3)).click() },
+      { click: await bond.elememt('//ul[@class="ant-menu ant-menu-sub ant-menu-inline"]/li[1]').click() }
+    ])
+    expect(bp_status).toEqual(200)
+    bond_id = parseInt(bp_res['users'][0]['id']) + 1
+
+    const bondproject_header = await bond.elememt('//*[@id="root"]/div/section/section/main/div/div/div/div/div[1]/div[1]/div[1]/div/article').innerHTML()
+    expect(bondproject_header).toBe('Bond Project')
+
+    const [result_data, result_status] = await util.getResponseAsync(
+      'search',
+      "/bondProject/search?sortField=&size=10&page=1",
+      [
+        {
+          fill: {
+            selector: '//input[@placeholder="Search by bond project name"]',
+            data: bond_name
+          }
+        },
+        { click: page.locator('//button[@type="submit"]').nth(2) },
+        { wait: 1.5 }
+      ]
+    )
+    expect(result_status).toEqual(200)
+    const [result] = result_data['users'].filter(r => r['name'] === bond_name)
+    expect(bond_name).toBe(result['name'])
+    bond_id = result['id']
+
+    log.message('Go to created bond')
+    await bond.elememt(`//td[@title="${result['name']}"]//a`).click()
+
+    await bond.elememt('//div[contains(text(), "Issuer Info")][@class="ant-tabs-tab-btn"]').click()
+    await page.waitForTimeout(6000)
+
+    log.action('Enter Type of Business')
+    await bond.elememt('//input[@id="typeOfBusiness"]').click()
+    await bond.elememt('//div[contains(text(), "Real estate development")][@class="ant-select-item-option-content"]').click()
 
     log.action('Enter postal id')
     await bond.elememt('//input[@id="postalID"]').fill(bp.init_issuer_profile.isser_info.postal_id)
@@ -129,42 +272,6 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     log.action('Click Limited Company/ Public Company Limited')
 
     log.success('issuer information')
-
-    // business performance
-    // await page.locator('//div[@class="tabCard"][2]').scrollIntoViewIfNeeded()
-    await bond.elememt('//input[@id="issuerType"]').click()
-    await bond.elememt('//div[@title="Listed company"]').click()
-    log.success('business performance')
-
-    //issuer contact
-    await bond.elememt('//input[@id="ceoName"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.ceo_name)
-    log.action('Insert CEO name')
-
-    await bond.elememt('//input[@id="ceoPosition"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.ceo_position)
-    log.action('Insert CEO position')
-    await bond.elememt('//input[@id="ceoEmail"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.ceo_email)
-    log.action('Insert CEO Email')
-
-    await bond.elememt('//input[@id="cfoName"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.cfo_name)
-    log.action('Insert CFO name')
-
-    await bond.elememt('//input[@id="cfoPosition"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.cfo_position)
-    log.action('Insert CFO position')
-    await bond.elememt('//input[@id="cfoEmail"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.cfo_enail)
-    log.action('Insert CFO Email')
-
-    await bond.elememt('//input[@id="issuerDutiesUnderSection56"]').click()
-    await bond.elememt('//div[@title="The company is obliged to submit financial statements and reports on financial position or the results of operations under Section 56."]').click()
-    log.action('Select The company is obliged to submit financial statements and reports on financial position or the results of operations under Section 56.')
-
-    await bond.elememt('//input[@id="standardTermsAndConditionFlag"]').click()
-    await bond.elememt(`//div[@title="Terms of the rights are subject to the example set forth on the SEC Office's website."]`).click()
-    log.action("Select Terms of the rights are subject to the example set forth on the SEC Office's website.")
-    await page.mouse.click(0, 600)
-    await page.waitForTimeout(5000)
-
-    await bond.elememt('//div[@id="derivertiveLicense"]//span[@class="ant-radio"]/input[@value="N"]').click()
-    log.action('Click Radio button value = NO')
 
     const qles = await bond.elememt('//div[@class="tabCard"][2]//div[@class="se-wrapper"]/span').list('innerText')
 
@@ -232,6 +339,13 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await bond.elememt('//input[@id="profileEN"]').fill(bp.init_issuer_profile.isser_info.nature_of_buz.profile_en)
     log.action('Enter Profile name en')
 
+    // major shareholder
+    await bond.elememt('//span[contains(text(), "Major Shareholder List")]/parent::div/a').click()
+    await bond.elememt('#majorShareholderName').fill(bp.init_issuer_profile.isser_info.list_of_major_shareholders.name)
+    await bond.elememt('#majorShareholderStockUnit').fill(bp.init_issuer_profile.isser_info.list_of_major_shareholders.stock_unit)
+    await bond.elememt('#majorShareholderPaidUpCapitalPercentage').fill(bp.init_issuer_profile.isser_info.list_of_major_shareholders.paidup_cap_percent)
+    await bond.elememt('//div[@class="ant-modal-content"]//button[1]').click()
+
     await bond.elememt('//input[@id="majorShareholderPaidUpCapitalPercentageAsOf"]').click()
     await bond.elememt('//input[@id="majorShareholderPaidUpCapitalPercentageAsOf"]').fill('2021-06-06')
     await bond.elememt('//input[@id="majorShareholderPaidUpCapitalPercentageAsOf"]').press('Enter')
@@ -292,10 +406,13 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     //auditor
     log.action('Auditor')
     await bond.elememt('//*[text()[contains(.,"Auditor")]]/parent::div/a').click()
-    await page.waitForTimeout(2000)
-    await bond.elememt('//input[@id="auditorFirm"]').click()
+    await page.waitForTimeout(5000)
+    await bond.elememt('//input[@id="auditorFirm"]').click({ timeout: 9000 })
     await bond.elememt(`//div[@title="${bp.init_issuer_profile.isser_info.auditor_firm}"]`).click()
+    await page.waitForTimeout(3000)
     log.success('Enter Auditor data')
+    await bond.elememt('#auditorName').click()
+    await bond.elememt('//div[@title="Mr. SUPOJ MAHANTACHAISAKUN"]').click()
     await bond.elememt('//div[@class="ant-modal-body"]//button[@class="ant-btn ant-btn-primary"]').click()
     await page.waitForTimeout(1000)
 
@@ -372,9 +489,8 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     log.action('Click Passport Issuing Country')
     await bond.elememt('//input[@id="controllerPassportIssuingCountry"]').Vscroll('//div[@title="Afghanistan"]', `//div[@title="${bp.init_issuer_profile.isser_info.controller_info.passport_issuing_country}"]`)
     log.success('Found Passport Issuing Country')
-    log.action('Select Passport Issuing Country')
-    await bond.elememt('//input[@id="controllerCardNumber"]').fill(bp.init_issuer_profile.isser_info.controller_info.card_no)
     log.action('Enter Card number')
+    await bond.elememt('//input[@id="controllerCardNumber"]').fill(bp.init_issuer_profile.isser_info.controller_info.card_no)
     log.action('Click Nationality')
     await bond.elememt('//input[@id="controllerNationality"]').Vscroll('//div[@title="Afghan"]', `//div[@title="${bp.init_issuer_profile.isser_info.controller_info.nationality}"][@aria-selected="false"]`)
     log.success('Found Nationality')
@@ -427,6 +543,48 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await util.enterDate('//input[@id="debtPortionAsOf"]', bp.init_issuer_profile.isser_info.debt_asof)
     log.action('Enter Debt Portion as of')
 
+    log.action('Save draft')
+    await bond.elememt('text=Save Draft').click()
+    await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
+    await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
+    await bond.elememt('//div[@class="ant-modal-body"]//button[1]').click()
+    await page.waitForTimeout(25000)
+
+    // business performance
+    await bond.elememt('//input[@id="issuerType"]/parent::span/parent::div').click()
+    await bond.elememt('//div[@title="Listed company"]').click()
+    log.success('business performance')
+
+    //issuer contact
+    await bond.elememt('//input[@id="ceoName"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.ceo_name)
+    log.action('Insert CEO name')
+
+    await bond.elememt('//input[@id="ceoPosition"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.ceo_position)
+    log.action('Insert CEO position')
+    await bond.elememt('//input[@id="ceoEmail"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.ceo_email)
+    log.action('Insert CEO Email')
+
+    await bond.elememt('//input[@id="cfoName"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.cfo_name)
+    log.action('Insert CFO name')
+
+    await bond.elememt('//input[@id="cfoPosition"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.cfo_position)
+    log.action('Insert CFO position')
+    await bond.elememt('//input[@id="cfoEmail"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.cfo_enail)
+    log.action('Insert CFO Email')
+
+    await bond.elememt('//input[@id="issuerDutiesUnderSection56"]').click()
+    await bond.elememt('//div[@title="The company is obliged to submit financial statements and reports on financial position or the results of operations under Section 56."]').click()
+    log.action('Select The company is obliged to submit financial statements and reports on financial position or the results of operations under Section 56.')
+
+    await bond.elememt('//input[@id="standardTermsAndConditionFlag"]').click()
+    await bond.elememt(`//div[@title="Terms of the rights are subject to the example set forth on the SEC Office's website."]`).click()
+    log.action("Select Terms of the rights are subject to the example set forth on the SEC Office's website.")
+    await page.mouse.click(0, 600)
+    await page.waitForTimeout(2000)
+
+    await bond.elememt('//div[@id="derivertiveLicense"]//span[@class="ant-radio"]/input[@value="N"]').click()
+    log.action('Click Radio button value = NO')
+
     log.announce('DONE')
 
     // final steps
@@ -443,7 +601,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     // expect(res_save_draft_json['message']).toBe('success')
     // expect(res_save_draft_status).toBe(200)
     await bond.elememt('//div[@class="ant-modal-body"]//button[1]').click()
-    await page.waitForTimeout(30000)
+    await page.waitForTimeout(6000)
 
     log.action('Click back')
     await bond.elememt('//*[@id="root"]/div/section/section/main/div/div/div/div/div[1]/div/div[1]/div/div/div[1]/div[1]/button').click()
@@ -457,7 +615,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await util.Logout()
   })
 
-  test('Insert data into Authorized Signer', async ({ page, context }) => {
+  test('3. Fill in data and save draft (2)', async ({ page, context }) => {
     const util = new Util(page)
     const bond = new Bond(page)
 
@@ -466,7 +624,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await util.Login()
 
     // switch role
-    await util.switcRole(2)
+    await util.switcRole('Maker - Issuer')
     log.set('Change Role to Maker - Issuer')
 
     // go to BondProject page
@@ -502,9 +660,31 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await bond.elememt(page.locator('//div[@class="ant-tabs-tab"]').nth(5)).click()
     await bond.elememt('//*[@id="AuthorizeSignerProcessOption"]/label[1]/span[1]').click()
 
-    // Authorized Signer for Issuer Information
     const auth_signer_element = 'authorizedSignerIssuerForIssuerInfo'
     const auth_signer_issuer = bp.init_issuer_profile.authorized_signer.issuer_info
+
+    const fa_element = 'authorizedSignerFAForIssuerInfo'
+    const auth_signer_fa = bp.init_issuer_profile.authorized_signer.fa_for_isser_info
+
+    const other_element = 'authorizedSignerIssuerForPricingAndOtherInfo'
+    const auth_other = bp.init_issuer_profile.authorized_signer.other_info
+
+    const fa_other_elememt = 'authorizedSignerFAForPricingAndOtherInfo'
+    const auth_fa_other = bp.init_issuer_profile.authorized_signer.fa_other
+
+    const approval_element = 'authorizedSignerForLetterOfApproval'
+    const auth_approval = bp.init_issuer_profile.authorized_signer.approval
+
+    const fa_approval_element = 'authorizedSignerFAForLetterOfApproval'
+    const fa_auth_approval = bp.init_issuer_profile.authorized_signer.fa_approval
+
+    const post_sale_report_element = 'authorizedSignerIssuerForPostSaleReport'
+    const auth_post_sale_repost = bp.init_issuer_profile.authorized_signer.post_sale_report.issuer
+
+    const uw_post_sale_element = "authorizedSignerUWForPostSaleReport"
+    const uw_post_sale = bp.init_issuer_profile.authorized_signer.post_sale_report.uw
+
+    // Authorized Signer for Issuer Information
 
     await bond.elememt(page.locator('//div[@class="title"]/a').nth(0)).click()
     await bond.elememt(`//input[@id="${auth_signer_element}ThPrefix"]`).click()
@@ -529,8 +709,6 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await bond.elememt(page.locator('//div[@class="title"]/a').nth(1)).click()
 
     // Authorized Signer FA for Issuer
-    const fa_element = 'authorizedSignerFAForIssuerInfo'
-    const auth_signer_fa = bp.init_issuer_profile.authorized_signer.fa_for_isser_info
 
     await bond.elememt(`//input[@id="${fa_element}ThPrefix"]`).click()
     await bond.elememt(`//div[@title="${auth_signer_fa.th.prefix}"]`).click()
@@ -551,13 +729,11 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await bond.elememt('//button[@class="ant-btn ant-btn-primary"]').click()
 
     await bond.elememt(`//*[@id="${fa_element}CompanyStampFlag"]/label[1]/span[1]`).click()
-    // await bond.elememt(`//input[@id="${fa_element}JuristicId"]`).Vscroll('//div[@title="BANGKOK BANK PUBLIC COMPANY LIMITED"]', `//div[@title="${auth_signer_fa.juristic_name}"][@aria-selected="false"]`)
+    // await bond.elememt(`//*[@id="${fa_element}CompanyStampFlag"]/label[2]/span[1]`).click()
 
     await bond.elememt(page.locator('//div[@class="title"]/a').nth(2)).click()
 
     // Authorized Signer Issuer for Pricing and Other Information
-    const other_element = 'authorizedSignerIssuerForPricingAndOtherInfo'
-    const auth_other = bp.init_issuer_profile.authorized_signer.other_info
 
     await bond.elememt(`//input[@id="${other_element}ThPrefix"]`).click()
     await bond.elememt(`//div[@title="${auth_other.th.prefix}"]`).click()
@@ -576,14 +752,11 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await bond.elememt('//button[@class="ant-btn ant-btn-primary"]').click()
 
     await bond.elememt('//*[@id="authorizedSignerIssuesrForPricingAndOtherInfoCompanyStampFlag"]/label[1]/span[1]').click()
-    // await bond.elememt(`//input[@id="${other_element}JuristicId"]`).Vscroll('//div[@title="BANGKOK BANK PUBLIC COMPANY LIMITED"]', `//div[@title="${auth_other.juristic_name}"][@aria-selected="false"]`)
     await util.enterDate('//input[@id="dateOfInternalAuditAsessessmentPricingInfo"]', auth_other.date)
 
     await bond.elememt(page.locator('//div[@class="title"]/a').nth(3)).click()
 
     // Authorized Signer FA for Pricing and Other Information (if any)
-    const fa_other_elememt = 'authorizedSignerFAForPricingAndOtherInfo'
-    const auth_fa_other = bp.init_issuer_profile.authorized_signer.fa_other
 
     await bond.elememt(`//input[@id="${fa_other_elememt}ThPrefix"]`).click()
     await bond.elememt(`//div[@title="${auth_fa_other.th.prefix}"]`).click()
@@ -604,13 +777,10 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await bond.elememt('//button[@class="ant-btn ant-btn-primary"]').click()
 
     await bond.elememt(`//*[@id="${fa_other_elememt}CompanyStampFlag"]/label[1]/span[1]`).click()
-    // await bond.elememt(`//input[@id="${fa_other_elememt}JuristicId"]`).Vscroll('//div[@title="BANGKOK BANK PUBLIC COMPANY LIMITED"]', `//div[@title="${auth_fa_other.juristic_name}"][@aria-selected="false"]`)
 
     await bond.elememt(page.locator('//div[@class="title"]/a').nth(4)).click()
 
     // Authorized Signer for Letter of Approval
-    const approval_element = 'authorizedSignerForLetterOfApproval'
-    const auth_approval = bp.init_issuer_profile.authorized_signer.approval
 
     await bond.elememt(`//input[@id="${approval_element}ThPrefix"]`).click()
     await bond.elememt(`//div[@title="${auth_approval.th.prefix}"]`).click()
@@ -629,13 +799,10 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await bond.elememt('//button[@class="ant-btn ant-btn-primary"]').click()
 
     await bond.elememt(`//*[@id="${approval_element}companyStampFlag"]/label[1]/span[1]`).click()
-    // await bond.elememt(`//input[@id="${approval_element}JuristicId"]`).Vscroll('//div[@title="BANGKOK BANK PUBLIC COMPANY LIMITED"]', `//div[@title="${auth_approval.juristic_name}"][@aria-selected="false"]`)
 
     await bond.elememt(page.locator('//div[@class="title"]/a').nth(5)).click()
 
     //  Authorized Signer FA for Letter of Approval (if any)
-    const fa_approval_element = 'authorizedSignerFAForLetterOfApproval'
-    const fa_auth_approval = bp.init_issuer_profile.authorized_signer.fa_approval
 
     await bond.elememt(`//input[@id="${fa_approval_element}ThPrefix"]`).click()
     await bond.elememt(`//div[@title="${fa_auth_approval.th.prefix}"]`).click()
@@ -654,13 +821,10 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await bond.elememt('//button[@class="ant-btn ant-btn-primary"]').click()
 
     await bond.elememt(`//*[@id="${fa_approval_element}CompanyStampFlag"]/label[1]/span[1]`).click()
-    // await bond.elememt('//input[@id="authorizedSignerFAForLetterOfApprovalJuristicId"]').Vscroll('//div[@title="BANGKOK BANK PUBLIC COMPANY LIMITED"]', `//div[@title="${fa_auth_approval.juristic_name}"][@aria-selected="false"]`)
 
     await bond.elememt(page.locator('//div[@class="title"]/a').nth(6)).click()
 
     // Authorized Signer Issuer for Post Sale Report
-    const post_sale_report_element = 'authorizedSignerIssuerForPostSaleReport'
-    const auth_post_sale_repost = bp.init_issuer_profile.authorized_signer.post_sale_report.issuer
 
     await bond.elememt(`//input[@id="${post_sale_report_element}ThPrefix"]`).click()
     await bond.elememt(`//div[@title="${auth_post_sale_repost.th.prefix}"]`).click()
@@ -676,6 +840,26 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await bond.elememt(`//input[@id="${post_sale_report_element}CardNumber"]`).fill(auth_post_sale_repost.card_number)
     await bond.elememt(`//input[@id="${post_sale_report_element}Position"]`).fill(auth_post_sale_repost.position)
     await bond.elememt(`//input[@id="${post_sale_report_element}Email"]`).fill(auth_post_sale_repost.email)
+    await bond.elememt('//button[@class="ant-btn ant-btn-primary"]').click()
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(7)).click()
+
+    // Authorized Signer UW for Post Sale Report
+
+    await bond.elememt(`//input[@id="${uw_post_sale_element}ThPrefix"]`).click()
+    await bond.elememt(`//div[@title="${uw_post_sale.th.prefix}"]`).click()
+    await bond.elememt(`//input[@id="${uw_post_sale_element}ThName"]`).fill(uw_post_sale.th.firstname)
+    await bond.elememt(`//input[@id="${uw_post_sale_element}ThSurname"]`).fill(uw_post_sale.th.lastname)
+    await bond.elememt(`//input[@id="${uw_post_sale_element}EnPrefix"]`).click()
+    await bond.elememt(`//div[@title="${uw_post_sale.en.prefix}"]`).click()
+    await bond.elememt(`//input[@id="${uw_post_sale_element}EnName"]`).fill(uw_post_sale.en.firstname)
+    await bond.elememt(`//input[@id="${uw_post_sale_element}EnSurname"]`).fill(uw_post_sale.en.lastname)
+    await bond.elememt(`//input[@id="${uw_post_sale_element}Nationality"]`).Vscroll('//div[@title="AFGHAN"]', `//div[@title="${uw_post_sale.nationality}"]`)
+    await bond.elememt(`//input[@id="${uw_post_sale_element}TypeOfCard"]`).click()
+    await bond.elememt(`//div[@title="${uw_post_sale.card_type}"]`).click()
+    await bond.elememt(`//input[@id="${uw_post_sale_element}CardNumber"]`).fill(uw_post_sale.card_number)
+    await bond.elememt(`//input[@id="${uw_post_sale_element}Position"]`).fill(uw_post_sale.position)
+    await bond.elememt(`//input[@id="${uw_post_sale_element}Email"]`).fill(uw_post_sale.email)
     await bond.elememt('//button[@class="ant-btn ant-btn-primary"]').click()
 
     log.announce('DONE')
@@ -705,7 +889,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await util.Logout()
   })
 
-  test('Insert data into Selling info', async ({ page, context }) => {
+  test('3. Fill in data and save draft (3)', async ({ page, context }) => {
     const util = new Util(page)
     const bond = new Bond(page)
 
@@ -714,7 +898,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await util.Login()
 
     // switch role
-    await util.switcRole(2)
+    await util.switcRole('Maker - Issuer')
     log.set('Change Role to Maker - Issuer')
 
     // go to BondProject page
@@ -775,7 +959,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     }
     await page.waitForTimeout(500)
 
-    // bone information
+    // bond information
     await bond.elememt('//input[@id="sellingValuePerUnit"]').fill(bp.init_issuer_profile.selling_info.tc.bond_info.selling_value)
     await bond.elememt('//input[@id="totalSellingUnitCapMax"]').fill(bp.init_issuer_profile.selling_info.tc.bond_info.total_selling_value)
     await bond.elememt('//input[@id="greenshoeTotalUnit"]').fill(bp.init_issuer_profile.selling_info.tc.bond_info.greenshoe_totle_unit)
@@ -804,16 +988,12 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await page.keyboard.type(bp.init_issuer_profile.selling_info.issuer_service_underwriter.list.address)
     await bond.elememt('//input[@id="issuerServiceUnderwriterTelephone"]').fill(bp.init_issuer_profile.selling_info.issuer_service_underwriter.list.tel)
     await bond.elememt('//div[@id="conflictOfInterestIssuerAndSellingAgent"]//input[@type="radio"][@value="Y"]').click()
-    await bond.elememt('//div[@class="se-wrapper"]/span[text() = "Enter conflict of interest issuer and selling agent detail"]/parent::div').click()
-    await page.keyboard.type(bp.init_issuer_profile.selling_info.issuer_service_underwriter.list.conflict_detail)
     await bond.elememt('//button[@class="ant-btn ant-btn-primary"]').click()
 
     // dealer
     await bond.elememt('//span[text() = "Dealer"]/parent::div/a').click()
     await bond.elememt('//input[@id="dealer"]').Vscroll('//div[@title="B.E.S. COMPANY LIMITED"]', `//div[@title="${bp.init_issuer_profile.selling_info.issuer_service_underwriter.dealer.name}"][@aria-selected="false"]`)
-    await bond.elememt('//div[@id="conflictOfInterestDealer"]//input[@type="radio"][@value="N"]').click()
-    await bond.elememt('//div[@class="se-wrapper"]/span[text() = "Enter conflict of interest dealer detail"]/parent::div').click()
-    await page.keyboard.type(bp.init_issuer_profile.selling_info.issuer_service_underwriter.dealer.conflict_detail)
+    await bond.elememt('//div[@id="conflictOfInterestDealer"]//input[@type="radio"][@value="Y"]').click()
     await bond.elememt('//button[@class="ant-btn ant-btn-primary"]').click()
 
     // Transfer Restriction Detail
@@ -842,9 +1022,33 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await bond.elememt('//input[@id="telephoneOnInvoice"]').click()
     await page.keyboard.press('Shift+A')
     await page.keyboard.press('Backspace')
+    await bond.elememt('//input[@id="contactPersonOnInvoice"]').fill(bp.init_issuer_profile.selling_info.address_and_invoice.invoice.contact_person)
     await bond.elememt('//input[@id="telephoneOnInvoice"]').fill(bp.init_issuer_profile.selling_info.address_and_invoice.invoice.tel)
     await bond.elememt('//input[@id="emailOnInvoice"]').fill(bp.init_issuer_profile.selling_info.address_and_invoice.invoice.email)
     await bond.elememt('//input[@id="taxIDOnInvoice"]').fill(bp.init_issuer_profile.selling_info.address_and_invoice.invoice.tex_id)
+
+
+    log.action('Save draft')
+    await bond.elememt('//div[@class="ant-card-body"]/button[@type="submit"]').click()
+    await page.waitForTimeout(2000)
+    await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
+    await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
+    await bond.elememt('//div[@class="ant-modal-body"]//button[1]').click()
+    await page.waitForTimeout(6000)
+
+    // issuer service underwriter list conflict details
+    await bond.elememt('//tr[@data-row-key="table-list-IssuerServiceUnderwriterList-0"]//a[1]').click()
+    await bond.elememt('//div[@class="se-wrapper"]/span[text() = "Enter conflict of interest issuer and selling agent detail"]/parent::div').click()
+    await page.keyboard.type(bp.init_issuer_profile.selling_info.issuer_service_underwriter.list.conflict_detail)
+    await page.waitForTimeout(2000)
+    await bond.elememt('//div[@class="ant-modal-content"]/div/div[4]/button[1]').click()
+
+    // dealer conflict details
+    await bond.elememt('//tr[@data-row-key="table-list-ListOfDealer-0"]//a[1]').click()
+    await bond.elememt('//div[@class="se-wrapper"]/span[text() = "Enter conflict of interest dealer detail"]/parent::div').click()
+    await page.keyboard.type(bp.init_issuer_profile.selling_info.issuer_service_underwriter.dealer.conflict_detail)
+    await page.waitForTimeout(2000)
+    await bond.elememt('//div[@class="ant-modal-content"]/div/div[4]/button[1]').click()
 
     log.announce('DONE')
 
@@ -864,7 +1068,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await util.Logout()
   })
 
-  test.skip('test', async ({ page, context }) => {
+  test.skip('3. Fill in data and save draft (3 เก็บตก)', async ({ page, context }) => {
     const util = new Util(page)
     const bond = new Bond(page)
 
@@ -873,7 +1077,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     await util.Login()
 
     // switch role
-    await util.switcRole(2)
+    await util.switcRole('Maker - Issuer')
     log.set('Change Role to Maker - Issuer')
 
     // go to BondProject page
@@ -886,7 +1090,7 @@ test.describe('Smoketest | Bond - Bond Project', () => {
     const table_data = await util.getResponseAsync('table data', '/bondProject/search?sortField=&size=10&page=1')
     expect(table_data[1]).toEqual(200)
 
-    const [search_result_data, search_result_status] = await util.getResponseAsync(
+    const [result_data, result_status] = await util.getResponseAsync(
       'search',
       "/bondProject/search?sortField=&size=10&page=1",
       [
@@ -900,23 +1104,356 @@ test.describe('Smoketest | Bond - Bond Project', () => {
         { wait: 1.5 }
       ]
     )
-    expect(search_result_status).toEqual(200)
-    const [result] = search_result_data['users'].filter(r => r['name'] === bond_name)
+    expect(result_status).toEqual(200)
+    const [result] = result_data['users'].filter(r => r['name'] === bond_name)
     expect(bond_name).toBe(result['name'])
-    await bond.elememt(`//td[@title="${result['name']}"]//a`).click()
-    await bond.elememt('//div[@class="ant-tabs-tab"][3]').click()
+    bond_id = result['id']
+    await bond.elememt(`//a[contains(text(),"${result['name']}")]`).click()
 
-    log.action('Auditor')
-    await bond.elememt('//*[text()[contains(.,"Auditor")]]/parent::div/a').click()
-    await page.waitForTimeout(5000)
-    await bond.elememt('//input[@id="auditorFirm"]').click()
-    await bond.elememt(`//div[@title="${bp.init_issuer_profile.isser_info.auditor_firm}"]`).click()
-    log.success('Enter Auditor data')
-    await bond.elememt('//div[@class="ant-modal-body"]//button[@class="ant-btn ant-btn-primary"]').click()
+    // authorized signer
+    await bond.elememt('text = Authorized Signer').click()
+
+    // const auth_signer_element = 'authorizedSignerIssuerForIssuerInfo'
+    // const auth_signer_issuer = bp.init_issuer_profile.authorized_signer.issuer_info
+
+    const fa_element = 'authorizedSignerFAForIssuerInfo'
+    const auth_signer_fa = bp.init_issuer_profile.authorized_signer.fa_for_isser_info
+
+    // const other_element = 'authorizedSignerIssuerForPricingAndOtherInfo'
+    // const auth_other = bp.init_issuer_profile.authorized_signer.other_info
+
+    const fa_other_elememt = 'authorizedSignerFAForPricingAndOtherInfo'
+    const auth_fa_other = bp.init_issuer_profile.authorized_signer.fa_other
+
+    // const approval_element = 'authorizedSignerForLetterOfApproval'
+    // const auth_approval = bp.init_issuer_profile.authorized_signer.approval
+
+    const fa_approval_element = 'authorizedSignerFAForLetterOfApproval'
+    const fa_auth_approval = bp.init_issuer_profile.authorized_signer.fa_approval
+
+    // const post_sale_report_element = 'authorizedSignerIssuerForPostSaleReport'
+    // const auth_post_sale_repost = bp.init_issuer_profile.authorized_signer.post_sale_report.issuer
+
+    // const uw_post_sale_element = "authorizedSignerUWForPostSaleReport"
+    const uw_post_sale = bp.init_issuer_profile.authorized_signer.post_sale_report.uw
+
+    // await bond.elememt(`//input[@id="${other_element}JuristicId"]`).Vscroll('//div[@title="BANGKOK BANK PUBLIC COMPANY LIMITED"][@aria-selected="false"]', `//div[@title="${auth_other.juristic_name}"][@aria-selected="false"]`)
+    await bond.elememt(`//input[@id="${fa_element}JuristicId"]`).Vscroll('//div[@title="BANGKOK BANK PUBLIC COMPANY LIMITED"][@aria-selected="false"]', `//div[@title="${auth_signer_fa.juristic_name}"][@aria-selected="false"]`)
+    await bond.elememt(`//input[@id="${fa_other_elememt}JuristicId"]`).Vscroll('//div[@title="BANGKOK BANK PUBLIC COMPANY LIMITED"][@aria-selected="false"]', `//div[@title="${auth_fa_other.juristic_name}"][@aria-selected="false"]`)
+    // await bond.elememt(`//input[@id="${approval_element}JuristicId"]`).Vscroll('//div[@title="BANGKOK BANK PUBLIC COMPANY LIMITED"][@aria-selected="false"]', `//div[@title="${auth_approval.juristic_name}"][@aria-selected="false"]`)
+    await bond.elememt('//input[@id="authorizedSignerFAForLetterOfApprovalJuristicId"]').Vscroll('//div[@title="BANGKOK BANK PUBLIC COMPANY LIMITED"][@aria-selected="false"]', `//div[@title="${fa_auth_approval.juristic_name}"][@aria-selected="false"]`)
+
+    await bond.elememt('//tr[@data-row-key="table-list-AuthorizedSignerUWForm-0"]//a[1]').click()
+    await page.waitForTimeout(1500)
+    await bond.elememt('#authorizedSignerUWForPostSaleReportJuristicId').Vscroll('//div[@title="BANGKOK BANK PUBLIC COMPANY LIMITED"][@aria-selected="false"]', `//div[@title="${uw_post_sale.juristic_name}"][@aria-selected="false"]`)
+    await page.waitForTimeout(1500)
+    await bond.elememt('//div[@class="ant-modal-body"]//button[1]').click()
+
+    await bond.elememt('//*[contains(text(),"List of Authorized Signer FA for Letter of Approval (if any)")]/parent::div/parent::div//tbody/tr[2]/td[14]//a[1]').click()
+    await bond.elememt(`//input[@id="${fa_approval_element}EnPrefix"]`).click()
+    await bond.elememt(`//div[@title="${fa_auth_approval.en.prefix}"]`).click()
+    await bond.elememt('//button[@class="ant-btn ant-btn-primary"]').click()
+
+    log.action('Save draft')
+    await bond.elememt('text=Save Draft').click()
+    await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
+    await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
+    await bond.elememt('//div[@class="ant-modal-body"]//button[1]').click()
+    await page.waitForTimeout(3000)
+
+    // issuer info
+    await bond.elememt('//div[contains(text(),"Issuer Info")][@role="tab"]').click()
+
+    await bond.elememt('//*[contains(text(),"Controller Information")]/parent::div/parent::div//tbody/tr[2]/td[16]//a[1]').click()
+    await bond.elememt('//input[@id="controllerThaiPrefix"]').click()
+    await bond.elememt(`//div[@title="${bp.init_issuer_profile.isser_info.controller_info.th.prefix}"]`).click()
+    log.action('Enter th prefix')
+    await page.locator('//button[@class="ant-btn ant-btn-primary"]').nth(1).click()
+
+    await bond.elememt(`//td[@title="${result['name']}"]//a`).click()
+    await bond.elememt(page.locator('//div[@class="ant-tabs-tab"]').nth(5)).click()
+
+    log.action('Save draft')
+    await bond.elememt('text=Save Draft').click()
+    await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
+    await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
+    await bond.elememt('//div[@class="ant-modal-body"]//button[1]').click()
+    await page.waitForTimeout(3000)
+
+    await util.Logout()
+  })
+
+  test('3. Fill in data and save draft (4)', async ({ page, context }) => {
+    const util = new Util(page)
+    const bond = new Bond(page)
+
+    context.clearCookies()
+
+    await util.Login()
+
+    // switch role
+    await util.switcRole('Maker - Issuer')
+
+    // go to BondProject page
+    log.action('Go to Bond Project page')
+    const [bp_res, bp_status] = await util.getResponseAsync('Bond Project', '/bondProject/search?sortField=&size=10&page=1', [
+      { click: await bond.elememt(page.locator('//span[@class="ant-menu-title-content"]').nth(3)).click() },
+      { click: await bond.elememt('//ul[@class="ant-menu ant-menu-sub ant-menu-inline"]/li[1]').click() }
+    ])
+    expect(bp_status).toEqual(200)
+    bond_id = parseInt(bp_res['users'][0]['id']) + 1
+
+    const bondproject_header = await bond.elememt('//*[@id="root"]/div/section/section/main/div/div/div/div/div[1]/div[1]/div[1]/div/article').innerHTML()
+    expect(bondproject_header).toBe('Bond Project')
+
+    const [result_data, result_status] = await util.getResponseAsync(
+      'search',
+      "/bondProject/search?sortField=&size=10&page=1",
+      [
+        {
+          fill: {
+            selector: '//input[@placeholder="Search by bond project name"]',
+            data: bond_name
+          }
+        },
+        { click: page.locator('//button[@type="submit"]').nth(2) },
+        { wait: 1.5 }
+      ]
+    )
+    expect(result_status).toEqual(200)
+    const [result] = result_data['users'].filter(r => r['name'] === bond_name)
+    expect(bond_name).toBe(result['name'])
+    bond_id = result['id']
+
+    log.message('Go to created bond')
+    await bond.elememt(`//td[@title="${result['name']}"]//a`).click()
+
+    await bond.elememt('text=Bond Profile').click()
+    await page.waitForTimeout(2000)
+    await bond.elememt('text=Create').click()
+    await bond.elememt('#newName').fill(bond_profile_name)
+    await bond.elememt('//div[@class="ant-modal-content"]//button[1]').click()
+
+    await page.waitForTimeout(2000)
+
+    await bond.elememt(`text=${bond_profile_name}`).click()
+    await page.waitForTimeout(1000)
+    await bond.elememt('text=Bond Profile - Offering Information').click()
+    await page.waitForTimeout(6000)
+
+    await util.Logout()
+  })
+
+  test.skip('test', async ({ page, context }) => {
+    const util = new Util(page)
+    const bond = new Bond(page)
+
+    context.clearCookies()
+
+    await util.Login()
+
+    // switch role
+    await util.switcRole('Maker - Issuer')
+
+    // go to BondProject page
+    log.action('Go to Bond Project page')
+    const [bp_res, bp_status] = await util.getResponseAsync('Bond Project', '/bondProject/search?sortField=&size=10&page=1', [
+      { click: await bond.elememt(page.locator('//span[@class="ant-menu-title-content"]').nth(3)).click() },
+      { click: await bond.elememt('//ul[@class="ant-menu ant-menu-sub ant-menu-inline"]/li[1]').click() }
+    ])
+    expect(bp_status).toEqual(200)
+    bond_id = parseInt(bp_res['users'][0]['id']) + 1
+
+    const bondproject_header = await bond.elememt('//*[@id="root"]/div/section/section/main/div/div/div/div/div[1]/div[1]/div[1]/div/article').innerHTML()
+    expect(bondproject_header).toBe('Bond Project')
+
+    const [result_data, result_status] = await util.getResponseAsync(
+      'search',
+      "/bondProject/search?sortField=&size=10&page=1",
+      [
+        {
+          fill: {
+            selector: '//input[@placeholder="Search by bond project name"]',
+            data: bond_name
+          }
+        },
+        { click: page.locator('//button[@type="submit"]').nth(2) },
+        { wait: 1.5 }
+      ]
+    )
+    expect(result_status).toEqual(200)
+    const [result] = result_data['users'].filter(r => r['name'] === bond_name)
+    expect(bond_name).toBe(result['name'])
+    bond_id = result['id']
+
+    log.message('Go to created bond')
+    await bond.elememt(`//td[@title="${result['name']}"]//a`).click()
+
+    await bond.elememt('//div[contains(text(), "Issuer Info")][@class="ant-tabs-tab-btn"]').click()
+    await page.waitForTimeout(3000)
+
+    // test code start here
+
+    log.action('Enter Type of Business')
+    await bond.elememt('//input[@id="typeOfBusiness"]').click()
+    await bond.elememt('//div[contains(text(), "Real estate development")][@class="ant-select-item-option-content"]').click()
+
+    log.action('Enter postal id')
+    await bond.elememt('//input[@id="postalID"]').fill(bp.init_issuer_profile.isser_info.postal_id)
+
+    // log.action('Enter tax id')
+    // const tex_id = page.locator('//input[@id="taxID"]')
+    // await tex_id.scrollIntoViewIfNeeded()
+    // await tex_id.fill(bp.init_issuer_profile.isser_info.tax_id)
+
+    log.action('Enter tax area')
+    await bond.elememt('//input[@id="taxArea"]').fill(bp.init_issuer_profile.isser_info.tax_area)
+
+    log.action('Enter mobile phone')
+    await bond.elememt('//input[@id="mobilePhone"]').fill(bp.init_issuer_profile.isser_info.mobile_phone)
+
+    log.get('checkbox')
+    const cbs = await bond.elememt('//input[@type="checkbox"]/parent::span/parent::label/span[2]').list()
+
+    for (let i = 0; i < cbs.length; i++) {
+      if (i !== 10) {
+        await page.locator('//input[@type="checkbox"]/parent::span/parent::label/span[2]').nth(i).click()
+        log.action(`Click checkbox - ${i + 1}`)
+        const inputs = await bond.elememt(`//div[@class="funding-min-max"][${i + 1}]//input`).list()
+
+        for (let j = 0; j < inputs.length + 1; j++) {
+          if (j === 4 || j === 5) {
+            await util.enterDate(
+              page.locator(`//div[@class="funding-min-max"][${i + 1}]//input`).nth(j),
+              bp.init_issuer_profile.isser_info.objective[i][j - 1]
+            )
+          }
+          else if (j !== 0 && j !== 6) {
+            const fun_max_min = page.locator(`//div[@class="funding-min-max"][${i + 1}]//input`).nth(j)
+            await bond.elememt(fun_max_min).fill(bp.init_issuer_profile.isser_info.objective[i][j - 1])
+            log.action('Insert amount')
+          }
+          else if (j === 6) {
+            const fun_max_min = page.locator(`//div[@class="funding-min-max"][${i + 1}]//textarea`)
+            await bond.elememt(fun_max_min).fill(bp.init_issuer_profile.isser_info.objective[i][j - 1])
+            log.action('Insert detail')
+          }
+        }
+        log.success('Insert data into field secceed')
+      }
+    }
+    await page.waitForTimeout(1000)
+
+    // issuer information
+    const issuer_track = page.locator('//span[@class="ant-radio ant-radio-checked"]').nth(1)
+    await bond.elememt(issuer_track).click();
+    log.action('Click radio button')
+
+    await bond.elememt('//input[@id="relevantLawsOnIncorporation"]').click()
+    await bond.elememt('//div[@title="Business under Thai law."]').click()
+    log.action('Click Business under Thai law.')
+
+    await bond.elememt('//input[@id="businessOrganizationUnderThaiLaw"]').click()
+    await bond.elememt('//div[@title="Limited Company/ Public Company Limited"]').click()
+    log.action('Click Limited Company/ Public Company Limited')
+
+    log.success('issuer information')
+
+    // business performance
+    await bond.elememt('//input[@id="issuerType"]/parent::span/parent::div').click()
+    await bond.elememt('//div[@title="Listed company"]').click()
+    log.success('business performance')
+
+    //issuer contact
+    await bond.elememt('//input[@id="ceoName"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.ceo_name)
+    log.action('Insert CEO name')
+
+    await bond.elememt('//input[@id="ceoPosition"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.ceo_position)
+    log.action('Insert CEO position')
+    await bond.elememt('//input[@id="ceoEmail"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.ceo_email)
+    log.action('Insert CEO Email')
+
+    await bond.elememt('//input[@id="cfoName"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.cfo_name)
+    log.action('Insert CFO name')
+
+    await bond.elememt('//input[@id="cfoPosition"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.cfo_position)
+    log.action('Insert CFO position')
+    await bond.elememt('//input[@id="cfoEmail"]').fill(bp.init_issuer_profile.isser_info.issuer_contact.cfo_enail)
+    log.action('Insert CFO Email')
+
+    await bond.elememt('//input[@id="issuerDutiesUnderSection56"]').click()
+    await bond.elememt('//div[@title="The company is obliged to submit financial statements and reports on financial position or the results of operations under Section 56."]').click()
+    log.action('Select The company is obliged to submit financial statements and reports on financial position or the results of operations under Section 56.')
+
+    await bond.elememt('//input[@id="standardTermsAndConditionFlag"]').click()
+    await bond.elememt(`//div[@title="Terms of the rights are subject to the example set forth on the SEC Office's website."]`).click()
+    log.action("Select Terms of the rights are subject to the example set forth on the SEC Office's website.")
+    await page.mouse.click(0, 600)
+    await page.waitForTimeout(2000)
+
+    await bond.elememt('//div[@id="derivertiveLicense"]//span[@class="ant-radio"]/input[@value="N"]').click()
+    log.action('Click Radio button value = NO')
+
+    //test code end here
+
+    // final steps
+    log.action('Save draft')
+    await bond.elememt('text=Save Draft').click()
+    await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
+    await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
+    await bond.elememt('//div[@class="ant-modal-body"]//button[1]').click()
+    await page.waitForTimeout(30000)
 
     log.action('Click back')
     await bond.elememt('//*[@id="root"]/div/section/section/main/div/div/div/div/div[1]/div/div[1]/div/div/div[1]/div[1]/button').click()
     await page.waitForTimeout(3000)
+
+    await util.Logout()
+  })
+})
+
+test.describe('Submit Bond (step 4 - 5)', () => {
+  test('4. Submit bond project', async ({ page, context }) => {
+    const util = new Util(page)
+    const bond = new Bond(page)
+
+    context.clearCookies()
+
+    await util.Login()
+
+    await util.switcRole('Approver - Issuer')
+    log.action('Go to Bond Project page')
+    const [bp_res, bp_status] = await util.getResponseAsync('Bond Project', '/bondProject/search?sortField=&size=10&page=1', [
+      { click: await bond.elememt(page.locator('//span[@class="ant-menu-title-content"]').nth(3)).click() },
+      { click: await bond.elememt('//ul[@class="ant-menu ant-menu-sub ant-menu-inline"]/li[1]').click() }
+    ])
+    expect(bp_status).toEqual(200)
+    log._log(bp_res['users'][0]['name'])
+
+    const [result_data, result_status] = await util.getResponseAsync(
+      'search',
+      "/bondProject/search?sortField=&size=10&page=1",
+      [
+        {
+          fill: {
+            selector: '//input[@placeholder="Search by bond project name"]',
+            data: bond_name
+          }
+        },
+        { click: page.locator('//button[@type="submit"]').nth(2) },
+        { wait: 1.5 }
+      ]
+    )
+    expect(result_status).toEqual(200)
+    const [result] = result_data['users'].filter(r => r['name'] === bond_name)
+    expect(bond_name).toBe(result['name'])
+
+    await bond.elememt(`//td[@title="${result['name']}"]//a`).click()
+    await page.waitForTimeout(2000)
+    await bond.elememt('//span[contains(text(), "Submit")]').click()
+    await bond.elememt('text=Confirm').click()
+
+    await page.waitForTimeout(5000)
 
     await util.Logout()
   })

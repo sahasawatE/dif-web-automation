@@ -35,9 +35,9 @@ class Bond {
                 const elm = await this.#setElement(selector)
                 await elm.fill(input_data)
             },
-            click: async () => {
+            click: async (options = {}) => {
                 const elm = await this.#setElement(selector)
-                await elm.click()
+                await elm.click(options)
             },
             innerHTML: async () => {
                 const elm = await this.#setElement(selector)
@@ -108,10 +108,12 @@ class Bond {
                 }
                 const target = this.page.locator(target_item)
                 let target_visible = await target.isVisible()
+                await this.page.waitForTimeout(1500)
                 await element.hover()
+                await this.page.waitForTimeout(1500)
                 while (!target_visible) {
                     log.error('not found => search again')
-                    await this.page.mouse.wheel(0, 150)
+                    await this.page.mouse.wheel(0, 50)
                     await this.page.waitForTimeout(600)
                     target_visible = await target.isVisible()
                 }

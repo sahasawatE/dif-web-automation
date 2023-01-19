@@ -1,6 +1,6 @@
 const default_use = {
-  browserName: 'webkit',
-  // browserName: 'firefox',
+  // browserName: 'webkit',
+  browserName: 'firefox',
   // browserName: 'chromium',
   viewport: { width: 1280, height: 720 },
   // screenshot: 'only-on-failure',
@@ -28,4 +28,4 @@ const config = {
   }
 }
 
-module.exports = config.production
+module.exports = config.dev

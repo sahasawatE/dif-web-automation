@@ -28,6 +28,11 @@ module.exports = {
                 cfo_position: "ประธานเจ้าหน้าที่บริหารและกรรมการอำนวยการ",
                 cfo_enail: "cfotest@example.com",
             },
+            list_of_major_shareholders: {
+                name: "สมศักดิ์ ใจดี",
+                stock_unit: "150000",
+                paidup_cap_percent: "15.04",
+            },
             ql_editor_part_1: [
                 "บริษัท ทรีนีตี้ วัฒนาจำกัด(มหาชน) ประกอบธุรกิจการลงทุนในกิจการ(HoldingCompany) การลงทุนในหลักทรัพย์และตราสารทางการเงินและการให้กู้ยืมระยะสั้น\nปัจจุบัน บริษัท ทรีนีตี้ วัฒนา จำกัด(มหาชน) ถือหุ้นในบริษัทย่อยในสัดส่วนร้อยละ 99.99 รวม 5 บริษัทและการร่วมค้า 1 บริษัทโดยมีโครงสร้างกลุ่มบริษัทหลักทรัพย์ ทรีนีตี้(รวมส่วนที่ถือหุ้นทางตรงและทางอ้อมเกินกว่าร้อยละ 10 ขึ้นไป) ",
                 "บริษัทหลักทรัพย์ทรีนีตี้ วัฒนา จำกัด มหาชน ประกอบธุรกิจหลักทรัพย์และสัญญาซื้อขายล่วงหน้าโดยบริษัทฯได้รับใบอนญุาตจาก กระทรวงการคลังให้ ประกอบธุรกิจหลักทรัพย์ 7 ประเภท ได้แก่ ธุรกิจการเป็นนายหน้า ซื้อ ขายหลักทรัพย์ การค้า หลักทรัพย์ที่ปรึกษาการลงทุนการจัดจำหน่ายหลักทรัพย์การยืมและให้ยืมหลักทรัพย์ธุรกิจตัวแทนซื้อขายสัญญา ซื้อ ขายล่วงหน้า และการจัดการกองทุนส่วนบุคคล รวมทั้งได้รับความเห็นชอบจากสำนักงานคณะกรรมการกำกับ หลักทรัพย์และตลาดหลักทรัพย์ให้เป็นที่ปรึกษาทางการเงินตัวแทนสนับสนุนการขายและรับซื้อคืนหน่วยลงทุนและ ผู้แทนถือหุ้นกู้",
@@ -190,7 +195,7 @@ module.exports = {
                 card_number: "1234567890123",
                 position: "ประธานเจ้าหน้าที่บริหาร",
                 email: "somsak.jaidee@gmail.com",
-                juristic_name: "THE THAI BOND MARKET ASSOCIATION",
+                juristic_name: "BANGKOK BANK PUBLIC COMPANY LIMITED",
             },
             fa_for_isser_info: {
                 th: {
@@ -209,7 +214,7 @@ module.exports = {
                 position: "000",
                 email: "somsak.jaidee@gmail.com",
                 additional_comment: "รายละเอียดเป็นไปตามเอกสารแนบเกี่ยวกับ แบบ 69-PO",
-                juristic_name: "THE THAI BOND MARKET ASSOCIATION"
+                juristic_name: "BANGKOK BANK PUBLIC COMPANY LIMITED"
             },
             other_info: {
                 th: {
@@ -227,7 +232,7 @@ module.exports = {
                 card_number: "1234567890123",
                 position: "ประธานเจ้าหน้าที่บริหาร",
                 email: "somsak.jaidee@gmail.com",
-                juristic_name: "THE THAI BOND MARKET ASSOCIATION",
+                juristic_name: "BANGKOK BANK PUBLIC COMPANY LIMITED",
                 date: "2022-06-01"
             },
             fa_other: {
@@ -247,7 +252,7 @@ module.exports = {
                 position: "000",
                 email: "somsak.jaidee@gmail.com",
                 additional_comment: "รายละเอียดเป็นไปตามเอกสารแนบเกี่ยวกับ แบบ 69-PO",
-                juristic_name: "THE THAI BOND MARKET ASSOCIATION"
+                juristic_name: "BANGKOK BANK PUBLIC COMPANY LIMITED"
             },
             approval: {
                 th: {
@@ -265,7 +270,7 @@ module.exports = {
                 card_number: "1234567890123",
                 position: "ประธานเจ้าหน้าที่บริหาร",
                 email: "somsak.jaidee@gmail.com",
-                juristic_name: "THE THAI BOND MARKET ASSOCIATION",
+                juristic_name: "BANGKOK BANK PUBLIC COMPANY LIMITED",
             },
             fa_approval: {
                 th: {
@@ -283,7 +288,7 @@ module.exports = {
                 card_number: "1234567890123",
                 position: "ประธานเจ้าหน้าที่บริหาร",
                 email: "somsak.jaidee@gmail.com",
-                juristic_name: "THE THAI BOND MARKET ASSOCIATION",
+                juristic_name: "BANGKOK BANK PUBLIC COMPANY LIMITED",
             },
             post_sale_report: {
                 issuer: {
@@ -303,24 +308,24 @@ module.exports = {
                     position: "ประธานเจ้าหน้าที่บริหาร",
                     email: "somsak.jaidee@gmail.com",
                 },
-                // uw: {
-                //     th: {
-                //         prefix: "",
-                //         firstname: "",
-                //         lastname: "",
-                //     },
-                //     en: {
-                //         prefix: "",
-                //         firstname: "",
-                //         lastname: ""
-                //     },
-                //     nationality: "",
-                //     card_type: "",
-                //     card_number: "",
-                //     position: "ประธานเจ้าหน้าที่บริหาร",
-                //     email: "somsak.jaidee@gmail.com",
-                //     juristic_name: "THE THAI BOND MARKET ASSOCIATION"
-                // }
+                uw: {
+                    th: {
+                        prefix: "นาย",
+                        firstname: "สมศักดิ์",
+                        lastname: "ใจดี",
+                    },
+                    en: {
+                        prefix: "Mr.",
+                        firstname: "Somsak",
+                        lastname: "Jaidee"
+                    },
+                    nationality: "ไทย",
+                    card_type: "Citizen ID Card",
+                    card_number: "1234567890123",
+                    position: "ประธานเจ้าหน้าที่บริหาร",
+                    email: "somsak.jaidee@gmail.com",
+                    juristic_name: "BANGKOK BANK PUBLIC COMPANY LIMITED"
+                }
             }
         },
         selling_info: {
@@ -379,7 +384,7 @@ module.exports = {
                 },
                 dealer: {
                     name: "BANGKOK BANK PUBLIC COMPANY LIMITED",
-                    conflict_detail: "" // choose NO
+                    conflict_detail: "ทั้งนี่ ผู้จัดการการจัดจำหน่ำยหุ้นกู้มีควำมเกี่ยวข้องกับผู้ออกหุ้นกู้\nโดยผู้ออกหุ้นกู้มีวงเงินกู้ยืมจำกผู้จัดกำรกำรจัดจำหน่ำยหุ้นกู้ \nดังนั่น ผู้จัดกำรกำรจัดจำหน่ำยหุ้นกู้จึงมีสถานะเป็ นเจ้ำหนี่ของ\nผู้ออกหุ้นกู้ด้วย"
                 },
             },
             transfer_rest_detail: "เนื่องจากหุ้นกู้ที่ออกและเสนอขายในครั้งนี้ เป็นการออกและเสนอขายต่อผู้ลงทุนสถาบัน และ/หรือผู้ลงทุนรายใหญ่ ตาม ประกาศคณะกรรมการกำกับตลาดทุนว่าด้วยการขออนุญาตและการอนุญาตให้เสนอขายตราสารหนี้ที่ออกใหม่ต่อบุคคลในวงจำกัด และการเสนอขายหุ้นกู้แปลงสภาพต่อบุคคลที่มีลักษณะเฉพาะ (รวมทั้งที่มีการแก้ไขเพิ่มเติม) และผู้ออกหุ้นกู้ได้จดข้อจำกัดการโอนหุ้นกู้ไว้กับสำนักงาน ก.ล.ต. ให้จำกัดการโอนหุ้นกู้เฉพาะภายในกลุ่มผู้ลงทุนสถาบัน และ/หรือ ผู้ลงทุนรายใหญ่พิเศษ และหรือ ผู้ลงทุนรายใหญ่เท่านั้น ดังนั้น ผู้ออกหุ้นกู้ และ/หรือนายทะเบียนหุ้นกู้จะไม่รับจดทะเบียนการโอนหุ้นกู้ไม่ว่าในทอดใดๆ ให้แก่บุคคลอื่นที่ไม่ใช่ 'ผู้ลงทุนสถาบัน' 'ผู้ลงทุนรายใหญ่พิเศษ ' หรือ 'ผู้ลงทุนรายใหญ่' ตามคำนิยามที่ระบุไว้ในประกาศคณะกรรมการกำกับหลักทรัพย์และตลาดหลักทรัพย์ ที่ กจ. 39/2564 เรื่อง การกำหนดบทนิยามผู้ลงทุนสถาบัน ผู้ลงทุนรายใหญ่พิเศษและผู้ลงทุนรายใหญ่ ลงวันที่ 24 ธันวาคม 2564 (รวมทั้งที่มีการแก้ไขเพิ่มเติม) เว้นแต่เป็นการโอนทางมรดก",

@@ -156,6 +156,17 @@ class Util {
         await element.press('Enter')
         log.action('Insert date')
     }
+
+    async enterTime(locator, string_time) {
+        let element
+        if (typeof locator === 'string') element = this.page.locator(locator)
+        else element = locator
+
+        await element.click()
+        await this.page.keyboard.type(string_time)
+        await this.page.keyboard.press('Enter')
+        log.action('Insert time')
+    }
 }
 
 const URL = {

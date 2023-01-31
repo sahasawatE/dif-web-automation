@@ -4,7 +4,7 @@ const log = require('./log')
 class Util {
     #email = 'test.all.role@gmail.com'
     // #email = 'Testplaytorium002@gmail.com'
-    #password = 'P@ssw0rd2'
+    #password = 'P@ssw0rd'
     // #password = 'P@ssw0rd1'
     constructor(page) {
         this.page = page

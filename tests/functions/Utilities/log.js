@@ -22,5 +22,8 @@ module.exports = {
     },
     announce: (_message) => {
         return console.log('===================== ' + _message + ' =====================')
+    },
+    warning: (_message) => {
+        return console.log(`🫥 ${_message}`)
     }
 }

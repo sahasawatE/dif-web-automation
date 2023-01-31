@@ -1226,237 +1226,388 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
     await bond.elememt('text=Bond Profile - Offering Information').click()
     await page.waitForTimeout(6000)
 
-    // type of businness factsheet
+    log.action('type of businness factsheet')
     await bond.elememt('//input[@placeholder="Enter type of business factsheet"]').fill('')
 
-    // list of text editor
+    log.action('list of text editor')
     const text_edit_1 = await bond.elememt('.se-wrapper-inner.se-wrapper-wysiwyg.sun-editor-editable').list()
     console.log(text_edit_1.length)
 
-    // securities name th
+    log.action('list of textarea')
+    const text_area_1 = await bond.elememt('textarea.ant-input:not(.ant-input-disabled)').list()
+    console.log(text_area_1.length)
+
+    log.action('securities name th')
     await bond.elememt('//*[contains(text(), "Securities Name (TH)")]/parent::div//input').fill('')
 
-    // securities name en
+    log.action('securities name en')
     await bond.elememt('//*[contains(text(), "Securities Name (EN)")]/parent::div//input').fill('')
 
-    // register thaiBMA
+    log.action('register thaiBMA')
     await bond.elememt('//*[contains(text(), "Register ThaiBMA")]/parent:: div//input[@value="Y"]').click()
 
-    // type of security
+    log.action('type of security')
     await bond.elememt('//*[contains(text(), "Type of Security")]/parent:: div//input').click()
-    // select Debenture/Bond
+    log.action('select Debenture/Bond')
     const select1 = 'Debenture/Bond'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select1}"]`).click()
 
-    // bond structure
+    log.action('bond structure')
     await bond.elememt('//*[.="Bond Structure"]/parent:: div//input').click()
-    // select Plain Vanilla
+    log.action('select Plain Vanilla')
     const select2 = 'Plain Vanilla'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select2}"]`).click()
 
-    // soe bond structure
+    log.action('soe bond structure')
     await bond.elememt('//*[contains(text(), "SOE Bond Structure")]/parent:: div//input').click()
-    // select Bond
+    log.action('select Bond')
     const select3 = 'Bond'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select3}"]`).click()
 
-    // notes structure
+    log.action('notes structure')
     await bond.elememt('//*[contains(text(), "Notes Structure")]/parent:: div//input').click()
-    // selecte Bill of exchange
+    log.action('selecte Bill of exchange')
     const select4 = 'Bill of exchange'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select4}"]`).click()
 
-    // distribution type
+    log.action('distribution type')
     await bond.elememt('//*[contains(text(), "Distribution Type")]/parent:: div//input').click()
-    // select Public Offering - retail
+    log.action('select Public Offering - retail')
     const select5 = 'Public Offering - retail'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select5}"]`).click()
 
-    // Term Status
+    log.action('Term Status')
     await bond.elememt('//*[contains(text(), "Term Status")]/parent:: div//input').click()
-    // select Long
+    log.action('select Long')
     const select6 = 'Long'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select6}"]`).click()
 
-    // claim type
+    log.action('claim type')
     await bond.elememt('//*[contains(text(), "Claim Type")]/parent:: div//input').click()
-    // select Secured Creditor
+    log.action('select Secured Creditor')
     const select7 = 'Secured Creditor'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select7}"]`).click()
-    // issue number
+    log.action('issue number')
     await bond.elememt('//input[@placeholder="Enter issue number"]').fill('')
 
-    // issue year
+    log.action('issue year')
     await bond.elememt('//input[@placeholder="Enter issue year"]').fill('')
 
-    // issue tranches
+    log.action('issue tranches')
     await bond.elememt('//input[@placeholder="Enter issue tranches"]').fill('')
 
-    // at call
+    log.action('at call')
     await bond.elememt('//*[contains(text(), "At Call")]/parent:: div//input[@value="Y"]').click()
 
-    // risk scale
+    log.action('risk scale')
     await bond.elememt('//*[contains(text(), "Risk Scale")]/parent:: div//input').click()
-    //select 1
+    log.action('select 1')
     const select8 = '1'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select8}"]`).click()
 
-    // offering time start
+    log.action('offering time start')
     await util.enterTime('//*[contains(text(), "Offering Time Start")]/parent:: div//input', '13:10')
 
-    // offering form
+    log.action('offering form')
     await util.enterDate('//*[contains(text(), "Offering From")]/parent:: div//input', "2021/06/06")
 
-    // offering time end
+    log.action('offering time end')
     await util.enterTime('//*[contains(text(), "Offering Time End")]/parent:: div//input', '14:10')
 
-    // offering to
+    log.action('offering to')
     await util.enterDate('//*[contains(text(), "Offering To")]/parent:: div//input', "2021/06/06")
 
-    // reopen
+    log.action('reopen')
     await bond.elememt('//*[contains(text(), "Reopen")]/parent:: div//input[@value="Y"]').click()
 
-    // secure type
+    log.action('secure type')
     await bond.elememt('//*[contains(text(), "Secure Type")]/parent:: div//input').click()
-    // select Unsecured
+    log.action('select Unsecured')
     const select9 = 'Unsecured'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select9}"]`).click()
 
-    // collateral modal
+    log.action('collateral modal')
     await bond.elememt('//*[.="Collateral"]/parent::div//a').click()
-    // collateral sequence
+    log.action('collateral sequence')
     await bond.elememt('//input[@placeholder="Enter collateral sequence"]').fill('')
-    // collateral type
+    log.action('collateral type')
     await bond.elememt('//*[contains(text(), "Collateral Type")]/parent:: div//input').click()
-    // select Movable and Immovable Property
+    log.action('select Movable and Immovable Property')
     const select10 = 'Movable and Immovable Property'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select10}"]`).click()
-    // collateral listing
+    log.action('collateral listing')
     await bond.elememt('//*[contains(text(), "Collateral Listing")]/parent:: div//input[@value="Y"]').click()
-    // coolateral symbol
+    log.action('coolateral symbol')
     await bond.elememt('//input[@placeholder="Enter collateral symbol"]').fill('')
-    // collateral unit
+    log.action('collateral unit')
     await bond.elememt('//input[@placeholder="Enter collateral unit"]').fill('')
-    // collateral value
+    log.action('collateral value')
     await bond.elememt('//input[@placeholder="Enter collateral value"]').fill('')
-    // appraisal date
+    log.action('appraisal date')
     await util.enterDate('//*[contains(text(), "Appraisal Date")]/parent:: div//input', '2021/06/06')
-    // click add
+    log.action('click add')
     await bond.elememt('//div[@role="dialog"]//button[@class="ant-btn ant-btn-primary"]').click()
 
-    // guarantee modal
+    log.action('guarantee modal')
     await bond.elememt('//*[.="Guarantee"]/parent::div//a').click()
-    // gaurantee type
+    log.action('gaurantee type')
     await bond.elememt('//*[contains(text(), "Guarantee Type")]/parent:: div//input').click()
-    // select Guarantee
+    log.action('select Guarantee')
     const select11 = 'Guarantee'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select11}"]`).click()
-    // type of guarantor
+    log.action('type of guarantor')
     await bond.elememt('//*[contains(text(), "Type of Guarantor")]/parent:: div//input').click()
-    // select Juristic
+    log.action('select Juristic')
     const select12 = 'Juristic'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select12}"]`).click()
-    // yype of guarantor id
+    log.action('yype of guarantor id')
     await bond.elememt('//*[contains(text(), "Type of Guarantor ID")]/parent:: div//input').click()
-    // select Juristic ID Number
+    log.action('select Juristic ID Number')
     const select13 = 'Juristic ID Number'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select13}"]`).click()
-    // guarantor id
+    log.action('guarantor id')
     await bond.elememt('//input[@placeholder="Enter guarantor ID"]').fill('')
-    // guarantor juristic name (th)
+    log.action('guarantor juristic name (th)')
     await bond.elememt('//*[.="Guarantor Juristic Name (TH)"]//input').fill('')
-    // guarantor juristic name (en)
+    log.action('guarantor juristic name (en)')
     await bond.elememt('//*[.="Guarantor Juristic Name (EN)"]//input').fill('')
-    // guarantor nationality
+    log.action('guarantor nationality')
     const select_scroll1 = 'Thailand'
     await bond.elememt('//*[.="Guarantor Nationality"]/parent::div//input').Vscroll('//div[@title="Afghanistan"]', `//div[@title="${select_scroll1}"]`)
-    // gaurantee prefix th
+    log.action('gaurantee prefix th')
     await bond.elememt('//*[.="Prefix (TH)"]/parent::div//input').click()
-    // select นาย
+    log.action('select นาย')
     const select14 = 'นาย'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select14}"]`).click()
-    // guarantee first name th
+    log.action('guarantee first name th')
     await bond.elememt('//input[@placeholder="Enter first name (th)"]').fill('')
-    // guarantee last name th
+    log.action('guarantee last name th')
     await bond.elememt('//input[@placeholder="Enter last name (th)"]').fill('')
-    // gaurantee prefix en
+    log.action('gaurantee prefix en')
     await bond.elememt('//*[.="Prefix (EN)"]/parent::div//input').click()
-    // select Mr.
+    log.action('select Mr.')
     const select15 = 'Mr.'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select15}"]`).click()
-    // guarantee first name en
+    log.action('guarantee first name en')
     await bond.elememt('//input[@placeholder="Enter first name (en)"]').fill('')
-    // guarantee last name en
+    log.action('guarantee last name en')
     await bond.elememt('//input[@placeholder="Enter last name (en)"]').fill('')
-    // gaurantee passport date of expiry
+    log.action('gaurantee passport date of expiry')
     await util.enterDate('//*[.="Guarantor Passport Date of Expiry"]/parent::div//input', '2021/06/06')
-    // guarantee passport issuing country
+    log.action('guarantee passport issuing country')
     const select_scroll2 = 'Thailand'
     await bond.elememt('//*[.="Guarantor Passport Issuing Country"]/parent::div//input').Vscroll('//div[@title="Afghanistan"]', `//div[@title="${select_scroll2}"]`)
-    // guarantee amount
+    log.action('guarantee amount')
     await bond.elememt('//input[@placeholder="Enter guarantee amount"]').fill('')
-    // guarantee amount currency
+    log.action('guarantee amount currency')
     const select_scroll3 = 'THB'
     await bond.elememt('//*[.="Guarantee Amount Currency"]/parent::div//input').Vscroll('//div[@title="EUR"]', `//div[@title="${select_scroll3}"]`)
-    // guarantee rated
+    log.action('guarantee rated')
     await bond.elememt('//*[.="Guarantor Rated"]/parent::div//input').click()
-    // select Rated
+    log.action('select Rated')
     const select16 = 'Rated'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select16}"]`).click()
-    // guarantee rated
+    log.action('guarantee rated')
     await bond.elememt('//*[contains(text(), "Guarantor Rated")]/parent:: div//input[@value="Y"]').click()
-    // guarantee rating information modal
+    log.action('guarantee rating information modal')
 
-    // guarantee rating information
+    log.action('guarantee rating information')
     await bond.elememt('//*[contains(text(), "Guarantor Rating Term")]/parent:: div//input[@value="L"]').click()
-    // guarantee rating agency
+    log.action('guarantee rating agency')
     await bond.elememt('//*[contains(text(), "Guarantor Rating Agency")]/parent:: div//input').click()
-    // select TRIS
+    log.action('select TRIS')
     const select17 = 'TRIS'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select17}"]`).click()
-    // guarantee rating
+    log.action('guarantee rating')
     const select_scroll4 = 'AAA'
     await bond.elememt('//*[.="Guarantor Rating"]/parent::div//input').Vscroll('//div[@title="AAA(sf)"]', `//div[@title="${select_scroll4}"]`)
-    // guarantee credit outlook
+    log.action('guarantee credit outlook')
     await bond.elememt('//*[contains(text(), "Guarantor Credit Outlook")]/parent:: div//input').click()
-    // select Positive
+    log.action('select Positive')
     const select18 = 'Positive'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select18}"]`).click()
-    // guarantee date of rating
+    log.action('guarantee date of rating')
     await util.enterDate('//*[.="Guarantor Date of Rating"]/parent::div//input', '2021/06/06')
-    // guarantor rating action type
+    log.action('guarantor rating action type')
     await bond.elememt('//*[contains(text(), "Guarantor Rating Action Type")]/parent:: div//input').click()
-    // select Affirmed
+    log.action('select Affirmed')
     const select19 = 'Affirmed'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select19}"]`).click()
-    // guarantor rating watch
+    log.action('guarantor rating watch')
     await bond.elememt('//*[contains(text(), "Guarantor Rating Watch")]/parent:: div//input').click()
-    // select Evolving
+    log.action('select Evolving')
     const select20 = 'Evolving'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select20}"]`).click()
-    // guarantor rating watch
+    log.action('guarantor rating watch')
     await bond.elememt('//*[contains(text(), "Current Rating Agency")]/parent:: div//input').click()
-    // select TRIS
+    log.action('select TRIS')
     const select21 = 'TRIS'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select21}"]`).click()
-    // guarantee rating
+    log.action('guarantee rating')
     const select_scroll5 = 'AAA'
     await bond.elememt('//*[.="Current Guarantor Rating"]/parent::div//input').Vscroll('//div[@title="AAA(sf)"]', `//div[@title="${select_scroll5}"]`)
-    // current guarantor credit outlook
+    log.action('current guarantor credit outlook')
     await bond.elememt('//*[contains(text(), "Current Guarantor Credit Outlook")]/parent:: div//input').click()
-    // select Positive
+    log.action('select Positive')
     const select22 = 'Positive'
     await bond.elememt(`//div[@aria-selected="false"][@title="${select22}"]`).click()
-    // current guarantor date of rating
+    log.action('current guarantor date of rating')
     await util.enterDate('//*[.="Current Guarantor Date of Rating"]/parent::div//input', '2022/06/01')
-    // rating through bond life
+    log.action('rating through bond life')
     await bond.elememt('//*[contains(text(), "Rating Through Bond Life")]/parent:: div//input[@value="Y"]').click()
-    // click add on guarantor rating information modal
+    log.action('click add on guarantor rating information modal')
     await bond.elememt('//div[.="Guarantor Rating Information"][@class="ant-row modal-tile"]/parent::div//button[@class="ant-btn ant-btn-primary"]').click()
-    // click add on guarantee modal
+    log.action('click add on guarantee modal')
     await bond.elememt('//div[.="Guarantee"][@class="ant-row modal-tile"]/parent::div//button[@class="ant-btn ant-btn-primary"]').click()
 
-    // guarantee portion
+    log.action('guarantee portion')
+    await bond.elememt('//input[@placeholder="Enter guarantee portion"]').fill('')
+
+    log.action('secondary venue')
+    await bond.elememt('//*[.="Secondary Venue"]/parent:: div//input').click()
+    log.action('select None')
+    const select23 = 'None'
+    await bond.elememt(`//div[@aria-selected="false"][@title="${select23}"]`).click()
+
+    log.action('security native type')
+    await bond.elememt('//*[.="Security Native Type"]/parent::div//input').click()
+    log.action('select Local')
+    const select24 = 'Local'
+    await bond.elememt(`//div[@title="${select24}"]`).click()
+
+    log.action('embed option type')
+    await bond.elememt('//*[.="Embed Option Type"]/parent:: div//input').click()
+    log.action('select Call Option')
+    const select25 = 'Call Option'
+    await bond.elememt(`//div[@aria-selected="false"][@title="${select25}"]`).click()
+
+    log.message('Offering Unit and Amount')
+
+    log.action('issue unit')
+    await bond.elememt('//*[.="Issue Unit"]/parent:: div//input').fill('')
+    log.action('par value per unit')
+    await bond.elememt('//*[.="Par Value per Unit"]/parent:: div//input').fill('')
+    log.action('exchange rate')
+    await bond.elememt('//*[.="Exchange Rate"]/parent:: div//input').fill('')
+    log.action('redeem price per unit')
+    await bond.elememt('//*[.="Redeem Price per Unit"]/parent:: div//input').fill('')
+    log.action('redemption condition')
+    await bond.elememt('//*[.="Redemption Condition"]/parent:: div//input').fill('')
+    log.action('issue currency')
+    await bond.elememt('//*[.="Issue Currency"]/parent:: div//input').click()
+    log.action('select THB')
+    const select26 = 'THB'
+    await bond.elememt(`//div[@aria-selected="false"][@title="${select26}"]`).click()
+    log.action('payment currency')
+    await bond.elememt('//*[.="Payment Currency"]/parent:: div//input').click()
+    log.action('select THB')
+    const select27 = 'THB'
+    await bond.elememt(`//div[@aria-selected="false"][@title="${select27}"]`).click()
+
+    log.message('Selling Unit and Selling Amount')
+    log.action('Selling Unit')
+    await bond.elememt('//input[@placeholder="Enter selling unit"]').fill('')
+    log.action('Greenshoe Total Unit by Series')
+    await bond.elememt('//input[@placeholder="Enter greenshoe total unit by series"]').fill('')
+    log.action('Selling Value per Unit')
+    await bond.elememt('//input[@placeholder="Enter selling value per unit"]').fill('')
+    log.action('Total Selling Unit including Greenshoe by Series')
+    await bond.elememt('//input[@placeholder="Enter total selling unit including greenshoe by series"]').fill('')
+    log.action('issued date')
+    await util.enterDate('//*[contains(text(),"Issued Date")]/parent::div//input', '2021/06/06')
+    log.action('maturity date')
+    await util.enterDate('//*[contains(text(),"Maturity Date")]/parent::div//input', '2021/06/06')
+
+    log.message('Return Information')
+    log.message('part 1')
+
+    log.action('return date as of')
+    await util.enterDate('//*[contains(text(),"Return Data as of")]/parent::div//input', '2021/06/06')
+    log.action('other security return')
+    await bond.elememt('//input[@placeholder="Enter other security return"]').fill('')
+    log.action('other security return as of')
+    await util.enterDate('//*[contains(text(), "Other Security Return as of")]/parent::div//input', '2021/06/06')
+    log.action('coupon interest')
+    await bond.elememt('input#rc_select_22').click()
+    log.action('select Fixed Interest Rate')
+    const select28 = 'Fixed Interest Rate'
+    await bond.elememt(`//div[@aria-selected="false"][@title="${select28}"]`).click()
+
+    log.action('fixed interest rate')
+    await bond.elememt('//input[@placeholder="Enter fixed interest rate"]').fill('')
+    log.action('floating rate')
+    await bond.elememt('input#rc_select_23').click()
+    log.action('select MLR')
+    const select29 = 'MLR'
+    await bond.elememt(`//div[@aria-selected="false"][@title="${select29}"]`).click()
+    log.action('floating rate other')
+    await bond.elememt('//input[@placeholder="Enter floating rate other"]').fill('')
+    log.action('floating rate margin')
+    await bond.elememt('//input[@placeholder="Enter floating rate margin"]').fill('')
+    log.action('discount rate')
+    await bond.elememt('//input[@placeholder="Enter discount rate"]').fill('')
+    log.action('discount rate calculation method')
+    await bond.elememt('input#rc_select_24').click()
+    log.action('select Compound Annually')
+    const select30 = 'Compound Annually'
+    await bond.elememt(`//div[@aria-selected="false"][@title="${select30}"]`).click()
+    log.action('discount rate calculation method other')
+    await bond.elememt('//input[@placeholder="Enter discount rate calculation method other"]').fill('')
+
+    // skip step rate table
+
+    log.warning('skip initial credit spread')
+    log.warning('skip initial credit spread textbox')
+
+    log.action('coupon description')
+    await bond.elememt('//input[@placeholder="Enter coupon description"]').fill('')
+    log.action('fixing date')
+    await util.enterDate('//article[.="Fixing Date"]/parent::div//input', '2021/06/06')
+    log.action('first coupon payment date')
+    await util.enterDate('//article[.="First Coupon Payment Date"]/parent::div//input', '2021/06/06')
+    log.action('last coupon payment date')
+    await util.enterDate('//article[.="Last Coupon Payment Date"]/parent::div//input', '2021/06/06')
+
+    log.message('part 2')
+
+    log.action('coupon calculation method other')
+    await bond.elememt('//article[.="Coupon Calculation Method Other"]/parent::div//input').click()
+    log.action('select actual/actual')
+    const select31 = 'actual/actual'
+    await bond.elememt(`//div[@aria-selected="false"][@title="${select31}"]`).click()
+
+    log.action('decimal point degit')
+    await bond.elememt('//input[@placeholder="Enter decimal point digit"]').fill('2')
+    log.action('interest date payment for each period')
+    await bond.elememt('//article[.="Interest Date Payment for Each Period"]/parent::div//input').click()
+    log.action('select Same Day')
+    const select32 = 'Same Day'
+    await bond.elememt(`//div[@aria-selected="false"][@title="${select32}"]`).click()
+
+    log.action('principal payment type')
+    await bond.elememt('//article[contains(text(),"Principal Payment Type")]/parent::div//input').click()
+    log.action('select Bullet Issue')
+    const select33 = 'Bullet Issue'
+    await bond.elememt(`//div[@aria-selected="false"][@title="${select33}"]`).click()
+
+    log.message('related person')
+
+    log.action('registrar')
+    const select_scroll6 = 'BANGKOK BANK PUBLIC COMPANY LIMITED'
+    await bond.elememt('//article[.="Registrar"]/parent::div//input').Vscroll('//div[@title="BANK OF THAILAND"]', `//div[@title="${select_scroll6}"]`)
+    log.action('registrar other')
+    await bond.elememt('//article[.="Registrar Other"]/parent::div//input').Vscroll('//div[@title="BANK OF THAILAND"]', `//div[@title="${select_scroll6}"]`)
+    log.action('select Registrar')
+    const select34 = 'Registrar'
+    await bond.elememt(`//div[@aria-selected="false"][@title="${select34}"]`).click()
+    log.action('depository')
+    const select_scroll7 = 'BANGKOK BANK PUBLIC COMPANY LIMITED'
+    await bond.elememt('//article[.="Depository"]/parent::div//input').Vscroll('//div[@title="BANK OF THAILAND"]', `//div[@title="${select_scroll7}"]`)
+    log.action('bond repressentative')
+    const select_scroll8 = 'BANGKOK BANK PUBLIC COMPANY LIMITED'
+    await bond.elememt('//article[.="Bond Representative"]/parent::div//input').Vscroll('//div[@title="BANK OF THAILAND"]', `//div[@title="${select_scroll8}"]`)
+
+    //Financial Advisor
 
     await util.Logout()
   })

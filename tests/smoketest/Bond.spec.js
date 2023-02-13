@@ -11,7 +11,7 @@ const Bond = require('../functions/smoketest/Bond');
 let bond_name = 'git_testAutomation_8'
 // let bond_name = 'docker_testAutomation_42'
 let bond_profile_name = "docker_bond_profile_name_1"
-
+// hok
 let bond_id
 
 test.describe.only('Craete Bond (step 1 - 3)', () => {

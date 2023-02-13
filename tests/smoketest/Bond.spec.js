@@ -1240,6 +1240,351 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
     await page.waitForTimeout(1000)
     await bond.elememt('text=Bond Profile - Offering Information').click()
     await page.waitForTimeout(6000)
+    
+    await bond.elememt('//input[@placeholder="Enter type of business factsheet"]').fill(bp.init_bond_profile.offer_info.type_of_business_fact)
+    await bond.elememt('//span[contains(text(), "Enter description example")]/parent::div').fill(bp.init_bond_profile.offer_info.terms_and_cond.offer_des)
+    await bond.elememt('div.ant-row.list-panel:nth-child(7) div.ant-col.ant-col-24:nth-child(2) input').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_name.th)
+    await bond.elememt('div.ant-row.list-panel:nth-child(7) div.ant-col.ant-col-24:nth-child(3) input').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_name.th)
+
+    const register_thaibma = page.locator('//span[@class="ant-radio-inner"]').nth(3)
+    await bond.elememt(register_thaibma).click();
+
+    await bond.elememt('div.ant-row.list-panel:nth-child(10) div.ant-col.ant-col-12:nth-child(1) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.secur_info.type_of_security}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-row.list-panel:nth-child(10) div.ant-col.ant-col-12:nth-child(2) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.secur_info.bond_structure}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-row.list-panel:nth-child(10) div.ant-col.ant-col-12:nth-child(3) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.secur_info.soe_bond_structure}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-row.list-panel:nth-child(10) div.ant-col.ant-col-12:nth-child(5) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.secur_info.distribution_type}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-row.list-panel:nth-child(10) div.ant-col.ant-col-12:nth-child(6) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.secur_info.term_status}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-row.list-panel:nth-child(10) div.ant-col.ant-col-12:nth-child(7) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.secur_info.claim_type}"][@aria-selected="false"]`).click()
+
+    await bond.elememt('//input[@placeholder="Enter issue number"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_info.issue_num)
+    await bond.elememt('//input[@placeholder="Enter issue year"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_info.issue_year)
+    await bond.elememt('//input[@placeholder="Enter issue tranches"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_info.issue_tranches)
+
+    const at_call = page.locator('//span[@class="ant-radio-inner"]').nth(7)
+    await bond.elememt(at_call).click();
+
+    await bond.elememt('div.ant-row.list-panel:nth-child(10) div.ant-col.ant-col-12:nth-child(12) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.secur_info.risk_scale}"][@aria-selected="false"]`).click()
+
+    await bond.elememt('div.ant-row.list-panel:nth-child(11) div.ant-col.ant-col-12:nth-child(1) input').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_info.offer_start)
+    await bond.elememt('div.ant-row.list-panel:nth-child(11) div.ant-col.ant-col-12:nth-child(2) input').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_info.offer_from)
+    await bond.elememt('div.ant-row.list-panel:nth-child(11) div.ant-col.ant-col-12:nth-child(3) input').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_info.offer_end)
+    await bond.elememt('div.ant-row.list-panel:nth-child(11) div.ant-col.ant-col-12:nth-child(4) input').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_info.offer_to)
+
+    const reopen = page.locator('//span[@class="ant-radio-inner"]').nth(9)
+    await bond.elememt(reopen).click(); 
+    
+    await bond.elememt('//span[contains(text(), "Enter perpetual bond risk")]/parent::div').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_info.per_bond_risk)
+    await bond.elememt('//span[contains(text(), "Enter convertible bond risk")]/parent::div').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_info.con_bond_risk)
+    await bond.elememt('//span[contains(text(), "Enter callable bond risk")]/parent::div').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_info.cal_bond_risk)
+    await bond.elememt('//span[contains(text(), "Enter puttable bond risk")]/parent::div').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_info.put_bond_risk)
+    await bond.elememt('//span[contains(text(), "Enter bill of exchange risk")]/parent::div').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_info.bill_ex_risk)
+    await bond.elememt('//span[contains(text(), "Enter REIT risk")]/parent::div').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_info.reit_risk)
+    await bond.elememt('//span[contains(text(), "Enter securitization risk")]/parent::div').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_info. secur_risk)
+    await bond.elememt('//span[contains(text(), "Enter basel risk")]/parent::div').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_info.basel_risk)
+    await bond.elememt('//span[contains(text(), "Enter insurance capital bond risk")]/parent::div').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_info.insur_cap_bond_risk)
+
+    await bond.elememt('div.ant-row.list-panel:nth-child(26) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.secure_type}"][@aria-selected="false"]`).click()
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(1)).click()
+
+    await bond.elememt('//input[@placeholder="Enter collateral sequence"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.col.col_seq)
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(2) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.col.col_type}"][@aria-selected="false"]`).click()
+    const col_list = page.locator('//span[@class="ant-radio-inner"]').nth(21)
+    await bond.elememt(col_list).click(); 
+    await bond.elememt('//input[@placeholder="Enter collateral symbol"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.col.col_sym)
+    await bond.elememt('//input[@placeholder="Enter collateral unit"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.col.col_unit)
+    await bond.elememt('//input[@placeholder="Enter collateral value"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.col.col_value)
+    const col_currency = await bond.elememt('div.ant-col.ant-col-24:nth-child(7) span.ant-select-selection-item').innerText()
+    expect(col_currency).toBe(bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.col.col_cur_default)
+    await bond.elememt('div.ant-col.ant-col-24:nth-child(8) div.ant-form-item-control-input:nth-child(1) input').fill(bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.col.app_date)
+
+    await bond.elememt('//div[@class="ant-modal-content"]//button[1]').click()
+
+    await bond.elememt('//textarea[@placeholder="Enter collateral summary"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.col_sum)
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(2)).click()
+
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(1) span input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_type}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(2) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.type_of_gua}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(3) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.type_of_gua_id}"][@aria-selected="false"]`).click()
+    await bond.elememt('//input[@placeholder="Enter guarantor ID"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_id)
+    await bond.elememt('div.ant-col.ant-col-24:nth-child(5) input').fill(bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_juris_name.th)
+    await bond.elememt('div.ant-col.ant-col-24:nth-child(6) input').fill(bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_juris_name.en)
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(7) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_nation}"][@aria-selected="false"]`).click()
+    await bond.elememt('//input[@placeholder="Enter guarantee amount"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_amount)
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(13) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_amount_cur}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(14) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_rated}"][@aria-selected="false"]`).click()
+    const gua_rated_update = page.locator('//span[@class="ant-radio-inner"]').nth(21)
+    await bond.elememt(gua_rated_update).click();
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(15)).click()
+
+    await bond.elememt('body div:nth-child(4) div.ant-modal-root div.ant-col.ant-col-24:nth-child(2) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_rating_info.gua_rating_agen}"][@aria-selected="false"]`).click()
+    await bond.elememt('body div:nth-child(4) div.ant-modal-root div.ant-col.ant-col-24:nth-child(3) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_rating_info.gua_rating}"][@aria-selected="false"]`).click()
+    await bond.elememt('body div:nth-child(4) div.ant-modal-root div.ant-col.ant-col-24:nth-child(4) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_rating_info.gua_cred_out}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-col.ant-col-24:nth-child(5) div.ant-picker input').fill(bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_rating_info.gua_date)
+    await bond.elememt('body div:nth-child(4) div.ant-modal-root div.ant-col.ant-col-24:nth-child(6) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_rating_info.gua_rating_action_type}"][@aria-selected="false"]`).click()
+    await bond.elememt('body div:nth-child(4) div.ant-modal-root div.ant-col.ant-col-24:nth-child(7) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_rating_info.gua_rating_watch}"][@aria-selected="false"]`).click()
+    await bond.elememt('body div:nth-child(4) div.ant-modal-root div.ant-col.ant-col-24:nth-child(8) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_rating_info.cur_rating_agen}"][@aria-selected="false"]`).click()
+    await bond.elememt('body div:nth-child(4) div.ant-modal-root div.ant-col.ant-col-24:nth-child(9) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_rating_info.cur_rating}"][@aria-selected="false"]`).click()
+    await bond.elememt('body div:nth-child(4) div.ant-modal-root div.ant-col.ant-col-24:nth-child(10) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_rating_info.cur_cred_out}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-col.ant-col-24:nth-child(11) div.ant-picker input').fill(bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua.gua_rating_info.cur_gua_date)
+    const rating_through_bond_life = page.locator('//span[@class="ant-radio-inner"]').nth(26)
+    await bond.elememt(rating_through_bond_life).click();
+
+    await bond.elememt('body div:nth-child(4) div.ant-modal-root button:nth-child(1)').click()
+    await bond.elememt('//div[@class="ant-modal-content"]//button[1]').click()
+
+    await bond.elememt('//input[@placeholder="Enter guarantee portion"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.Col_and_gua_info.gua_por)
+
+    await bond.elememt('//span[contains(text(), "Enter buy back information")]/parent::div').fill(bp.init_bond_profile.offer_info.terms_and_cond.buy_back_info)
+
+    await bond.elememt('//span[contains(text(), "Enter register bond information")]/parent::div').fill(bp.init_bond_profile.offer_info.terms_and_cond.regis_bond_info)
+
+    await bond.elememt('div.ant-row.list-panel:nth-child(40) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.enbed_opt_info.enbed_opt_type}"][@aria-selected="false"]`).click()
+    
+    await bond.elememt('//input[@placeholder="Enter issue unit"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.offer_unit_and_amount.issue_unit)
+    await bond.elememt('//input[@placeholder="Enter par value per unit"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.offer_unit_and_amount.par_value_per_unit)
+    await bond.elememt('//input[@placeholder="Enter exchange rate"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.offer_unit_and_amount.exchange_rate)
+    await bond.elememt('//input[@placeholder="Enter redeem price per unit"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.offer_unit_and_amount.redeem_price_per_unit)
+    await bond.elememt('//input[@placeholder="Enter redemption condition"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.offer_unit_and_amount.redemp_con)
+    await bond.elememt('div.ant-row.list-panel:nth-child(44) div.ant-col.ant-col-12:nth-child(9) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.offer_unit_and_amount.issue_cur}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-row.list-panel:nth-child(44) div.ant-col.ant-col-12:nth-child(10) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.offer_unit_and_amount.pay_cur}"][@aria-selected="false"]`).click()
+
+    await bond.elememt('//input[@placeholder="Enter selling unit"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.offer_unit_and_amount.sell_unit_sell_amount.sell_unit)
+    await bond.elememt('//input[@placeholder="Enter greenshoe total unit by series"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.offer_unit_and_amount.sell_unit_sell_amount.green_total_unit_by_series)
+    await bond.elememt('//input[@placeholder="Enter selling value per unit"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.offer_unit_and_amount.sell_unit_sell_amount.sell_value_per_unit)
+    await bond.elememt('//input[@placeholder="Enter total selling unit including greenshoe by series"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.offer_unit_and_amount.sell_unit_sell_amount.total_sell_unit_include_green_by_series)
+    await bond.elememt('//span[contains(text(), "Enter selling amount and greenshoe detail")]/parent::div').fill(bp.init_bond_profile.offer_info.terms_and_cond.offer_unit_and_amount.sell_unit_sell_amount.sell_amount_and_green_detail)
+    
+    await bond.elememt('div.ant-row.list-panel:nth-child(49) div.ant-col.ant-col-12:nth-child(2) div.ant-picker input').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_team.issued_date)
+    await bond.elememt('div.ant-row.list-panel:nth-child(49) div.ant-col.ant-col-12:nth-child(3) div.ant-picker input').fill(bp.init_bond_profile.offer_info.terms_and_cond.secur_team.maturity_date)
+
+    await bond.elememt('div.ant-row.list-panel:nth-child(52) div.ant-col.ant-col-12:nth-child(2) div.ant-picker input').fill(bp.init_bond_profile.offer_info.terms_and_cond.return_info.part_1.return_date_as_of)
+    await bond.elememt('//input[@placeholder="Enter other security return"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.return_info.part_1.other_secur_return)
+    await bond.elememt('div.ant-row.list-panel:nth-child(52) div.ant-col.ant-col-12:nth-child(4) div.ant-picker input').fill(bp.init_bond_profile.offer_info.terms_and_cond.return_info.part_1.other_secur_return_as_of)
+    await bond.elememt('div.ant-row.list-panel:nth-child(52) div.ant-col.ant-col-12:nth-child(5) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.return_info.part_1.coupon_interest}"][@aria-selected="false"]`).click()
+    await bond.elememt('//span[contains(text(), "Enter return information")]/parent::div').fill(bp.init_bond_profile.offer_info.terms_and_cond.return_info.part_1.return_info)
+    await bond.elememt('//input[@placeholder="Enter fixed interest rate"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.return_info.part_1.fixed_interest_rate)
+    const coupon_cur = await bond.elememt('div.ant-col.ant-col-12:nth-child(3) span.ant-select-selection-item').innerText()
+    expect(coupon_cur).toBe(bp.init_bond_profile.offer_info.terms_and_cond.return_info.part_1.coupon_cur_default)
+    await bond.elememt('//span[contains(text(), "Enter coupon description")]/parent::div').fill(bp.init_bond_profile.offer_info.terms_and_cond.return_info.part_1.coupon_descript)
+    await bond.elememt('div.ant-row.list-panel:nth-child(58) div.ant-col.ant-col-12:nth-child(1) div.ant-picker input').fill(bp.init_bond_profile.offer_info.terms_and_cond.return_info.part_1.fixing_date)
+    await bond.elememt('div.ant-row.list-panel:nth-child(58) div.ant-col.ant-col-12:nth-child(2) div.ant-picker input').fill(bp.init_bond_profile.offer_info.terms_and_cond.return_info.part_1.first_coupon_pay_date)
+    await bond.elememt('div.ant-row.list-panel:nth-child(58) div.ant-col.ant-col-12:nth-child(3) div.ant-picker input').fill(bp.init_bond_profile.offer_info.terms_and_cond.return_info.part_1.last_coupon_pay_date)
+    
+    const coupon_cal_method = await bond.elememt('div.ant-row.list-panel:nth-child(60) div.ant-col.ant-col-12:nth-child(1) span.ant-select-selection-item').innerText()
+    expect(coupon_cal_method).toBe(bp.init_bond_profile.offer_info.terms_and_cond.return_info.part_2.coupon_cal_method_default)
+    await bond.elememt('div.ant-row.list-panel:nth-child(60) div.ant-col.ant-col-12:nth-child(2) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.return_info.part_2.coupon_cal_method_other}"][@aria-selected="false"]`).click()
+    await bond.elememt('//input[@placeholder="Enter decimal point digit"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.return_info.part_2.dec_point_digit)
+    await bond.elememt('div.ant-row.list-panel:nth-child(61) div.ant-col.ant-col-12:nth-child(2) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.return_info.part_2.interest_date_pay_for_each_period}"][@aria-selected="false"]`).click()
+
+    await bond.elememt('div.ant-row.list-panel:nth-child(63) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.redemption_info.principal_pay_type}"][@aria-selected="false"]`).click()
+
+    await bond.elememt('div.ant-row.list-panel:nth-child(66) div.ant-col.ant-col-12:nth-child(2) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.related_person.registrar}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-row.list-panel:nth-child(66) div.ant-col.ant-col-24 input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.related_person.registrar_other}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-row.list-panel:nth-child(66) div.ant-col.ant-col-12:nth-child(5) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.related_person.depository}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-row.list-panel:nth-child(66) div.ant-col.ant-col-12:nth-child(7) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.related_person.bond_represent}"][@aria-selected="false"]`).click()
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(5)).click()
+
+    await bond.elememt('div.ant-modal-root div.ant-col.ant-col-24 input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.related_person.financial_advisor}"][@aria-selected="false"]`).click()
+
+    await bond.elememt('//div[@class="ant-modal-content"]//button[1]').click()
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(6)).click()
+
+    await bond.elememt('div.ant-modal-root div.ant-col.ant-col-24 input').Vscroll('//div[@title="นางสาว กาณต์ศิณี บุญศิริมงคลชัย"]', `//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.related_person.controller_fa}"][@aria-selected="false"]`)
+
+    await bond.elememt('//div[@class="ant-modal-content"]//button[1]').click()
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(7)).click()
+
+    await bond.elememt('div.ant-modal-root div.ant-col.ant-col-24:nth-child(1) input').fill(bp.init_bond_profile.offer_info.terms_and_cond.related_person.legal_ad_bond_issuance.name.th)
+    await bond.elememt('div.ant-modal-root div.ant-col.ant-col-24:nth-child(2) input').fill(bp.init_bond_profile.offer_info.terms_and_cond.related_person.legal_ad_bond_issuance.name.en)
+    await bond.elememt('div.ant-modal-root div.ant-select-selector input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.related_person.legal_ad_bond_issuance.nation}"][@aria-selected="false"]`).click()
+    await bond.elememt('//input[@placeholder="Enter juristic ID"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.related_person.legal_ad_bond_issuance.jsr_id)
+
+    await bond.elememt('//div[@class="ant-modal-content"]//button[1]').click()
+
+    const issuer_service_underwriter = await bond.elememt('div.ant-row.list-panel:nth-child(71) tr.ant-table-row.ant-table-row-level-0:nth-child(2) td:nth-child(1)').innerText()
+    expect(issuer_service_underwriter).toBe(bp.init_bond_profile.offer_info.terms_and_cond.related_person.issuer_service_underwriter_default)
+
+    await bond.elememt('div.ant-row.list-panel:nth-child(72) tr.ant-table-row.ant-table-row-level-0:nth-child(2) a:nth-child(1) svg').click()
+    await bond.elememt('div.ant-modal-root input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.related_person.investor_service_underwriter}"][@aria-selected="false"]`).click()
+    await bond.elememt('//div[@class="ant-modal-content"]//button[1]').click()
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(8)).click()
+    await bond.elememt('div.ant-modal-root input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.related_person.broker}"][@aria-selected="false"]`).click()
+    await bond.elememt('//div[@class="ant-modal-content"]//button[1]').click()
+
+    const dealer = await bond.elememt('div.ant-row.list-panel:nth-child(74) tr.ant-table-row.ant-table-row-level-0:nth-child(2) td:nth-child(1)').innerText()
+    expect(dealer).toBe(bp.init_bond_profile.offer_info.terms_and_cond.related_person.dealer_default)
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(9)).click()
+
+    await bond.elememt('div.ant-modal-root div.ant-col.ant-col-24:nth-child(1) input').fill(bp.init_bond_profile.offer_info.terms_and_cond.related_person.pay_agent.name.th)
+    await bond.elememt('div.ant-modal-root div.ant-col.ant-col-24:nth-child(2) input').fill(bp.init_bond_profile.offer_info.terms_and_cond.related_person.pay_agent.name.en)
+    await bond.elememt('div.ant-modal-root div.ant-select-selector input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.related_person.pay_agent.nation}"][@aria-selected="false"]`).click()
+    await bond.elememt('//input[@placeholder="Enter juristic ID"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.related_person.pay_agent.jsr_id)
+
+    await bond.elememt('//div[@class="ant-modal-content"]//button[1]').click()
+
+    await bond.elememt('div.ant-row.list-panel:nth-child(72) tr.ant-table-row.ant-table-row-level-0:nth-child(2) a:nth-child(1) svg').click()
+    await bond.elememt('div.ant-modal-root input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.related_person.sell_agent}"][@aria-selected="false"]`).click()
+    await bond.elememt('//div[@class="ant-modal-content"]//button[1]').click()
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(10)).click()
+    await bond.elememt('div.ant-modal-root div.ant-select-selector input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.related_person.coordinator.co_type}"][@aria-selected="false"]`).click()
+    await bond.elememt('//input[@placeholder="Enter coordinator name"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.related_person.coordinator.co_name)
+    await bond.elememt('//input[@placeholder="Enter coordinator position"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.related_person.coordinator.co_post)
+    await bond.elememt('//input[@placeholder="Enter coordinator telephone"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.related_person.coordinator.co_tel)
+    await bond.elememt('//input[@placeholder="Enter coordinator email"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.related_person.coordinator.co_email)
+    await bond.elememt('//div[@class="ant-modal-content"]//button[1]').click()
+
+    await bond.elememt('//input[@placeholder="Enter summary funding objective on factsheet"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.fund_object.sum)
+
+    const fee_info_cur = await bond.elememt('div.ant-row.list-panel:nth-child(82) span.ant-select-selection-item').innerText()
+    expect(fee_info_cur).toBe(bp.init_bond_profile.offer_info.terms_and_cond.fee_info.fee_info_cur)
+
+    await bond.elememt('//input[@placeholder="Enter issuance fee"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.fee_info.issuance_fee)
+    await bond.elememt('//input[@placeholder="Enter filing information fee"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.fee_info.filing_info_fee)
+    await bond.elememt('//input[@placeholder="Enter underwriting fee"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.fee_info.underwriting_fee)
+    await bond.elememt('//input[@placeholder="Enter financial advisor fee"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.fee_info.financial_ad_fee)
+    await bond.elememt('//input[@placeholder="Enter credit rating fee"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.fee_info.credit_rating_fee)
+    await bond.elememt('//input[@placeholder="Enter registrar fee"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.fee_info.registrar_fee)
+    await bond.elememt('//input[@placeholder="Enter legal advisor fee"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.fee_info. legal_ad_fee)
+    await bond.elememt('//input[@placeholder="Enter BHR fee"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.fee_info.bhr_fee)
+    await bond.elememt('//input[@placeholder="Enter other fee"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.fee_info.other_fee)
+
+    const transfer_restriction = page.locator('//span[@class="ant-radio-inner"]').nth(11)
+    await bond.elememt(transfer_restriction).click();
+    await bond.elememt('div.ant-row.list-panel:nth-child(85) div.ant-select-selector input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.transfer_restric_info.transfer_restric_type}"][@aria-selected="false"]`).click()
+
+    await bond.elememt('div.ant-row.list-panel:nth-child(87) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issuer_rated}"][@aria-selected="false"]`).click()
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(11)).click()
+
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(2) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issuer_rating_info.issuer_rating_agen}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(3) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issuer_rating_info.issuer_rating}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(4) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issuer_rating_info.issuer_date_of_rating}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(5) input"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issuer_rating_info.issuer_date_of_rating)
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(6) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issuer_rating_info.issuer_rating_action}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(7) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issuer_rating_info.issuer_rating_watch}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(8) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issuer_rating_info.cur_rating_agen}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(9) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issuer_rating_info.cur_rating}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(10) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issuer_rating_info.cur_cred_out}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(11) input"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issuer_rating_info.current_issuer_date_of_rating)
+    await bond.elememt(page.locator('div.ant-modal-body div.ant-col.ant-col-24:nth-child(12) label:nth-child(1) input')).click()
+    await bond.elememt('//div[@class="ant-modal-content"]//button[1]').click()
+
+    await bond.elememt('div.ant-row.list-panel:nth-child(89) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issue_rated}"][@aria-selected="false"]`).click()
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(12)).click()
+
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(2) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issue_rating_info.issue_rating_agen}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(3) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issue_rating_info.issue_rating}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(4) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issue_rating_info.issue_date_of_rating}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(5) input"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issue_rating_info.issue_date_of_rating)
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(6) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issue_rating_info.issue_rating_action}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(7) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issue_rating_info.issue_rating_watch}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(8) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issue_rating_info.cur_rating_agen}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(9) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issue_rating_info.cur_rating}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(10) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issue_rating_info.cur_cred_out}"][@aria-selected="false"]`).click()
+    await bond.elememt('div.ant-modal-body div.ant-col.ant-col-24:nth-child(11) input"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.credit_rating_info.issue_rating_info.current_issue_date_of_rating)
+    await bond.elememt(page.locator('div.ant-modal-body div.ant-col.ant-col-24:nth-child(12) label:nth-child(1) input')).click()
+    await bond.elememt('//div[@class="ant-modal-content"]//button[1]').click()
+
+    await bond.elememt(page.locator('div.ant-row.list-panel:nth-child(92) label:nth-child(1) input')).click()
+    await bond.elememt('div.ant-row.list-panel:nth-child(92) div.ant-col.ant-col-12:nth-child(3) input').fill(bp.init_bond_profile.offer_info.terms_and_cond.other.filing_effect_date)
+
+    await bond.elememt('div.ant-row.list-panel:nth-child(96) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.coupon_payment.coupon_interest_frequency}"][@aria-selected="false"]`).click()
+    await bond.elememt('ddiv.ant-row.list-panel:nth-child(97) div.ant-col.ant-col-12:nth-child(1) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.coupon_payment.xi_period}"][@aria-selected="false"]`).click()
+    await bond.elememt('ddiv.ant-row.list-panel:nth-child(98) div.ant-col.ant-col-12:nth-child(1) input').click()
+    await bond.elememt(`//div[@title="${bp.init_bond_profile.offer_info.terms_and_cond.coupon_payment.xi_period}"][@aria-selected="false"]`).click()
+    const postpone_closing_date = await bond.elememt('div.ant-row.list-panel:nth-child(99) div.ant-col.ant-col-12:nth-child(1) span.ant-select-selection-item:nth-child(2)').innerText()
+    expect(postpone_closing_date).toBe(bp.init_bond_profile.offer_info.terms_and_cond.coupon_payment.postpone_closing_date_default)
+    const postpone_pay_date = await bond.elememt('div.ant-row.list-panel:nth-child(101) div.ant-col.ant-col-12:nth-child(1) span.ant-select-selection-item:nth-child(2)').innerText()
+    expect(postpone_pay_date).toBe(bp.init_bond_profile.offer_info.terms_and_cond.coupon_payment.postpone_pay_date_default)
+    const postpone_pay_date_last_coupon = await bond.elememt('div.ant-row.list-panel:nth-child(102) div.ant-col.ant-col-12:nth-child(1) span.ant-select-selection-item:nth-child(2)').innerText()
+    expect(postpone_pay_date_last_coupon).toBe(bp.init_bond_profile.offer_info.terms_and_cond.coupon_payment.postpone_pay_date_last_coupon_default)
+
+    await bond.elememt('//span[contains(text(), "Enter risk of issuer")]/parent::div').fill(bp.init_bond_profile.offer_info.terms_and_cond.subordination_info.risk_of_issuer)
+    await bond.elememt('//span[contains(text(), "Enter significant risk")]/parent::div').fill(bp.init_bond_profile.offer_info.terms_and_cond.subordination_info.significant_risk)
+    await bond.elememt('//textarea[@placeholder="Enter caution"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.subordination_info.caution)
+
+    await bond.elememt(page.locator('//div[@class="title"]/a').nth(14)).click()
+    await bond.elememt('//input[@placeholder="Enter citizen id"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.post_sales_report_info.authorized_person_for_bond_regis.citizen_id)
+    await bond.elememt('//input[@placeholder="Enter email"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.post_sales_report_info.authorized_person_for_bond_regis.email)
+    await bond.elememt('//input[@placeholder="Enter company ID"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.post_sales_report_info.authorized_person_for_bond_regis.company_id)
+    await bond.elememt('//input[@placeholder="Enter authorized company ID"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.post_sales_report_info.authorized_person_for_bond_regis.authorized_company_id)
+    await bond.elememt('//input[@placeholder="Enter telephone"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.post_sales_report_info.authorized_person_for_bond_regis.telephone)
+    await bond.elememt('//div[@class="ant-modal-content"]//button[1]').click()
+
+    log.action('Save draft')
+    await bond.elememt('text=Save Draft').click()
 
     await util.Logout()
   })

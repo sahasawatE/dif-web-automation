@@ -4,12 +4,13 @@ const { Util, URL, getJSONKey } = require('../functions/Utilities/Util')
 const bp = require('../functions/data/bond_project')
 // const dateFormat = require("dateformat");
 const Bond = require('../functions/smoketest/Bond');
+const bond_project = require('../functions/data/bond_project');
 // const schema = require('../functions/data/create_schema')
 
-// let bond_name = 'local_testAutomation_87'
+let bond_name = 'local_testAutomation_87'
 // let bond_name = 'auto_review_9'
 // let bond_name = 'git_testAutomation_8'
-let bond_name = 'docker_testAutomation_47'
+// let bond_name = 'docker_testAutomation_51'
 // let bond_name = 'docker_testAutomation_48'
 let bond_profile_name = "docker_bond_profile_name_1"
 
@@ -17,7 +18,7 @@ let bond_id
 
 test.describe.only('Craete Bond (step 1 - 3)', () => {
 
-  test('1. Create Bond', async ({ page, context }) => {
+  test.skip('1. Create Bond', async ({ page, context }) => {
     const util = new Util(page)
     const bond = new Bond(page)
 
@@ -39,10 +40,10 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
 
     await page.waitForTimeout(5000)
 
-    await util.Logout('text=All Role', 'text=Logout')
+    await util.Logout()
   })
 
-  test('2. Assign member to bond team', async ({ page, context }) => {
+  test.skip('2. Assign member to bond team', async ({ page, context }) => {
     const util = new Util(page)
     const bond = new Bond(page)
 
@@ -60,15 +61,16 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
     await bond.elememt('//span[contains(text(), "BHR")]/parent::div//button').click()
     await bond.elememt('//input[@placeholder="Search by organization"]').fill('test08')
     await bond.elememt('//button[@type="submit"]').click()
+    await page.waitForTimeout(1500)
     await bond.elememt('//tbody//input[@type="checkbox"]').click()
     await bond.elememt('text=Save').click()
     await bond.elememt('text=Submit').click()
     await page.waitForTimeout(2000)
 
-    await util.Logout('text=All Role', 'text=Logout')
+    await util.Logout()
   })
 
-  test('3. Fill in data and save draft (0)', async ({ page, context }) => {
+  test.skip('3. Fill in data and save draft (0)', async ({ page, context }) => {
     const util = new Util(page)
     const bond = new Bond(page)
 
@@ -121,8 +123,8 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
 
     log.action('Save draft')
     await bond.elememt('text=Save Draft').click()
-    await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
-    await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
+    // await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
+    // await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
     await bond.elememt('//div[@class="ant-modal-body"]//button[1]').click()
     await page.waitForTimeout(3000)
 
@@ -145,7 +147,7 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
     await util.Logout()
   })
 
-  test('3. Fill in data and save draft (1)', async ({ page, context }) => {
+  test.only('3. Fill in data and save draft (1)', async ({ page, context }) => {
     const util = new Util(page)
     const bond = new Bond(page)
 
@@ -391,13 +393,15 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
     //auditor
     log.action('Auditor')
     await bond.elememt('//*[text()[contains(.,"Auditor")]]/parent::div/a').click()
-    await page.waitForTimeout(5000)
+    await page.waitForTimeout(8000)
     await bond.elememt('//input[@id="auditorFirm"]').click({ timeout: 9000 })
-    await bond.elememt(`//div[@title="${bp.init_issuer_profile.isser_info.auditor_firm}"]`).click()
-    await page.waitForTimeout(3000)
+    await page.waitForTimeout(5000)
+    await bond.elememt(`//div[@title="${bp.init_issuer_profile.isser_info.auditor_firm}"][@aria-selected="false"]`).click()
+    await page.waitForTimeout(5000)
     log.success('Enter Auditor data')
     await bond.elememt('#auditorName').click()
-    await bond.elememt('//div[@title="Mr. SUPOJ MAHANTACHAISAKUN"]').click()
+    await page.waitForTimeout(5000)
+    await bond.elememt('//div[@title="Miss KOJCHAMON SUNHUAN"][@aria-selected="false"]').click()
     await bond.elememt('//div[@class="ant-modal-body"]//button[@class="ant-btn ant-btn-primary"]').click()
     await page.waitForTimeout(1000)
 
@@ -417,7 +421,7 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
     log.action('Enter Legal Advisor ID')
 
     //scroll
-    await bond.elememt('//input[@id="countryOfRegulationApplied"]').Vscroll('//div[@title="AFGHANISTAN"]', `//div[@title="${bp.init_issuer_profile.isser_info.legal_ad.reg_app}"]`)
+    await bond.elememt('//input[@id="countryOfRegulationApplied"]').Vscroll('//div[@title="AFGHANISTAN"]', `//div[@title="${bp.init_issuer_profile.isser_info.legal_ad.reg_app}"][@aria-selected="false"]`)
     log.action('Click dropdown Country of Regulation Applied')
     log.success('Found Country of Regulation Applied')
     log.action('Select Country of Regulation Applied')
@@ -451,6 +455,12 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
     await util.enterDate('//div[@class="tabCard"][3]/div[@class="list-panel"][1]//input', bp.init_issuer_profile.isser_info.committee.asof)
     log.action('Enter Committee Date')
 
+    // save brfore timeout
+    log.action('Save draft')
+    await bond.elememt('text=Save Draft').click()
+    await bond.elememt('//div[@class="ant-modal-body"]//button[1]').click()
+    await page.waitForTimeout(6000)
+
     log.action('Enter controller information')
     await bond.elememt('//*[text()[contains(.,"Controller Information")]]/parent::div/a').click()
     log.action('Click Add')
@@ -471,13 +481,13 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
     await bond.elememt('//input[@id="controllerCardType"]').click()
     await bond.elememt(`//div[@title="${bp.init_issuer_profile.isser_info.controller_info.card_type}"]`).click()
     log.action('Select Card type')
-    log.action('Click Passport Issuing Country')
-    await bond.elememt('//input[@id="controllerPassportIssuingCountry"]').Vscroll('//div[@title="Afghanistan"]', `//div[@title="${bp.init_issuer_profile.isser_info.controller_info.passport_issuing_country}"]`)
+    log.action('Click Passport Issuing Country') // too slow
+    await bond.elememt('//input[@id="controllerPassportIssuingCountry"]').Vscroll('//div[@title="AFGHANISTAN"]', `//div[@title="${bp.init_issuer_profile.isser_info.controller_info.passport_issuing_country}"][@aria-selected="false"]`)
     log.success('Found Passport Issuing Country')
     log.action('Enter Card number')
     await bond.elememt('//input[@id="controllerCardNumber"]').fill(bp.init_issuer_profile.isser_info.controller_info.card_no)
     log.action('Click Nationality')
-    await bond.elememt('//input[@id="controllerNationality"]').Vscroll('//div[@title="Afghan"]', `//div[@title="${bp.init_issuer_profile.isser_info.controller_info.nationality}"][@aria-selected="false"]`)
+    await bond.elememt('//input[@id="controllerNationality"]').Vscroll('//div[@title="AFGHAN"]', `//div[@title="${bp.init_issuer_profile.isser_info.controller_info.nationality}"][@aria-selected="false"]`)
     log.success('Found Nationality')
     log.action('Select Nationality')
     await util.enterDate('//input[@id="controllerCardIssuedDate"]', bp.init_issuer_profile.isser_info.controller_info.card_issued_date)
@@ -575,8 +585,10 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
     // final steps
     log.action('Save draft')
     await bond.elememt('text=Save Draft').click()
-    await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
-    await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
+    // await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
+    // await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
+
+
     // const [res_save_draft_json, res_save_draft_status] = await util.getResponseAsync(
     //   'save draft',
     //   `/bondProject/${bond_id}/issuerProfile/issuerInfo/draft?state=1,2,3`,
@@ -851,8 +863,8 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
 
     log.action('Save draft')
     await bond.elememt('text=Save Draft').click()
-    await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
-    await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
+    // await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
+    // await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
     await bond.elememt('//div[@class="ant-modal-body"]//button[1]').click()
     await page.waitForTimeout(6000)
     // const [res_save_draft_json, res_save_draft_status] = await util.getResponseAsync(
@@ -1041,8 +1053,8 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
     log.action('Save draft')
     await bond.elememt('//div[@class="ant-card-body"]/button[@type="submit"]').click()
     await page.waitForTimeout(2000)
-    await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
-    await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
+    // await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
+    // await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
     await bond.elememt('//div[@class="ant-modal-body"]//button[1]').click()
     await page.waitForTimeout(6000)
 
@@ -1141,8 +1153,8 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
 
     log.action('Save draft')
     await bond.elememt('text=Save Draft').click()
-    await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
-    await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
+    // await bond.elememt('//span[text()[contains(.,"Cooling Filing")]]').click()
+    // await bond.elememt('//span[text()[contains(.,"Effective Filing")]]').click()
     await bond.elememt('//div[@class="ant-modal-body"]//button[1]').click()
     await page.waitForTimeout(3000)
 
@@ -1168,9 +1180,11 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
     await util.Logout()
   })
 
-  test.only('3. Fill in data and save draft (4)', async ({ page, context }) => {
+  test.skip('3. Fill in data and save draft (4)', async ({ page, context }) => {
     const util = new Util(page)
     const bond = new Bond(page)
+
+    const text = bond_project.init_bond_profile.offer_info
 
     context.clearCookies()
 
@@ -1227,7 +1241,7 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
     await page.waitForTimeout(6000)
 
     log.action('type of businness factsheet')
-    await bond.elememt('//input[@placeholder="Enter type of business factsheet"]').fill('')
+    await bond.elememt('//input[@placeholder="Enter type of business factsheet"]').fill(text.type_of_business_fact)
 
     log.action('list of text editor')
     const text_edit_1 = await bond.elememt('.se-wrapper-inner.se-wrapper-wysiwyg.sun-editor-editable').list()
@@ -1238,10 +1252,10 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
     console.log(text_area_1.length)
 
     log.action('securities name th')
-    await bond.elememt('//*[contains(text(), "Securities Name (TH)")]/parent::div//input').fill('')
+    await bond.elememt('//*[contains(text(), "Securities Name (TH)")]/parent::div//input').fill(text.securities_name.th)
 
     log.action('securities name en')
-    await bond.elememt('//*[contains(text(), "Securities Name (EN)")]/parent::div//input').fill('')
+    await bond.elememt('//*[contains(text(), "Securities Name (EN)")]/parent::div//input').fill(text.securities_name.en)
 
     log.action('register thaiBMA')
     await bond.elememt('//*[contains(text(), "Register ThaiBMA")]/parent:: div//input[@value="Y"]').click()
@@ -1249,44 +1263,37 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
     log.action('type of security')
     await bond.elememt('//*[contains(text(), "Type of Security")]/parent:: div//input').click()
     log.action('select Debenture/Bond')
-    const select1 = 'Debenture/Bond'
-    await bond.elememt(`//div[@aria-selected="false"][@title="${select1}"]`).click()
+    await bond.elememt(`//div[@aria-selected="false"][@title="${text.terms_and_cond.secur_info.type_of_security}"]`).click()
 
     log.action('bond structure')
     await bond.elememt('//*[.="Bond Structure"]/parent:: div//input').click()
     log.action('select Plain Vanilla')
-    const select2 = 'Plain Vanilla'
-    await bond.elememt(`//div[@aria-selected="false"][@title="${select2}"]`).click()
+    await bond.elememt(`//div[@aria-selected="false"][@title="${text.terms_and_cond.secur_info.bond_structure}"]`).click()
 
     log.action('soe bond structure')
     await bond.elememt('//*[contains(text(), "SOE Bond Structure")]/parent:: div//input').click()
     log.action('select Bond')
-    const select3 = 'Bond'
-    await bond.elememt(`//div[@aria-selected="false"][@title="${select3}"]`).click()
+    await bond.elememt(`//div[@aria-selected="false"][@title="${text.terms_and_cond.secur_info.soe_bond_structure}"]`).click()
 
     log.action('notes structure')
     await bond.elememt('//*[contains(text(), "Notes Structure")]/parent:: div//input').click()
     log.action('selecte Bill of exchange')
-    const select4 = 'Bill of exchange'
-    await bond.elememt(`//div[@aria-selected="false"][@title="${select4}"]`).click()
+    await bond.elememt(`//div[@aria-selected="false"][@title="${text.terms_and_cond.secur_info.notes_structure}"]`).click()
 
     log.action('distribution type')
     await bond.elememt('//*[contains(text(), "Distribution Type")]/parent:: div//input').click()
     log.action('select Public Offering - retail')
-    const select5 = 'Public Offering - retail'
-    await bond.elememt(`//div[@aria-selected="false"][@title="${select5}"]`).click()
+    await bond.elememt(`//div[@aria-selected="false"][@title="${text.terms_and_cond.secur_info.distribution_type}"]`).click()
 
     log.action('Term Status')
     await bond.elememt('//*[contains(text(), "Term Status")]/parent:: div//input').click()
     log.action('select Long')
-    const select6 = 'Long'
-    await bond.elememt(`//div[@aria-selected="false"][@title="${select6}"]`).click()
+    await bond.elememt(`//div[@aria-selected="false"][@title="${text.terms_and_cond.secur_info.term_status}"]`).click()
 
     log.action('claim type')
     await bond.elememt('//*[contains(text(), "Claim Type")]/parent:: div//input').click()
     log.action('select Secured Creditor')
-    const select7 = 'Secured Creditor'
-    await bond.elememt(`//div[@aria-selected="false"][@title="${select7}"]`).click()
+    await bond.elememt(`//div[@aria-selected="false"][@title="${text.terms_and_cond.secur_info.claim_type}"]`).click()
     log.action('issue number')
     await bond.elememt('//input[@placeholder="Enter issue number"]').fill('')
 
@@ -1680,7 +1687,7 @@ test.describe.only('Craete Bond (step 1 - 3)', () => {
     await bond.elememt('//input[@placeholder="Enter financial advisor fee"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.fee_info.financial_ad_fee)
     await bond.elememt('//input[@placeholder="Enter credit rating fee"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.fee_info.credit_rating_fee)
     await bond.elememt('//input[@placeholder="Enter registrar fee"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.fee_info.registrar_fee)
-    await bond.elememt('//input[@placeholder="Enter legal advisor fee"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.fee_info. legal_ad_fee)
+    await bond.elememt('//input[@placeholder="Enter legal advisor fee"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.fee_info.legal_ad_fee)
     await bond.elememt('//input[@placeholder="Enter BHR fee"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.fee_info.bhr_fee)
     await bond.elememt('//input[@placeholder="Enter other fee"]').fill(bp.init_bond_profile.offer_info.terms_and_cond.fee_info.other_fee)
 

@@ -91,9 +91,9 @@ module.exports = {
                 value: "9999999"
             },
             key_fin: {
-                latest_year: [10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10],
-                year_before_latest_year: [20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20],
-                quater: [30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30]
+                latest_year: [10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70, 10, 40, 70],
+                year_before_latest_year: [20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80, 20, 50, 80],
+                quater: [30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90, 30, 60, 90]
             },
             fiancial_convennant_info: {
                 ratio_team: "Account Receivable to Secured Debenture",
@@ -159,7 +159,7 @@ module.exports = {
                 card_type: "Citizen ID Card",
                 card_no: "1234567890123",
                 nationality: "ไทย",
-                passport_issuing_country: "Thailand",
+                passport_issuing_country: "THAILAND",
                 card_issued_date: "2021-06-06",
                 card_expired_date: "2021-06-06",
                 asof: "2021-06-06"
@@ -447,6 +447,11 @@ module.exports = {
     },
     init_bond_profile: {
         offer_info: {
+            offering_description: "โดยเป็นหุ้นกู้ดิจิทัลและมีข้อกำหนดเกี่ยวกับการชำระเงินตามหุ้นกู้และการโอนหุ้นกู้ที่ฝากไว้ในบัญชี Wallet Scripless ซึ่งจะทำผ่านระบบดิจิทัล ในวอลเล็ตซื้อขายหุ้นกู้",
+            securities_name: {
+                th: "หุ้นกู้บริษัท แอดวานซ์ อินโฟร์ เซอร์วิส จำกัด (มหาชน) ครั้งที่ 1/2564 ชุดที่ 1 ครบกำหนดไถ่ถอนปี พ.ศ. 2569",
+                en: "Corporate Bond issued by Advanced Info Service with maturity date in May 2026"
+            },
             type_of_business_fact: "ดำเนินธุรกิจเป็นผู้ผลิตและจำหน่ายเฟอร์นิเจอร์",
             terms_and_cond: {
                 offer_des: "โดยเป็นหุ้นกู้ดิจิทัลและมีข้อกำหนดเกี่ยวกับการชำระเงินตามหุ้นกู้และการโอนหุ้นกู้ที่ฝากไว้ในบัญชี Wallet Scripless ซึ่งจะทำผ่านระบบดิจิทัล ในวอลเล็ตซื้อขายหุ้นกู้",
@@ -456,8 +461,9 @@ module.exports = {
                 },
                 secur_info: {
                     type_of_security: "Debenture/Bond",
-                    bond_structure: "Plain Vanilla",     
-                    soe_bond_structure: "Bond",            
+                    bond_structure: "Plain Vanilla",
+                    soe_bond_structure: "Bond",
+                    notes_structure: "Bill of exchange",
                     distribution_type: "Public Offering - retail",
                     term_status: "Long",
                     claim_type: "Secured Creditor",
@@ -500,11 +506,11 @@ module.exports = {
                             th: "บริษัท ศูนย์รับฝากหลักทรัพย์ (ประเทศไทย) จำกัด",
                             en: "THAILAND SECURITIES DEPOSITORY COMPANY LIMITED"
                         },
-                        gua_nation:"Afghanistan",
+                        gua_nation: "Afghanistan",
                         gua_amount: "100000.1235",
                         gua_amount_cur: "THB",
                         gua_rated: "Rated",
-                        gua_rating_info:{
+                        gua_rating_info: {
                             gua_rating_agen: "TRIS",
                             gua_rating: "AAA",
                             gua_cred_out: "Positive",
@@ -569,15 +575,15 @@ module.exports = {
                 redemption_info: {
                     principal_pay_type: "Bullet Issue"
                 },
-                related_person:{
+                related_person: {
                     registrar: "BANGKOK BANK PUBLIC COMPANY LIMITED",
                     registrar_other: "Registrar",
                     depository: "BANGKOK BANK PUBLIC COMPANY LIMITED",
                     bond_represent: "BANGKOK BANK PUBLIC COMPANY LIMITED",
                     financial_advisor: "BANGKOK BANK PUBLIC COMPANY LIMITED",
-                    controller_fa: "นาย สมชาย ธงไชย",                
-                    legal_ad_bond_issuance:{
-                        name:{
+                    controller_fa: "นาย สมชาย ธงไชย",
+                    legal_ad_bond_issuance: {
+                        name: {
                             th: "สมศักดิ์ ใจดี",
                             en: "Somsak Jaidee",
                         },
@@ -588,16 +594,16 @@ module.exports = {
                     investor_service_underwriter: "BANGKOK BANK PUBLIC COMPANY LIMITED",
                     broker: "BANGKOK BANK PUBLIC COMPANY LIMITED",
                     dealer_default: "BANGKOK BANK PUBLIC COMPANY LIMITED",
-                    pay_agent:{
-                        name:{
+                    pay_agent: {
+                        name: {
                             th: "สมศักดิ์ ใจดี",
                             en: "Somsak Jaidee",
                         },
                         nation: "AFGHAN",
                         jsr_id: "0123456789012"
                     },
-                    sell_agent: "BANGKOK BANK PUBLIC COMPANY LIMITED", 
-                    coordinator:{
+                    sell_agent: "BANGKOK BANK PUBLIC COMPANY LIMITED",
+                    coordinator: {
                         co_type: "Issuer",
                         co_name: "สมศักดิ์ ใจดี",
                         co_post: "ประธานเจ้าหน้าที่บริหาร",
@@ -605,14 +611,14 @@ module.exports = {
                         co_email: "somsak.jaidee@gmail.com"
                     }
                 },
-                fund_object:{
+                fund_object: {
                     sum: 'เพื่อชำระคืนหนี้จากการออกตราสารหนี้และ/ หรือ เป็นเงินทุนหมุนเวียนในกิจการ'
                 },
                 fee_info: {
                     fee_info_cur: "THB",
                     issuance_fee: "100000.1235",
                     filing_info_fee: "100000.1235",
-                    underwriting_fee:"100000.1235",
+                    underwriting_fee: "100000.1235",
                     financial_ad_fee: "100000.1235",
                     credit_rating_fee: "100000.1235",
                     registrar_fee: "100000.1235",
@@ -620,12 +626,12 @@ module.exports = {
                     bhr_fee: "100000.1235",
                     other_fee: "100000.1235"
                 },
-                transfer_restric_info:{
+                transfer_restric_info: {
                     transfer_restric_type: "Institutional Investor Only"
                 },
-                credit_rating_info:{
+                credit_rating_info: {
                     issuer_rated: "Rated",
-                    issuer_rating_info:{
+                    issuer_rating_info: {
                         issuer_rating_agen: "TRIS",
                         issuer_rating: "AAA",
                         issuer_cred_out: "Positive",
@@ -638,7 +644,7 @@ module.exports = {
                         current_issuer_date_of_rating: "2021-06-06"
                     },
                     issue_rated: "Rated",
-                    issue_rating_info:{
+                    issue_rating_info: {
                         issue_rating_agen: "TRIS",
                         issue_rating: "AAA",
                         issue_cred_out: "Positive",
@@ -651,7 +657,7 @@ module.exports = {
                         current_issue_date_of_rating: "2021-06-06"
                     }
                 },
-                other:{
+                other: {
                     filing_effect_date: "2021-06-05"
                 },
                 coupon_payment: {
